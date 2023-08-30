@@ -1,0 +1,57 @@
+<h1>{{ section.settings.title }}</h1>
+
+{% for block in section.blocks %}
+
+  <p>({% increment i %})</p>
+
+  {% case block.type %}
+    {% when 'my_type_1' %}
+
+    {{ block.settings.my_logo | img_url: 'medium' | img_tag }}
+
+    {% when 'my_type_2' %}
+
+    <div style="background-color: {{ block.settings.my_color }};">
+      &nbsp;
+    </div>
+
+  {% endcase %}
+
+{% endfor %}
+
+{% schema %}
+  {
+    "name": "header",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Header Title",
+        "default": "THIS IS MY HEADER"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "logo",
+        "type": "my_type_1",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "my_logo",
+            "label": "My Logo"
+          }
+        ]
+      }, {
+        "name": "my_color",
+        "type": "my_type_2",
+        "settings": [
+          {
+            "type": "color",
+            "id": "my_color",
+            "label": "My Color"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    {{ content_for_header }}
+
+    {{ 'mycss.css' | asset_url | stylesheet_tag }}
+
+    {{ 'myjs.js' | asset_url | script_tag }}
+
+  </head>
+
+  <body>
+
+    {% sections 'my-group' %}
+
+    {{ content_for_layout }}
+
+  </body>
+</html>
