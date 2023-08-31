@@ -1,57 +1,56 @@
-<h1>{{ section.settings.title }}</h1>
+<div class="my_section">
+  <div class="my_block_title">Section</div>
 
-{% for block in section.blocks %}
+  <h1>{{ section.settings.title }}</h1>
 
-  <p>({% increment i %})</p>
+  {% for block in section.blocks %}
+    <div class="my_block">
+      <div class="my_block_title">Block ({% increment i %})</div>
 
-  {% case block.type %}
-    {% when 'my_type_1' %}
-
-    {{ block.settings.my_logo | img_url: 'medium' | img_tag }}
-
-    {% when 'my_type_2' %}
-
-    <div style="background-color: {{ block.settings.my_color }};">
-      &nbsp;
+      {% case block.type %}
+        {% when 'my_type_1' %}
+          <div>{{ block.settings.my_logo | img_url: 'medium' | img_tag }}</div>
+        {% when 'my_type_2' %}
+          <div style="background-color: {{ block.settings.my_color }};">&nbsp;</div>
+      {% endcase %}
     </div>
-
-  {% endcase %}
-
-{% endfor %}
+  {% endfor %}
+</div>
 
 {% schema %}
-  {
-    "name": "header",
-    "settings": [
-      {
-        "type": "text",
-        "id": "title",
-        "label": "Header Title",
-        "default": "THIS IS MY HEADER"
-      }
-    ],
-    "blocks": [
-      {
-        "name": "logo",
-        "type": "my_type_1",
-        "settings": [
-          {
-            "type": "image_picker",
-            "id": "my_logo",
-            "label": "My Logo"
-          }
-        ]
-      }, {
-        "name": "my_color",
-        "type": "my_type_2",
-        "settings": [
-          {
-            "type": "color",
-            "id": "my_color",
-            "label": "My Color"
-          }
-        ]
-      }
-    ]
-  }
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Header Title",
+      "default": "THIS IS MY HEADER"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "My Logo",
+      "type": "my_type_1",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "my_logo",
+          "label": "My Logo"
+        }
+      ]
+    },
+    {
+      "name": "My Color",
+      "type": "my_type_2",
+      "settings": [
+        {
+          "type": "color",
+          "id": "my_color",
+          "label": "My Color"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}

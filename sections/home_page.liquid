@@ -1,7 +1,7 @@
 <div class="my_section">
   <div class="my_block_title">Section</div>
 
-  <h3>{{ section.settings.title }}</h3>
+  <h2>{{ section.settings.my_title }}</h2>
 
   {% for block in section.blocks %}
     <div class="my_block">
@@ -10,11 +10,11 @@
       {% case block.type %}
         {% when 'my_type_1' %}
           <p>
-            <a href="{{ block.settings.my_page.url }}">My page: {{ block.settings.my_page.title }}</a>
+            <a href="{{ block.settings.my_collection.url }}">My collection: {{ block.settings.my_collection.title }}</a>
           </p>
         {% when 'my_type_2' %}
           <p>
-            <a href="{{ block.settings.my_article.url }}">My Article: {{ block.settings.my_article.title }}</a>
+            <a href="{{ block.settings.my_product.url }}">My product: {{ block.settings.my_product.title }}</a>
           </p>
       {% endcase %}
     </div>
@@ -23,35 +23,35 @@
 
 {% schema %}
 {
-  "name": "Footer",
+  "name": "Home Page",
   "settings": [
     {
       "type": "text",
-      "id": "title",
-      "label": "Footer Title",
-      "default": "THIS IS MY FOOTER"
+      "id": "my_title",
+      "label": "Home page title",
+      "default": "THIS IS MY HOME PAGE"
     }
   ],
   "blocks": [
     {
-      "name": "My Page",
+      "name": "My Collection",
       "type": "my_type_1",
       "settings": [
         {
-          "type": "page",
-          "id": "my_page",
-          "label": "My Page"
+          "type": "collection",
+          "id": "my_collection",
+          "label": "My Collection"
         }
       ]
     },
     {
-      "name": "My Article",
+      "name": "My Product",
       "type": "my_type_2",
       "settings": [
         {
-          "type": "article",
-          "id": "my_article",
-          "label": "My Article"
+          "type": "product",
+          "id": "my_product",
+          "label": "My Product"
         }
       ]
     }

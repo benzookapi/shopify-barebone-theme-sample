@@ -1,20 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-
     {{ content_for_header }}
 
-    {{ 'mycss.css' | asset_url | stylesheet_tag }}
+    {{ 'my_css.css' | asset_url | stylesheet_tag }}
 
-    {{ 'myjs.js' | asset_url | script_tag }}
+    {{ 'my_js.js' | asset_url | script_tag }}
 
+    {% if settings.use_font == true %}
+      {{ 'my_font.css' | asset_url | stylesheet_tag }}
+    {% endif %}
   </head>
 
   <body>
+    <div class="my_font my_layout">
 
-    {% sections 'my-group' %}
+      {% sections 'my_header_group' %}
 
-    {{ content_for_layout }}
+      {{ content_for_layout }}
 
+      {% sections 'my_footer_group' %}
+      
+    </div>
   </body>
 </html>

@@ -1,17 +1,10 @@
 {
     "sections": {
-        "header": {
-            "type": "header"
-        },
-        "footer": {
-            "type": "footer"
+        "my_home": {
+            "type": "home_page"
         }
     },
     "order": [
-        "header",
-        "footer"
+        "my_home"
     ]
-   
-        
-    
 }
