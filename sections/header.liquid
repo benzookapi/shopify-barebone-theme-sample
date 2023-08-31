@@ -1,7 +1,16 @@
-<div class="my_section">
+<div class="my_section my_header">
   <div class="my_block_title">Section</div>
 
   <h1>{{ section.settings.title }}</h1>
+
+  <p style="text-align: right; margin-right: 1em;">
+    <a href="">👉 My page</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <select>
+      <option value="">Choose your language</option>
+      <option value="en">English</option>
+      <option value="ja">Japanese</option>
+    </select>
+  </p>
 
   {% for block in section.blocks %}
     <div class="my_block">
