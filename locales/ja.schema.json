@@ -1,0 +1,19 @@
+{
+  "sections": {
+    "header_group": {
+      "name": "ヘッダーグループ"
+    },
+    "header": {
+      "name": "ヘッダー"
+    },
+    "footer_group": {
+      "name": "フッターグループ"
+    },
+    "footer": {
+      "name": "フッター"
+    },
+    "home_page": {
+      "name": "ホームページ"
+    }
+  }
+}

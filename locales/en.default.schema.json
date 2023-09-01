@@ -1,0 +1,19 @@
+{
+    "sections": {
+        "header_group": {
+            "name": "Header Group"
+        },
+        "header": {
+            "name": "Header"
+        },
+        "footer_group": {
+            "name": "Footer Group"
+        },
+        "footer": {
+            "name": "Footer"
+        },
+        "home_page": {
+            "name": "Home Page"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "sections": {
+        "home_page": {
+            "message": "This message changes based on your chosen language above."
+        }
+    }
+}

@@ -3,6 +3,8 @@
 
   <h2>{{ section.settings.my_title }}</h2>
 
+  <p>👀 {{ 'sections.home_page.message' | t }}</p>
+
   {% for block in section.blocks %}
     <div class="my_block">
       <div class="my_block_title">Block ({% increment i %})</div>
@@ -19,11 +21,13 @@
       {% endcase %}
     </div>
   {% endfor %}
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/index-template" target="_blank">Read dev. doc</a></p>
 </div>
 
 {% schema %}
 {
-  "name": "Home Page",
+  "name": "t:sections.home_page.name",
   "settings": [
     {
       "type": "text",
