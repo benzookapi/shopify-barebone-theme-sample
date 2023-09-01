@@ -1,0 +1,26 @@
+{
+    "sections": {
+        "my_product": {
+            "type": "product",
+            "blocks": {
+                "9999": {
+                    "type": "my_type_1"
+                },
+                "9998": {
+                    "type": "my_type_2"
+                },
+                "9997": {
+                    "type": "my_type_3"
+                }
+            },
+            "block_order": [
+                "9999",
+                "9998",
+                "9997"
+            ]
+        }
+    },
+    "order": [
+        "my_product"
+    ]
+}

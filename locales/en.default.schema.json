@@ -17,6 +17,9 @@
         },
         "collection": {
             "name": "Collection"
+        },
+        "product": {
+            "name": "Product"
         }
     }
 }

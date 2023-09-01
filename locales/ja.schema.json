@@ -17,6 +17,9 @@
     },
     "collection": {
       "name": "コレクション"
-  }
+    },
+    "product": {
+      "name": "商品"
+    }
   }
 }

@@ -1,0 +1,95 @@
+<div class="my_section my_product">
+  <div class="my_block_title">Section</div>
+
+  <h2>{{ section.settings.my_title }}</h2>
+
+  <div style="overflow: hidden; margin: 0 auto;">
+    <div style="float: left; width: 60%;">
+      <fieldset>
+        <legend>{{ product.title }}</legend>
+        <div>{{ product | image_url: width: 600 | image_tag: height: 600 }}</div>
+        <div>{{ product.price | money_with_currency }}</div>
+      </fieldset>
+    </div>
+    <div style="float: left; width: 30%; margin-left: 3px;">
+      {% for block in section.blocks %}
+        <div class="my_block" style="margin-top: 6px;">
+          <div class="my_block_title">Block ({% increment i %})</div>
+
+          {% case block.type %}
+            {% when 'my_type_1' %}
+              <p style="text-align: left; margin-left: 1em;"><b>Description:</b></p>
+              <div id="my_desc" style="text-align: left; margin-left: 1em;"></div>
+
+            {% when 'my_type_2' %}
+              <select name="id" style="margin-top: 1em; margin-bottom: 1em;margin-bottom: 1em;">
+                {% for variant in product.variants %}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == product.selected_or_first_available_variant %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    {{ variant.title }} - {{ variant.price | money }}
+                  </option>
+                {% endfor %}
+              </select>
+
+            {% when 'my_type_3' %}
+              <div style="margin: 0 auto; width: 80%; margin-top: 1em;">
+                {% form 'product', product %}
+                  <input type="hidden">
+
+                  <input type="submit" value="Add to cart" style="width:100%; margin-bottom: 1em; font-size: x-large;">
+                  {{ form | payment_button }}
+                {% endform %}
+              </div>
+
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div style="float: none;"></div>
+
+  <p>🏠 <a href="/">Home</a></p>
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/product" target="_blank">Dev. doc</a></p>
+</div>
+
+<script>
+  document.getElementById('my_desc').innerHTML = `{{ product.description }}`;
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.product.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "my_title",
+      "label": "Product title",
+      "default": "THIS IS MY PRODUCT"
+    }
+  ],
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "name": "Description",
+      "type": "my_type_1"
+    },
+    {
+      "name": "Variants",
+      "type": "my_type_2"
+    },
+    {
+      "name": "Buy buttons",
+      "type": "my_type_3"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  }
+}
+{% endschema %}
