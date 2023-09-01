@@ -4,12 +4,13 @@
   <h1>{{ section.settings.title }}</h1>
 
   <p style="text-align: right; margin-right: 1em;">
-    👤 <a href="">My page</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    🛒 <a href="">My cart</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    👤 <a href="">My page</a>&nbsp;&nbsp;&nbsp;&nbsp; 🛒 <a href="">My cart</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
     <select onchange="changeLang(this);">
       <option value="">Choose your language</option>
-      <option value="/">English</option>
-      <option value="/ja">Japanese</option>
+      {% for locale in localization.available_languages %}
+        <option value="{{ locale.root_url }}">{{ locale.name }}</option>
+      {% endfor %}
     </select>
   </p>
 
@@ -26,12 +27,13 @@
     </div>
   {% endfor %}
 
-  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/layouts" target="_blank">Read dev. doc</a></p>
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/layouts" target="_blank">Dev. doc</a></p>
 </div>
 
 {% schema %}
 {
   "name": "t:sections.header.name",
+  "limit": 1,
   "settings": [
     {
       "type": "text",
@@ -40,7 +42,7 @@
       "default": "THIS IS MY HEADER"
     }
   ],
-  "limit": 1,
+  "max_blocks": 3,
   "blocks": [
     {
       "name": "My Logo",
@@ -67,7 +69,6 @@
   ],
   "enabled_on": {
     "groups": ["header"]
-  },
-  "max_blocks": 3
+  }
 }
 {% endschema %}

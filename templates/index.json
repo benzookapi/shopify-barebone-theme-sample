@@ -1,7 +1,18 @@
 {
     "sections": {
         "my_home": {
-            "type": "home_page"
+            "type": "home_page",
+            "blocks": {
+                "9999": {
+                    "type": "my_type_1",
+                    "settings": {
+                        "my_collection": "frontpage"
+                    }
+                }
+            },
+            "block_order": [
+                "9999"
+            ]
         }
     },
     "order": [

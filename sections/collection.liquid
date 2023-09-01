@@ -1,0 +1,40 @@
+<div class="my_section my_collection">
+  <div class="my_block_title">Section</div>
+
+  <h2>{{ section.settings.my_title }}</h2>
+
+  <div style="overflow: hidden; margin: 0 auto; padding-left: 15%;">
+    {% for product in collection.products %}
+      <div style="float: left; width: 40%;">
+        <fieldset>
+          <legend>{{ product.title }}</legend>
+          <div><a href="{{ product.url }}">{{ product | image_url: width: 300 | image_tag: height: 300 }}</a></div>
+          <div>{{ product.price | money_with_currency }}</div>
+        </fieldset>
+      </div>
+    {% endfor %}
+  </div>
+  <div style="float: none;"></div>
+
+  <p>🏠 <a href="/">Home</a></p>
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/collection" target="_blank">Dev. doc</a></p>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.collection.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "my_title",
+      "label": "Collection title",
+      "default": "THIS IS MY COLLECTION"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
+}
+{% endschema %}

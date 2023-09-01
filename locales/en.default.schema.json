@@ -14,6 +14,9 @@
         },
         "home_page": {
             "name": "Home Page"
+        },
+        "collection": {
+            "name": "Collection"
         }
     }
 }

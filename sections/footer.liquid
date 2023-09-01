@@ -28,6 +28,7 @@
 {% schema %}
 {
   "name": "t:sections.footer.name",
+  "limit": 1,
   "settings": [
     {
       "type": "text",
@@ -36,6 +37,7 @@
       "default": "THIS IS MY FOOTER"
     }
   ],
+  "max_blocks": 2,
   "blocks": [
     {
       "name": "My Page",
@@ -62,7 +64,6 @@
   ],
   "enabled_on": {
     "groups": ["footer"]
-  },
-  "max_blocks": 2
+  }
 }
 {% endschema %}

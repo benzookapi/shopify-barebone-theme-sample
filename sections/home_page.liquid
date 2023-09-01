@@ -22,12 +22,15 @@
     </div>
   {% endfor %}
 
-  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/index-template" target="_blank">Read dev. doc</a></p>
+  <p>
+    👉 <a href="https://shopify.dev/docs/themes/architecture/templates/index-template" target="_blank">Dev. doc</a>
+  </p>
 </div>
 
 {% schema %}
 {
   "name": "t:sections.home_page.name",
+  "limit": 1,
   "settings": [
     {
       "type": "text",
@@ -36,6 +39,7 @@
       "default": "THIS IS MY HOME PAGE"
     }
   ],
+  "max_blocks": 5,
   "blocks": [
     {
       "name": "My Collection",
@@ -59,6 +63,9 @@
         }
       ]
     }
-  ]
+  ],
+  "enabled_on": {
+    "templates": ["index"]
+  }
 }
 {% endschema %}
