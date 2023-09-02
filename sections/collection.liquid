@@ -8,7 +8,9 @@
       <div style="float: left; width: 40%;">
         <fieldset>
           <legend>{{ product.title }}</legend>
-          <div><a href="{{ product.url }}">{{ product | image_url: width: 300 | image_tag: height: 300 }}</a></div>
+          <div>
+            <a href="{{ product.url }}">{{ product | image_url: width: 300 | image_tag: height: 300 }}</a>
+          </div>
           <div>{{ product.price | money_with_currency }}</div>
         </fieldset>
       </div>
@@ -16,7 +18,7 @@
   </div>
   <div style="float: none;"></div>
 
-  <p>🏠 <a href="/">Home</a></p>
+  {% render 'home' %}
 
   <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/collection" target="_blank">Dev. doc</a></p>
 </div>

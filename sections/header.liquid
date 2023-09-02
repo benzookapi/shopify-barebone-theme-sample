@@ -7,12 +7,17 @@
     👤 <a href="{{ routes.account_url }}">My page</a>&nbsp;&nbsp;&nbsp;&nbsp; 🛒
     <a href="">My cart</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
+    🌎
     <select onchange="changeLang(this);">
-      <option value="">Choose your language</option>
       {% for locale in localization.available_languages %}
         {% assign path = request.path | remove_first: request.locale.root_url %}
         {% assign url = locale.root_url | append: '/' | append: path | replace: '//', '/' | replace: '//', '/' %}
-        <option value="{{ url }}">
+        <option
+          value="{{ url }}"
+          {% if locale.iso_code == request.locale.iso_code %}
+            selected
+          {% endif %}
+        >
           {{ locale.name }}
         </option>
       {% endfor %}

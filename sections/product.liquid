@@ -39,11 +39,15 @@
               <div style="margin: 0 auto; width: 80%;">
                 {% form 'product', product %}
                   <input type="hidden">
-                  <input type="submit" value="Add to cart" style="width: 100%;" class="my_top_space my_bottom_space my_font_large">
+                  <input
+                    type="submit"
+                    value="Add to cart"
+                    style="width: 100%;"
+                    class="my_top_space my_bottom_space my_font_large"
+                  >
                   {{ form | payment_button }}
                 {% endform %}
               </div>
-
           {% endcase %}
         </div>
       {% endfor %}
@@ -51,7 +55,7 @@
   </div>
   <div style="float: none;"></div>
 
-  <p>🏠 <a href="/">Home</a></p>
+  {% render 'home' %}
 
   <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/product" target="_blank">Dev. doc</a></p>
 </div>
