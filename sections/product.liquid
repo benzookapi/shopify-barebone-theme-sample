@@ -8,7 +8,6 @@
       <fieldset>
         <legend>{{ product.title }}</legend>
         <div>{{ product | image_url: width: 600 | image_tag: height: 600 }}</div>
-        <div>{{ product.price | money_with_currency }}</div>
       </fieldset>
     </div>
     <div style="float: left; width: 30%; margin-left: 3px;">
@@ -18,11 +17,11 @@
 
           {% case block.type %}
             {% when 'my_type_1' %}
-              <p style="text-align: left; margin-left: 1em;"><b>Description:</b></p>
-              <div id="my_desc" style="text-align: left; margin-left: 1em;"></div>
+              <p style="text-align: left;" class="my_left_space"><b>Description:</b></p>
+              <div id="my_desc" style="text-align: left;" class="my_left_space my_bottom_space"></div>
 
             {% when 'my_type_2' %}
-              <select name="id" style="margin-top: 1em; margin-bottom: 1em;margin-bottom: 1em;">
+              <select name="id" class="my_top_space my_bottom_space">
                 {% for variant in product.variants %}
                   <option
                     value="{{ variant.id }}"
@@ -34,13 +33,13 @@
                   </option>
                 {% endfor %}
               </select>
+              <div class="my_bottom_space my_font_large">{{ product.price | money_with_currency }}</div>
 
             {% when 'my_type_3' %}
-              <div style="margin: 0 auto; width: 80%; margin-top: 1em;">
+              <div style="margin: 0 auto; width: 80%;">
                 {% form 'product', product %}
                   <input type="hidden">
-
-                  <input type="submit" value="Add to cart" style="width:100%; margin-bottom: 1em; font-size: x-large;">
+                  <input type="submit" value="Add to cart" style="width: 100%;" class="my_top_space my_bottom_space my_font_large">
                   {{ form | payment_button }}
                 {% endform %}
               </div>
