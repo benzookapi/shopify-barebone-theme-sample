@@ -4,12 +4,17 @@
   <h1>{{ section.settings.title }}</h1>
 
   <p style="text-align: right;" class="my_right_space">
-    👤 <a href="">My page</a>&nbsp;&nbsp;&nbsp;&nbsp; 🛒 <a href="">My cart</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    👤 <a href="{{ routes.account_url }}">My page</a>&nbsp;&nbsp;&nbsp;&nbsp; 🛒
+    <a href="">My cart</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
     <select onchange="changeLang(this);">
       <option value="">Choose your language</option>
       {% for locale in localization.available_languages %}
-        <option value="{{ locale.root_url }}">{{ locale.name }}</option>
+        {% assign path = request.path | remove_first: request.locale.root_url %}
+        {% assign url = locale.root_url | append: '/' | append: path | replace: '//', '/' | replace: '//', '/' %}
+        <option value="{{ url }}">
+          {{ locale.name }}
+        </option>
       {% endfor %}
     </select>
   </p>
