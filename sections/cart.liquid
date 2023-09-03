@@ -63,10 +63,58 @@
     {% endif %}
 
     {% if cart.item_count > 0 %}
-      <!-- Total price and checkout button -->
+      <!-- Rendering blocks -->
       <div style="width: 95%; text-align: right;" class="my_top_space my_bottom_space">
-        <p class="my_font_large">🛍️ Total: {{ cart.total_price | money_with_currency }}</p>
-        <input type="submit" name="checkout" value="Checkout" class="my_font_large" style="width: 20%;">
+        {% for block in section.blocks %}
+          <div class="my_block">
+            <div class="my_block_title">Block ({% increment i %})</div>
+
+            {% case block.type %}
+              {% when 'my_type_1' %}
+                <!-- Cart notes and attributes -->
+                <label for="my_cart_note">Cart notes:</label>
+                <textarea name="note" id="my_cart_note" form="cart"></textarea>
+                <label for="my_cart_attr">Line item properties:</label>
+                <select name="attributes[My Cart Attribute]" class="my_top_space my_bottom_space" id="my_cart_attr">
+                  <option
+                    value=""
+                    {% if cart.attributes['My Cart Attribute'] == '' %}
+                      selected="selected"
+                    {% endif %}
+                  ></option>
+                  <option
+                    value="Value-A"
+                    {% if cart.attributes['My Cart Attribute'] == 'Value-A' %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    Value A
+                  </option>
+                  <option
+                    value="Value-B"
+                    {% if cart.attributes['My Cart Attribute'] == 'Value-B' %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    Value B
+                  </option>
+                  <option
+                    value="Value-C"
+                    {% if cart.attributes['My Cart Attribute'] == 'Value-C' %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    Value C
+                  </option>
+                </select>
+
+              {% when 'my_type_2' %}
+                <!-- Total price and checkout button -->
+                <p class="my_font_large">🛍️ Total: {{ cart.total_price | money_with_currency }}</p>
+                <input type="submit" name="checkout" value="Checkout" class="my_font_large" style="width: 20%;">
+            {% endcase %}
+          </div>
+        {% endfor %}
       </div>
     {% endif %}
   </form>
@@ -109,6 +157,16 @@
       "id": "my_title",
       "label": "Cart title",
       "default": "THIS IS MY CART"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Cart notes and attributes",
+      "type": "my_type_1"
+    },
+    {
+      "name": "Price and Checkout",
+      "type": "my_type_2"
     }
   ],
   "enabled_on": {
