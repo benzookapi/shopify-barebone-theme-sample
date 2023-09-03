@@ -3,6 +3,8 @@
 
   <h3>{{ section.settings.title }}</h3>
 
+  {% render 'hello' %}
+
   {% for block in section.blocks %}
     <div class="my_block">
       <div class="my_block_title">Block ({% increment i %})</div>

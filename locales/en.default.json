@@ -6,5 +6,10 @@
         "customer_login": {
             "message": "Use the new customer login."
         }
+    },
+    "snipets": {
+        "hello": {
+            "text": "Hello {{ name }}!"
+        }
     }
 }
