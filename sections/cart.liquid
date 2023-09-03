@@ -12,7 +12,10 @@
     <table>
       {% for item in cart.items %}
         <tr>
-          <td>{{ item | image_url: width: 50 | image_tag: height: 50 }}</td>
+          <td>
+            <!-- Item image -->
+            {{ item | image_url: width: 50 | image_tag: height: 50 }}
+          </td>
           <td>
             <!-- Item title -->
             <a href="{{ item.url }}">{{ item.title }}</a>
@@ -35,6 +38,7 @@
             {% endunless %}
           </td>
           <td>
+            <!-- Item quantity -->
             x
             <input
               type="text"
@@ -43,9 +47,13 @@
               onchange="cartUpdate(this);"
               id="{{ item.key }}"
             >
+            <!-- Item remove link -->
             <a href="{{ item.url_to_remove }}">🗑️</a>
           </td>
-          <td>{{ item.original_line_price | money }}</td>
+          <td>
+            <!-- Line price -->
+            {{ item.original_line_price | money }}
+          </td>
         </tr>
       {% endfor %}
     </table>
@@ -70,7 +78,7 @@
 
 <script>
   const cartUpdate = (obj) => {
-    // Update the item quantity.
+    // Item quantity update triggered by the input change above
     // See https://shopify.dev/docs/api/ajax
     // See https://shopify.dev/docs/api/ajax/reference/cart#update-line-item-quantities
     const url = `${window.Shopify.routes.root}cart/update.js`;
