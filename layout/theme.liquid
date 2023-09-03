@@ -1,12 +1,23 @@
+{% comment %}
+  *** Base page to render all theme contents ***
+  See https://shopify.dev/docs/themes/architecture
+{% endcomment %}
 <!doctype html>
 <html>
   <head>
+    <!-- Shopify generated header contents -->
+    {% comment %}
+      See https://shopify.dev/docs/themes/architecture/layouts#content_for_header
+    {% endcomment %}
     {{ content_for_header }}
 
+    <!-- My own global CSS -->
     {{ 'my_css.css' | asset_url | stylesheet_tag }}
 
+    <!-- My own global JavaScript -->
     {{ 'my_js.js' | asset_url | script_tag }}
 
+    <!-- My own font CSS (if selected only) -->
     {% if settings.use_font == true %}
       {{ 'my_font.css' | asset_url | stylesheet_tag }}
     {% endif %}
@@ -14,13 +25,17 @@
 
   <body>
     <div class="my_font my_layout">
-
+      <!-- My own header group -->
       {% sections 'header_group' %}
 
+      <!-- Shopify generated template (body) contents -->
+      {% comment %}
+        See https://shopify.dev/docs/themes/architecture/layouts#content_for_layout
+      {% endcomment %}
       {{ content_for_layout }}
 
+      <!-- My own footer group -->
       {% sections 'footer_group' %}
-      
     </div>
   </body>
 </html>

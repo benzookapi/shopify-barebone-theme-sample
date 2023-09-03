@@ -1,20 +1,29 @@
+{% comment %}
+  *** Footer ***
+  See https://shopify.dev/docs/themes/architecture/layouts
+{% endcomment %}
 <div class="my_section my_footer">
+  <!-- Footer section -->
   <div class="my_block_title">Section</div>
 
   <h3>{{ section.settings.title }}</h3>
 
   {% render 'hello' %}
 
+  <!-- Rendering blocks -->
   {% for block in section.blocks %}
     <div class="my_block">
       <div class="my_block_title">Block ({% increment i %})</div>
 
       {% case block.type %}
         {% when 'my_type_1' %}
+          <!-- Page link -->
           <p>
             <a href="{{ block.settings.my_page.url }}">My page: {{ block.settings.my_page.title }}</a>
           </p>
+
         {% when 'my_type_2' %}
+          <!-- Article (Blog) link -->
           <p>
             <a href="{{ block.settings.my_article.url }}">My Article: {{ block.settings.my_article.title }}</a>
           </p>

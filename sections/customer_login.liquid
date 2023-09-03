@@ -1,6 +1,16 @@
+{% comment %}
+  *** Customer login page ***
+  This sample does NOT have any customer page implementation to use new customer login / my page provided 
+  by Shopify natively outside themes.
+{% endcomment %}
 <div class="my_section my_account">
+  <!-- Customer login section -->
   <div class="my_block_title">Section</div>
 
+  {% comment %}
+    This message is localized defined in 'locales/en.default.json' and other locale files.
+    See https://shopify.dev/docs/themes/architecture/locales
+  {% endcomment %}
   <h2>{{ 'sections.customer_login.message' | t }}</h2>
 
   <p>

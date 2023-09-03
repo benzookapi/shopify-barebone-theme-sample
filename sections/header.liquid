@@ -1,4 +1,9 @@
+{% comment %}
+  *** Header ***
+  See https://shopify.dev/docs/themes/architecture/layouts
+{% endcomment %}
 <div class="my_section my_header">
+  <!-- Header section -->
   <div class="my_block_title">Section</div>
 
   <h1>{{ section.settings.title }}</h1>
@@ -6,9 +11,17 @@
   {% render 'hello' %}
 
   <p style="text-align: right;" class="my_right_space">
-    👤 <a href="{{ routes.account_url }}">My page</a>&nbsp;&nbsp;&nbsp;&nbsp; 🛒
-    <a href="{{ routes.cart_url }}">My cart: {{ cart.item_count }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <!-- Account page link -->
+    👤 <a href="{{ routes.account_url }}">My page</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
+    <!-- Cart link -->
+    🛒 <a href="{{ routes.cart_url }}">My cart: {{ cart.item_count }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+    <!-- language selector -->
+    {% comment %}
+      See https://shopify.dev/docs/api/liquid/objects/localization
+      'changeLang' is defined in 'my_css.css'.
+    {% endcomment %}
     🌎
     <select onchange="changeLang(this);">
       {% for locale in localization.available_languages %}
@@ -26,14 +39,18 @@
     </select>
   </p>
 
+  <!-- Rendering blocks -->
   {% for block in section.blocks %}
     <div class="my_block">
       <div class="my_block_title">Block ({% increment i %})</div>
 
       {% case block.type %}
         {% when 'my_type_1' %}
+          <!-- Logo image -->
           <div>{{ block.settings.my_logo | img_url: 'medium' | img_tag }}</div>
+
         {% when 'my_type_2' %}
+          <!-- Color square -->
           <div style="background-color: {{ block.settings.my_color }};">&nbsp;</div>
       {% endcase %}
     </div>

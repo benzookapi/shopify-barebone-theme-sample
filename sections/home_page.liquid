@@ -1,20 +1,33 @@
+{% comment %}
+  *** Home page ***
+  See https://shopify.dev/docs/themes/architecture/templates/index-template
+{% endcomment %}
 <div class="my_section my_home">
+  <!-- Home page section -->
   <div class="my_block_title">Section</div>
 
   <h2>{{ section.settings.my_title }}</h2>
 
+  {% comment %}
+    This message is localized defined in 'locales/en.default.json' and other locale files.
+    See https://shopify.dev/docs/themes/architecture/locales
+  {% endcomment %}
   <p>👀 {{ 'sections.home_page.message' | t }}</p>
 
+  <!-- Rendering blocks -->
   {% for block in section.blocks %}
     <div class="my_block">
       <div class="my_block_title">Block ({% increment i %})</div>
 
       {% case block.type %}
         {% when 'my_type_1' %}
+          <!-- Collection link -->
           <p>
             <a href="{{ block.settings.my_collection.url }}">My collection: {{ block.settings.my_collection.title }}</a>
           </p>
+
         {% when 'my_type_2' %}
+          <!-- Product link -->
           <p>
             <a href="{{ block.settings.my_product.url }}">My product: {{ block.settings.my_product.title }}</a>
           </p>
@@ -22,9 +35,7 @@
     </div>
   {% endfor %}
 
-  <p>
-    👉 <a href="https://shopify.dev/docs/themes/architecture/templates/index-template" target="_blank">Dev. doc</a>
-  </p>
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/index-template" target="_blank">Dev. doc</a></p>
 </div>
 
 {% schema %}

@@ -1,9 +1,15 @@
+{% comment %}
+  *** Product page ***
+  See https://shopify.dev/docs/themes/architecture/templates/product
+{% endcomment %}
 <div class="my_section my_product">
+  <!-- Product section -->
   <div class="my_block_title">Section</div>
 
   <h2>{{ section.settings.my_title }}</h2>
 
   <div style="overflow: hidden; margin: 0 auto;">
+    <!-- Product image -->
     <div style="float: left; width: 65%;">
       <fieldset>
         <legend>{{ product.title }}</legend>
@@ -11,6 +17,7 @@
       </fieldset>
     </div>
     <div style="float: left; width: 30%; margin-left: 3px;">
+      <!-- Rendering blocks within the product form -->
       {% form 'product', product %}
         {% for block in section.blocks %}
           <div class="my_block" style="margin-top: 6px;">
@@ -18,10 +25,12 @@
 
             {% case block.type %}
               {% when 'my_type_1' %}
+                <!-- Product description -->
                 <p style="text-align: left;" class="my_left_space"><b>Description:</b></p>
                 <div id="my_desc" style="text-align: left;" class="my_left_space my_bottom_space"></div>
 
               {% when 'my_type_2' %}
+                <!-- Variant selector -->
                 <select name="id" class="my_top_space my_bottom_space" onchange="idChange(this);" id="my_id">
                   {% for variant in product.variants %}
                     <option
@@ -39,12 +48,14 @@
                 <div class="my_bottom_space my_font_large" id="my_price">{{ product.price | money_with_currency }}</div>
 
               {% when 'my_type_3' %}
+                <!-- Quantity input -->
                 <div class="my_top_space my_bottom_space">
                   <label for="my_quantity">Quantity:</label>
                   <input type="text" name="quantity" id="my_quantity" min="1" value="1" size="10">
                 </div>
 
               {% when 'my_type_4' %}
+                <!-- Line intem properties -->
                 <label for="my_line_prop">Line item properties:</label>
                 <select name="properties[My Line Property]" class="my_top_space my_bottom_space" id="my_line_prop">
                   <option value=""></option>
@@ -54,6 +65,7 @@
                 </select>
 
               {% when 'my_type_5' %}
+                <!-- Buy buttons (Add to cart / Buy now) -->
                 <div style="margin: 0 auto; width: 80%;">
                   <input
                     type="submit"
@@ -66,6 +78,10 @@
                 <p>&nbsp;</p>
 
               {% when 'my_type_6' %}
+                <!-- Selling Plan selector -->
+                {% comment %}
+                  See https://shopify.dev/docs/themes/pricing-payments/purchase-options/subscription-ux-guidelines
+                {% endcomment %}
                 <fieldset id="my_plan" style="text-align: left;">
                   <legend>Choose your selling plan</legend>
                   <div>
@@ -102,6 +118,10 @@
                 </p>
 
               {% when '@app' %}
+                <!-- App block -->
+                {% comment %}
+                  See https://shopify.dev/docs/themes/architecture/sections/app-blocks
+                {% endcomment %}
                 {% render block %}
                 <p>
                   👉
@@ -125,10 +145,13 @@
 </div>
 
 <script>
+  // Inserting the product description as HTML.
   document.getElementById('my_desc').innerHTML = `{{ product.description }}`;
 
+  // The given variant id in the URL paramerers
   const given_id = new URLSearchParams(window.location.search).get('variant');
 
+  // Change the product image and price based on the selected variants and the URL parameter.
   const idChange = (obj) => {
     document.querySelector('#my_img > img').src = obj.options[obj.selectedIndex].dataset.img;
     document.querySelector('#my_price').innerHTML = obj.options[obj.selectedIndex].dataset.price;
@@ -138,9 +161,9 @@
       window.location.search = params.toString();
     }
   };
-
+  // Set the initial selection.
   idChange(document.querySelector('#my_id'));
-
+  // Apply the given variant id to the selector.
   if (given_id != null) {
     document.querySelector('#my_id').options.map((o) => {
       if (o.value == given_id) o.selected = 'selected';

@@ -1,8 +1,14 @@
+{% comment %}
+  *** Collection page ***
+  See https://shopify.dev/docs/themes/architecture/templates/collection
+{% endcomment %}
 <div class="my_section my_collection">
+  <!-- Collection section -->
   <div class="my_block_title">Section</div>
 
   <h2>{{ section.settings.my_title }}</h2>
 
+  <!-- Product thumbnails -->
   <div style="overflow: hidden; margin: 0 auto; padding-left: 15%;">
     {% for product in collection.products %}
       <div style="float: left; width: 40%;">
