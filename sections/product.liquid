@@ -132,6 +132,13 @@
     document.querySelector('#my_price').innerHTML = obj.options[obj.selectedIndex].dataset.price;
   };
   idChange(document.querySelector('#my_id'));
+
+  const given_id = new URLSearchParams(window.location.search).get('variant');
+  if (given_id != null) {
+    document.querySelector('#my_id').options.map((o) => {
+      if (o.value == given_id) o.selected = 'selected';
+    });
+  }
 </script>
 
 {% schema %}

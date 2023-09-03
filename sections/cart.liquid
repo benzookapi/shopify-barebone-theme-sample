@@ -1,4 +1,8 @@
+{% comment %}
+  See https://shopify.dev/docs/themes/architecture/templates/cart
+{% endcomment %}
 <div class="my_section my_cart">
+  <!-- Cart section -->
   <div class="my_block_title">Section</div>
 
   <h2>{{ section.settings.my_title }}</h2>
@@ -9,7 +13,25 @@
         <tr>
           <td>{{ item | image_url: width: 50 | image_tag: height: 50 }}</td>
           <td>
-            {{ item.title }}
+            <!-- Item title -->
+            <a href="{{ item.url }}">{{ item.title }}</a>
+
+            <!-- Line item properties -->
+            {% unless item.properties == empty %}
+              {% for property in item.properties %}
+                {% unless property.last == '' %}
+                  <div style="font-size: small; color: #666666; margin-top: 2px;">
+                    {{ property.first }}:
+
+                    {% if property.last contains '/uploads/' %}
+                      <a href="{{ property.last }}">{{ property.last | split: '/' | last }}</a>
+                    {% else %}
+                      {{ property.last }}
+                    {% endif %}
+                  </div>
+                {% endunless %}
+              {% endfor %}
+            {% endunless %}
           </td>
           <td>
             x
@@ -27,10 +49,17 @@
       {% endfor %}
     </table>
 
-    <div style="width: 95%; text-align: right;" class="my_top_space my_bottom_space">
-      <p>&nbsp;</p>
-      <input type="submit" name="checkout" value="Checkout" class="my_font_large" style="width: 20%;">
-    </div>
+    {% if cart.item_count == 0 %}
+      <p>🤷‍♂️ Your cart is empty.</p>
+    {% endif %}
+
+    {% if cart.item_count > 0 %}
+      <!-- Total price and checkout button -->
+      <div style="width: 95%; text-align: right;" class="my_top_space my_bottom_space">
+        <p class="my_font_large">🛍️ Total: {{ cart.total_price | money_with_currency }}</p>
+        <input type="submit" name="checkout" value="Checkout" class="my_font_large" style="width: 20%;">
+      </div>
+    {% endif %}
   </form>
 
   {% render 'home' %}
