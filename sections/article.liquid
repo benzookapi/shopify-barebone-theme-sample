@@ -1,0 +1,52 @@
+{% comment %}
+  *** Article page ***
+  See https://shopify.dev/docs/themes/architecture/templates/article
+{% endcomment %}
+<div class="my_section my_article">
+  <!-- Header section -->
+  <div class="my_block_title">Section</div>
+
+  <h1>{{ section.settings.title }}</h1>
+
+  <!-- Article -->
+  {% comment %}
+    See https://shopify.dev/docs/api/liquid/objects/article
+  {% endcomment %}
+  <fieldset>
+    <legend>Title</legend>
+    <div>{{ article.title }}</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Author</legend>
+    <div>{{ article.author }}</div>
+    <div>Published: {{ article.published_at | date: '%B %d, %Y' }}</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Content</legend>
+    <div>{{ article.content }}</div>
+  </fieldset>
+
+  {% render 'home' %}
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/article" target="_blank">Dev. doc</a></p>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.article.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Article Title",
+      "default": "THIS IS MY ARTICLE"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["article"]
+  }
+}
+{% endschema %}

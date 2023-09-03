@@ -1,0 +1,34 @@
+{% comment %}
+  *** 404 page ***
+  See https://shopify.dev/docs/themes/architecture/templates/404
+{% endcomment %}
+<div class="my_section">
+  <!-- Header section -->
+  <div class="my_block_title">Section</div>
+
+  <h1>{{ section.settings.title }}</h1>
+
+  <p class="my_font_large">😭 404... just a 404... Never mind 404...</p>
+
+  {% render 'home' %}
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/404" target="_blank">Dev. doc</a></p>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.404.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "404 Title",
+      "default": "THIS IS MY 404"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["404"]
+  }
+}
+{% endschema %}

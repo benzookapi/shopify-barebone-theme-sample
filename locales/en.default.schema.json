@@ -23,6 +23,12 @@
         },
         "cart": {
             "name": "Cart"
+        },
+        "404": {
+            "name": "404 Page"
+        },
+        "article": {
+            "name": "Article"
         }
     }
 }
