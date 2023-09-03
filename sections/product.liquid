@@ -7,38 +7,54 @@
     <div style="float: left; width: 65%;">
       <fieldset>
         <legend>{{ product.title }}</legend>
-        <div>{{ product | image_url: width: 600 | image_tag: height: 600 }}</div>
+        <div id="my_img">{{ product | image_url: width: 600 | image_tag: height: 600, srcset: null }}</div>
       </fieldset>
     </div>
     <div style="float: left; width: 30%; margin-left: 3px;">
-      {% for block in section.blocks %}
-        <div class="my_block" style="margin-top: 6px;">
-          <div class="my_block_title">Block ({% increment i %})</div>
+      {% form 'product', product %}
+        {% for block in section.blocks %}
+          <div class="my_block" style="margin-top: 6px;">
+            <div class="my_block_title">Block ({% increment i %})</div>
 
-          {% case block.type %}
-            {% when 'my_type_1' %}
-              <p style="text-align: left;" class="my_left_space"><b>Description:</b></p>
-              <div id="my_desc" style="text-align: left;" class="my_left_space my_bottom_space"></div>
+            {% case block.type %}
+              {% when 'my_type_1' %}
+                <p style="text-align: left;" class="my_left_space"><b>Description:</b></p>
+                <div id="my_desc" style="text-align: left;" class="my_left_space my_bottom_space"></div>
 
-            {% when 'my_type_2' %}
-              <select name="id" class="my_top_space my_bottom_space">
-                {% for variant in product.variants %}
-                  <option
-                    value="{{ variant.id }}"
-                    {% if variant == product.selected_or_first_available_variant %}
-                      selected="selected"
-                    {% endif %}
-                  >
-                    {{ variant.title }} - {{ variant.price | money }}
-                  </option>
-                {% endfor %}
-              </select>
-              <div class="my_bottom_space my_font_large">{{ product.price | money_with_currency }}</div>
+              {% when 'my_type_2' %}
+                <select name="id" class="my_top_space my_bottom_space" onchange="idChange(this);" id="my_id">
+                  {% for variant in product.variants %}
+                    <option
+                      value="{{ variant.id }}"
+                      {% if variant == product.selected_or_first_available_variant %}
+                        selected="selected"
+                      {% endif %}
+                      data-img="{% if variant.image %}{{ variant | image_url: width: 600 }}{% else %}{{ product | image_url: width: 600 }}{% endif %}"
+                      data-price="{{ variant.price | money_with_currency}}"
+                    >
+                      {{ variant.title }} - {{ variant.price | money }}
+                    </option>
+                  {% endfor %}
+                </select>
+                <div class="my_bottom_space my_font_large" id="my_price">{{ product.price | money_with_currency }}</div>
 
-            {% when 'my_type_3' %}
-              <div style="margin: 0 auto; width: 80%;">
-                {% form 'product', product %}
-                  <input type="hidden">
+              {% when 'my_type_3' %}
+                <div class="my_top_space my_bottom_space">
+                  <label for="my_quantity">Quantity:</label>
+                  <input type="text" name="quantity" id="my_quantity" min="1" value="1" size="10">
+                </div>
+
+              {% when 'my_type_4' %}
+                <label for="my_line_prop">Line item properties:</label>
+                <select name="properties[My Line Property]" class="my_top_space my_bottom_space" id="my_line_prop">
+                  <option value=""></option>
+                  <option value="Value-1">Value 1</option>
+                  <option value="Value-2">Value 2</option>
+                  <option value="Value-3">Value 3</option>
+                </select>
+
+              {% when 'my_type_5' %}
+                <div style="margin: 0 auto; width: 80%;">
                   <input
                     type="submit"
                     value="Add to cart"
@@ -46,11 +62,59 @@
                     class="my_top_space my_bottom_space my_font_large"
                   >
                   {{ form | payment_button }}
-                {% endform %}
-              </div>
-          {% endcase %}
-        </div>
-      {% endfor %}
+                </div>
+                <p>&nbsp;</p>
+
+              {% when 'my_type_6' %}
+                <fieldset id="my_plan" style="text-align: left;">
+                  <legend>Choose your selling plan</legend>
+                  <div>
+                    <input
+                      type="radio"
+                      id="na99999"
+                      name="selling_plan"
+                      value=""
+                      checked
+                    >
+                    <label for="na99999">One-time purchase</label>
+                  </div>
+                  {% for selling_plan_group in product.selling_plan_groups %}
+                    {% for selling_plan in selling_plan_group.selling_plans %}
+                      <div>
+                        <input
+                          type="radio"
+                          id="{{ selling_plan.id }}"
+                          name="selling_plan"
+                          value="{{ selling_plan.id }}"
+                        >
+                        <label for="{{ selling_plan.id }}">{{ selling_plan.name }}</label>
+                      </div>
+                    {% endfor %}
+                  {% endfor %}
+                </fieldset>
+                <p>
+                  👉
+                  <a
+                    href="https://shopify.dev/docs/themes/pricing-payments/purchase-options/subscription-ux-guidelines"
+                    target="_blank"
+                    >Dev. doc</a
+                  >
+                </p>
+
+              {% when '@app' %}
+                {% render block %}
+                <p>
+                  👉
+                  <a
+                    href="https://shopify.dev/docs/themes/architecture/sections/app-blocks"
+                    target="_blank"
+                    >Dev. doc</a
+                  >
+                </p>
+            {% endcase %}
+          </div>
+        {% endfor %}
+      {% endform %}
     </div>
   </div>
   <div style="float: none;"></div>
@@ -62,6 +126,12 @@
 
 <script>
   document.getElementById('my_desc').innerHTML = `{{ product.description }}`;
+
+  const idChange = (obj) => {
+    document.querySelector('#my_img > img').src = obj.options[obj.selectedIndex].dataset.img;
+    document.querySelector('#my_price').innerHTML = obj.options[obj.selectedIndex].dataset.price;
+  };
+  idChange(document.querySelector('#my_id'));
 </script>
 
 {% schema %}
@@ -76,7 +146,6 @@
       "default": "THIS IS MY PRODUCT"
     }
   ],
-  "max_blocks": 5,
   "blocks": [
     {
       "name": "Description",
@@ -87,8 +156,23 @@
       "type": "my_type_2"
     },
     {
-      "name": "Buy buttons",
+      "name": "Quantity",
       "type": "my_type_3"
+    },
+    {
+      "name": "Line item properties",
+      "type": "my_type_4"
+    },
+    {
+      "name": "Buy buttons",
+      "type": "my_type_5"
+    },
+    {
+      "name": "Selling plans",
+      "type": "my_type_6"
+    },
+    {
+      "type": "@app"
     }
   ],
   "enabled_on": {
