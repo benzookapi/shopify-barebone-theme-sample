@@ -127,13 +127,20 @@
 <script>
   document.getElementById('my_desc').innerHTML = `{{ product.description }}`;
 
+  const given_id = new URLSearchParams(window.location.search).get('variant');
+
   const idChange = (obj) => {
     document.querySelector('#my_img > img').src = obj.options[obj.selectedIndex].dataset.img;
     document.querySelector('#my_price').innerHTML = obj.options[obj.selectedIndex].dataset.price;
+    if (given_id != obj.value) {
+      const params = new URLSearchParams(window.location.search);
+      params.set('variant', obj.value);
+      window.location.search = params.toString();
+    }
   };
+
   idChange(document.querySelector('#my_id'));
 
-  const given_id = new URLSearchParams(window.location.search).get('variant');
   if (given_id != null) {
     document.querySelector('#my_id').options.map((o) => {
       if (o.value == given_id) o.selected = 'selected';
