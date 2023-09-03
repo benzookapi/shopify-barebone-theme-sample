@@ -29,6 +29,9 @@
         },
         "article": {
             "name": "Article"
+        },
+        "page": {
+            "name": "Page"
         }
     }
 }

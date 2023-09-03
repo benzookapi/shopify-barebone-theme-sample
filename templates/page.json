@@ -1,0 +1,10 @@
+{
+    "sections": {
+        "my_page": {
+            "type": "page"
+        }
+    },
+    "order": [
+        "my_page"
+    ]
+}

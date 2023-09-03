@@ -1,0 +1,52 @@
+{% comment %}
+  *** Page page ***
+  See https://shopify.dev/docs/themes/architecture/templates/page
+{% endcomment %}
+<div class="my_section my_page">
+  <!-- Header section -->
+  <div class="my_block_title">Section</div>
+
+  <h1>{{ section.settings.title }}</h1>
+
+  <!-- Page -->
+  {% comment %}
+    See https://shopify.dev/docs/api/liquid/objects/page
+  {% endcomment %}
+  <fieldset>
+    <legend>Title</legend>
+    <div>{{ page.title }}</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Author</legend>
+    <div>{{ page.author }}</div>
+    <div>Published: {{ page.published_at | date: '%B %d, %Y' }}</div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Content</legend>
+    <div>{{ page.content }}</div>
+  </fieldset>
+
+  {% render 'home' %}
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/page" target="_blank">Dev. doc</a></p>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.page.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page Title",
+      "default": "THIS IS MY PAGE"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["page"]
+  }
+}
+{% endschema %}
