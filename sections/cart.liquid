@@ -1,0 +1,79 @@
+<div class="my_section my_cart">
+  <div class="my_block_title">Section</div>
+
+  <h2>{{ section.settings.my_title }}</h2>
+
+  <form action="{{ routes.cart_url }}" method="post">
+    <table>
+      {% for item in cart.items %}
+        <tr>
+          <td>{{ item | image_url: width: 50 | image_tag: height: 50 }}</td>
+          <td>
+            {{ item.title }}
+          </td>
+          <td>
+            x
+            <input
+              type="text"
+              value="{{ item.quantity }}"
+              size="2"
+              onchange="cartUpdate(this);"
+              id="{{ item.key }}"
+            >
+            <a href="{{ item.url_to_remove }}">🗑️</a>
+          </td>
+          <td>{{ item.original_line_price | money }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <div style="width: 95%; text-align: right;" class="my_top_space my_bottom_space">
+      <p>&nbsp;</p>
+      <input type="submit" name="checkout" value="Checkout" class="my_font_large" style="width: 20%;">
+    </div>
+  </form>
+
+  {% render 'home' %}
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/cart" target="_blank">Dev. doc</a></p>
+</div>
+
+<script>
+  const cartUpdate = (obj) => {
+    // See https://shopify.dev/docs/api/ajax
+    // See https://shopify.dev/docs/api/ajax/reference/cart#update-line-item-quantities
+    const url = `${window.Shopify.routes.root}cart/update.js`;
+    console.log(`url: ${url}`);
+    const body = `updates[${obj.id}]=${obj.value}`;
+    console.log(`body: ${body}`);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: body,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(`data: ${JSON.stringify(data)}`);
+      });
+  };
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.cart.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "my_title",
+      "label": "Cart title",
+      "default": "THIS IS MY CART"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["cart"]
+  }
+}
+{% endschema %}

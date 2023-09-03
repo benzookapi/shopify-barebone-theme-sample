@@ -7,7 +7,7 @@
 
   <p style="text-align: right;" class="my_right_space">
     👤 <a href="{{ routes.account_url }}">My page</a>&nbsp;&nbsp;&nbsp;&nbsp; 🛒
-    <a href="">My cart</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{{ routes.cart_url }}">My cart: {{ cart.item_count }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
     🌎
     <select onchange="changeLang(this);">

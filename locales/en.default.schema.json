@@ -20,6 +20,9 @@
         },
         "product": {
             "name": "Product"
+        },
+        "cart": {
+            "name": "Cart"
         }
     }
 }
