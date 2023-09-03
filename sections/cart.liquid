@@ -64,16 +64,19 @@
 
     {% if cart.item_count > 0 %}
       <!-- Rendering blocks -->
-      <div style="width: 95%; text-align: right;" class="my_top_space my_bottom_space">
-        {% for block in section.blocks %}
-          <div class="my_block">
-            <div class="my_block_title">Block ({% increment i %})</div>
 
-            {% case block.type %}
-              {% when 'my_type_1' %}
-                <!-- Cart notes and attributes -->
-                <label for="my_cart_note">Cart notes:</label>
-                <textarea name="note" id="my_cart_note" form="cart"></textarea>
+      {% for block in section.blocks %}
+        <div class="my_block my_top_space" style="width: 20%; margin-left: 75%;">
+          <div class="my_block_title">Block ({% increment i %})</div>
+
+          {% case block.type %}
+            {% when 'my_type_1' %}
+              <!-- Cart notes and attributes -->
+              <div style="text-align: left;" class="my_left_space">
+                <label for="my_cart_note">Cart notes:</label><br>
+                <textarea name="note" id="my_cart_note">{{ cart.note }}</textarea>
+              </div>
+              <div style="text-align: left;" class="my_left_space">
                 <label for="my_cart_attr">Line item properties:</label>
                 <select name="attributes[My Cart Attribute]" class="my_top_space my_bottom_space" id="my_cart_attr">
                   <option
@@ -107,15 +110,17 @@
                     Value C
                   </option>
                 </select>
+              </div>
 
-              {% when 'my_type_2' %}
-                <!-- Total price and checkout button -->
+            {% when 'my_type_2' %}
+              <!-- Total price and checkout button -->
+              <div style="text-align: right;" class="my_top_space my_bottom_space my_right_space">
                 <p class="my_font_large">🛍️ Total: {{ cart.total_price | money_with_currency }}</p>
-                <input type="submit" name="checkout" value="Checkout" class="my_font_large" style="width: 20%;">
-            {% endcase %}
-          </div>
-        {% endfor %}
-      </div>
+                <input type="submit" name="checkout" value="Checkout" class="my_font_large" style="width: 200px;">
+              </div>
+          {% endcase %}
+        </div>
+      {% endfor %}
     {% endif %}
   </form>
 
