@@ -8,6 +8,10 @@
 
   <h2>{{ section.settings.my_title }}</h2>
 
+  {% if cart.item_count == 0 %}
+    <p>🤷‍♂️ Your cart is empty.</p>
+  {% endif %}
+
   <form action="{{ routes.cart_url }}" method="post">
     <div style="overflow: hidden; margin: 0 auto;">
       <div style="float: left; width: 65%;" class="my_left_space">
@@ -68,10 +72,6 @@
             </tr>
           {% endfor %}
         </table>
-
-        {% if cart.item_count == 0 %}
-          <p>🤷‍♂️ Your cart is empty.</p>
-        {% endif %}
       </div>
 
       <div style="float: left; width: 30%;">
