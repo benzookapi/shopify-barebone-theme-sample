@@ -38,6 +38,15 @@
                     {% endunless %}
                   {% endfor %}
                 {% endunless %}
+
+                <!-- Selling plan -->
+                {% unless item.selling_plan_allocation == empty %}
+                  {% unless item.selling_plan_allocation.selling_plan == empty %}
+                    <div style="font-size: small; color: #666666; margin-top: 2px;">
+                      {{ item.selling_plan_allocation.selling_plan.name }}
+                    </div>
+                  {% endunless %}
+                {% endunless %}
               </td>
               <td>
                 <!-- Item quantity -->
