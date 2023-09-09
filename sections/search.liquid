@@ -1,0 +1,59 @@
+{% comment %}
+  *** Search result page ***
+  See https://shopify.dev/docs/themes/architecture/templates/search
+{% endcomment %}
+<div class="my_section my_search">
+  <!-- Header section -->
+  <div class="my_block_title">Section</div>
+
+  <h1>{{ section.settings.title }}</h1>
+
+  <!-- Search -->
+  {% comment %}
+    See https://shopify.dev/docs/api/liquid/objects/search
+  {% endcomment %}
+  <div class="my_result">
+    <table>
+      {% for item in search.results %}
+        <tr>
+          <td style="width: 10%; height: 70px;">
+            <!-- Item image -->
+            {{ item | image_url: width: 50 | image_tag: height: 50 }}
+          </td>
+          <td style="text-align: left; padding-left: 1em;">
+            <!-- Item title and description -->
+           <a href="{{ item.url }}">{{ item.title | highlight: search.terms }}</a> 
+          {{ item.content | highlight: search.terms }} 
+          
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  {% if search.results_count == 0 %}
+    <p>🤷‍♂️ Your search has no results.</p>
+  {% endif %}
+
+  {% render 'home' %}
+
+  <p>👉 <a href="https://shopify.dev/docs/themes/architecture/templates/search" target="_blank">Dev. doc</a></p>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.search.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Search Title",
+      "default": "THIS IS MY SEARCH"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["search"]
+  }
+}
+{% endschema %}

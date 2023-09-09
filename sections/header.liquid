@@ -40,7 +40,9 @@
   </p>
 
   <!-- Search -->
-  <p style="text-align: right;" class="my_right_space">🔎 <input type="text" placeholder="Search (TBD)" size="30"></p>
+  <p style="text-align: right;" class="my_right_space">
+    🔎 <input type="text" placeholder="Input keywords and push Enter" size="30" id="my_search">
+  </p>
 
   <!-- Rendering blocks -->
   {% for block in section.blocks %}
@@ -50,7 +52,7 @@
       {% case block.type %}
         {% when 'my_type_1' %}
           <!-- Logo image -->
-          <div>{{ block.settings.my_logo | img_url: 'medium' | img_tag }}</div>
+          <div>{{ block.settings.my_logo | image_url: 'medium' | image_tag }}</div>
 
         {% when 'my_type_2' %}
           <!-- Color square -->
@@ -61,6 +63,18 @@
 
   <p>👉 <a href="https://shopify.dev/docs/themes/architecture/layouts" target="_blank">Dev. doc</a></p>
 </div>
+
+<script>
+  // See https://shopify.dev/docs/themes/navigation-search/search
+  const input = document.querySelector('#my_search');
+  input.addEventListener('keypress', (e) => {
+    if (event.key === 'Enter') {
+      const path = `{{ request.locale.root_url }}/`.replace(/\/\//, '/');
+      window.location.href = `${path}search?q=${input.value}&type=product,page&options[unavailable_products]=hide&options[prefix]=last`;
+    }
+  });
+  input.value = new URLSearchParams(window.location.search).get('q');
+</script>
 
 {% schema %}
 {

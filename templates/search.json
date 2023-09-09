@@ -1,0 +1,10 @@
+{
+    "sections": {
+        "my_search": {
+            "type": "search"
+        }
+    },
+    "order": [
+        "my_search"
+    ]
+}
