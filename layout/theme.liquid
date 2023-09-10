@@ -18,6 +18,9 @@
     {{ 'my_js.js' | asset_url | script_tag }}
 
     <!-- My own font CSS (if selected only) -->
+    {% comment %}
+      See https://shopify.dev/docs/themes/architecture/settings/fonts
+    {% endcomment %}
     {% if settings.use_font == true %}
       {{ 'my_font.css' | asset_url | stylesheet_tag }}
     {% endif %}

@@ -25,9 +25,14 @@
 
             {% case block.type %}
               {% when 'my_type_1' %}
-                <!-- Product description -->
-                <p style="text-align: left;" class="my_left_space"><b>Description:</b></p>
-                <div id="my_desc" style="text-align: left;" class="my_left_space my_bottom_space"></div>
+                <!-- Free text -->
+                {% comment %}
+                  You can choose the metafield for the text block with dynamic sources.
+                   See https://shopify.dev/docs/themes/architecture/settings/dynamic-sources
+                {% endcomment %}
+                <div style="text-align: left;" class="my_left_space my_bottom_space my_top_space">
+                  <b>Text:</b> {{ block.settings.my_text }}
+                </div>
 
               {% when 'my_type_2' %}
                 <!-- Variant selector -->
@@ -152,9 +157,6 @@
 </div>
 
 <script>
-  // Inserting the product description as HTML.
-  document.getElementById('my_desc').innerHTML = `{{ product.description }}`;
-
   // The given variant id in the URL paramerers
   const given_id = new URLSearchParams(window.location.search).get('variant');
 
@@ -196,8 +198,17 @@
   ],
   "blocks": [
     {
-      "name": "Description",
-      "type": "my_type_1"
+      "name": "Text",
+      "type": "my_type_1",
+      "settings": [
+        {
+          "type": "text",
+          "id": "my_text",
+          "label": "Product text",
+          "default": "{{ product.vendor }}",
+          "info": "You can choose the product metafield for this text value."
+        }
+      ]
     },
     {
       "name": "Variants",
