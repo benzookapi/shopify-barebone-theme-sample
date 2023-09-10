@@ -1,0 +1,30 @@
+{% comment %}
+  --- Recommendation result rendered dynamically after recommendation Ajax API called. --- 
+    See https://shopify.dev/docs/api/liquid/objects/recommendations
+{% endcomment %}
+<fieldset>
+  <legend>You may also like</legend>
+  <!-- Product thumbnails -->
+  {% comment %}
+    See https://shopify.dev/docs/api/liquid/objects/recommendations
+  {% endcomment %}
+  <div style="overflow: hidden; margin: 0 auto;">
+    {% for product in recommendations.products %}
+      <div style="float: left; width: 30%;">
+        <fieldset>
+          <legend>{{ product.title }}</legend>
+          <div>
+            <a href="{{ product.url }}">{{ product | image_url: width: 50 | image_tag: height: 50 }}</a>
+          </div>
+        </fieldset>
+      </div>
+    {% endfor %}
+  </div>
+  <div style="float: none;"></div>
+  <div>
+    <p>
+      👉
+      <a href="https://shopify.dev/docs/themes/product-merchandising/recommendations" target="_blank">Dev. doc</a>
+    </p>
+  </div>
+</fieldset>

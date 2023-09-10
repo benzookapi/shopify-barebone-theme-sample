@@ -142,19 +142,9 @@
   <!-- Recommendation -->
   {% comment %}
     See https://shopify.dev/docs/themes/product-merchandising/recommendations
+    See https://shopify.dev/docs/api/section-rendering
   {% endcomment %}
-  <div>
-    <fieldset>
-      <legend>You may also like</legend>
-      <div>TBD</div>
-      <div>
-        <p>
-          👉
-          <a href="https://shopify.dev/docs/themes/product-merchandising/recommendations" target="_blank">Dev. doc</a>
-        </p>
-      </div>
-    </fieldset>
-  </div>
+  <div id="my_recommendations"></div>
 
   {% render 'home' %}
 
@@ -180,12 +170,16 @@
   };
   // Set the initial selection.
   idChange(document.querySelector('#my_id'));
-  // Apply the given variant id to the selector.
-  if (given_id != null) {
-    document.querySelector('#my_id').options.map((o) => {
-      if (o.value == given_id) o.selected = 'selected';
+
+  // Call the recommendation Ajax API to reder the result responsed by 'sections/recommendations.liquid'.
+  // See https://shopify.dev/docs/api/ajax/reference/product-recommendations
+  fetch(
+    `${window.Shopify.routes.root}recommendations/products?product_id={{ product.id }}&limit=4&section_id=recommendations&intent=related`
+  )
+    .then((response) => response.text())
+    .then((text) => {
+      document.querySelector('#my_recommendations').innerHTML = text;
     });
-  }
 </script>
 
 {% schema %}
