@@ -52,7 +52,7 @@
       {% case block.type %}
         {% when 'my_type_1' %}
           <!-- Logo image -->
-          <div>{{ block.settings.my_logo | image_url: 'medium' | image_tag }}</div>
+          <div>{{ block.settings.my_logo | image_url: width: 100 | image_tag }}</div>
 
         {% when 'my_type_2' %}
           <!-- Color square -->
