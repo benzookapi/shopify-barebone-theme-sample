@@ -41,6 +41,9 @@
     },
     "search": {
       "name": "検索"
+    },
+    "company": {
+      "name": "会社"
     }
   }
 }

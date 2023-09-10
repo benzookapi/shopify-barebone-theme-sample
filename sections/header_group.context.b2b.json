@@ -1,0 +1,13 @@
+{
+  "context": {
+    "b2b": true
+  },
+  "parent": "header_group.json",
+  "sections": {
+    "my_company": {
+      "settings": {
+        "show": true
+      }
+    }
+  }
+}

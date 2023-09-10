@@ -41,6 +41,9 @@
         },
         "search": {
             "name": "Search"
+        },
+        "company": {
+            "name": "Company"
         }
     }
 }

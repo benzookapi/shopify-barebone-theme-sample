@@ -1,0 +1,52 @@
+{% comment %}
+  *** Company info (for B2B flow only, switched by store contextulization in 'header_group.json') ***
+  See https://shopify.dev/docs/api/liquid/objects/company
+  See https://shopify.dev/docs/themes/architecture/section-groups#contextual-section-groups
+{% endcomment %}
+{% if section.settings.show == true %}
+  <div class="my_section my_company" style="padding-bottom: 1em;">
+    <!-- Company section -->
+    <div class="my_block_title">Section</div>
+
+    {% if customer.b2b? == true %}
+      <h3>🏢 You'are accessing as a B2B customer.</h3>
+    {% endif %}
+
+    <fieldset style="width: 70%; margin: 0 auto;">
+      <legend><b>Current company:</b> {{ customer.current_company.name }}</legend>
+      <p><b>Current location:</b> {{ customer.current_location.name }}</p>
+      <p><b>Available locations:</b></p>
+      {% for locaion in customer.company_available_locations %}
+        <p>
+          {{ locaion.name }}
+          ({{ locaion.shipping_address.address1 }}
+          {{ locaion.shipping_address.address2 }}
+          {{ locaion.shipping_address.street }}
+          {{ locaion.shipping_address.attention }}
+          {{ locaion.shipping_address.city }}
+          {{ locaion.shipping_address.provice }}
+          {{ locaion.shipping_address.zip }}
+          {{ locaion.shipping_address.country }})
+        </p>
+      {% endfor %}
+    </fieldset>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:sections.company.name",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show",
+      "label": "Show company info",
+      "default": false
+    }
+  ],
+  "enabled_on": {
+    "templates": ["*"],
+    "groups": ["*"]
+  }
+}
+{% endschema %}
