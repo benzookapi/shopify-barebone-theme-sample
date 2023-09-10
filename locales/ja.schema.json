@@ -33,6 +33,9 @@
     "article": {
       "name": "記事"
     },
+    "blog": {
+      "name": "ブログ"
+    },
     "page": {
       "name": "ページ"
     },

@@ -1,0 +1,63 @@
+{% comment %}
+  *** Blog page ***
+  See https://shopify.dev/docs/themes/architecture/templates/blog
+{% endcomment %}
+<div class="my_section my_blog">
+  <!-- Blog section -->
+  <div class="my_block_title">Section</div>
+
+  <h2>{{ section.settings.my_title }}</h2>
+
+  <h3>{{ blog.title }}</h3>
+
+  <!-- Article list -->
+  {% comment %}
+    See https://shopify.dev/docs/api/liquid/objects/blog
+  {% endcomment %}
+  <div class="my_list">
+    <table>
+      {% for article in blog.articles %}
+        <tr>
+          <td style="text-align: center; border: none;">
+            {% if article.image != null %}
+              {{ article.image | image_url: width: 50 | image_tag: height: 50 }}
+            {% else %}
+              <p>🫥 No image</p>
+            {% endif %}
+          </td>
+          <td style="border: none;">
+            <p>
+              <a href="{{ article.url }}">
+                {{ article.title }}
+              </a>
+            </p>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  {% render 'home' %}
+
+  <p>
+    👉 <a href="https://shopify.dev/docs/themes/architecture/templates/blog" target="_blank">Dev. doc</a>
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.blog.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "my_title",
+      "label": "Blog title",
+      "default": "THIS IS MY BLOG"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["blog"]
+  }
+}
+{% endschema %}
