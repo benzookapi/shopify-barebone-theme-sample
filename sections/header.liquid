@@ -6,7 +6,9 @@
   <!-- Header section -->
   <div class="my_block_title">Section</div>
 
-  <h1> <a href="{{ request.locale.root_url }}">{{ section.settings.title }}</a></h1>
+  <h1>
+    <a href="{{ request.locale.root_url }}">{{ section.settings.title }}</a>
+  </h1>
 
   {% render 'hello' %}
 
@@ -45,21 +47,28 @@
   </p>
 
   <!-- Rendering blocks -->
-  {% for block in section.blocks %}
-    <div class="my_block">
-      <div class="my_block_title">Block ({% increment i %})</div>
+  <div style="overflow: hidden; padding-left: 20px;">
+    {% for block in section.blocks %}
+      <div class="my_block" style="float: left;">
+        <div class="my_block_title">Block ({% increment i %})</div>
 
-      {% case block.type %}
-        {% when 'my_type_1' %}
-          <!-- Logo image -->
-          <div>{{ block.settings.my_logo | image_url: width: 100 | image_tag }}</div>
+        {% case block.type %}
+          {% when 'my_type_1' %}
+            <!-- Image square -->
+            <div class="my_block_header">
+              {% if block.settings.my_image %}
+                {{ block.settings.my_image | image_url: width: 100 | image_tag: height: 100 }}
+              {% endif %}
+            </div>
 
-        {% when 'my_type_2' %}
-          <!-- Color square -->
-          <div style="background-color: {{ block.settings.my_color }};">&nbsp;</div>
-      {% endcase %}
-    </div>
-  {% endfor %}
+          {% when 'my_type_2' %}
+            <!-- Color square -->
+            <div style="background-color: {{ block.settings.my_color }};" class="my_block_header">&nbsp;</div>
+        {% endcase %}
+      </div>
+    {% endfor %}
+  </div>
+  <div style="float: none;"></div>
 
   <p>👉 <a href="https://shopify.dev/docs/themes/architecture/layouts" target="_blank">Dev. doc</a></p>
 </div>
@@ -88,16 +97,16 @@
       "default": "THIS IS MY HEADER"
     }
   ],
-  "max_blocks": 3,
+  "max_blocks": 8,
   "blocks": [
     {
-      "name": "My Logo",
+      "name": "My Image",
       "type": "my_type_1",
       "settings": [
         {
           "type": "image_picker",
-          "id": "my_logo",
-          "label": "My Logo"
+          "id": "my_image",
+          "label": "My Image"
         }
       ]
     },
