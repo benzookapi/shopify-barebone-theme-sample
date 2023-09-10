@@ -1,0 +1,67 @@
+{% comment %}
+  *** Gift card page ***
+  See https://shopify.dev/docs/themes/architecture/templates/gift-card-liquid
+{% endcomment %}
+
+{% layout none %}
+
+<!doctype html>
+<html>
+  <head>
+    {{ content_for_header }}
+
+    <!--
+      This JS doesn't need to be in your theme assets. See https://shopify.dev/docs/api/liquid/filters/shopify_asset_url
+    -->
+    <!-- VSCode Liquid extension ask to add 'defer' or 'async' not to block the loading. -->
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+
+    <!-- My own global CSS -->
+    {{ 'my_css.css' | asset_url | stylesheet_tag }}
+  </head>
+
+  <body>
+    <div class="my_font my_section">
+      <p>🎁 YOUR GIFT CARD CODE</p>
+      <p>{{ gift_card.code }}</p>
+
+      <p>Blance: {{ gift_card.balance | money_with_currency }}</p>
+
+      <!-- QR code image -->
+      <div id="qr-code" class="my_gift_card"></div>
+
+      <!-- For Apple Wallet pass -->
+      {% if gift_card.pass_url %}
+        <a href="{{ gift_card.pass_url }}">
+          <img
+            id="apple-wallet-badge"
+            src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
+            width="120"
+            height="40"
+            alt="Add To Apple Wallet"
+            loading="lazy"
+          >
+        </a>
+      {% endif %}
+
+      {% comment %}
+        For more customization, See the giftcard liquid object. https://shopify.dev/docs/api/liquid/objects/gift_card
+      {% endcomment %}
+
+      <p>🛍️ <a href="{{ shop.url }}">Go to the shop</a></p>
+    </div>
+
+    <script>
+      // See https://github.com/Shopify/theme-check/blob/main/docs/checks/parser_blocking_javascript.md
+      // If you set 'defer' to the included Shopify global asset of qrcode.js, you need to change the code as following
+      // otherwise you QR code is not shown up in the buyer's link.
+      document.addEventListener('DOMContentLoaded', () => {
+        new QRCode(document.getElementById('qr-code'), {
+          text: '{{ gift_card.qr_identifier }}',
+          width: 120,
+          height: 120,
+        });
+      });
+    </script>
+  </body>
+</html>

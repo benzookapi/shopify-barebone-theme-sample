@@ -31,6 +31,12 @@
           <p>
             <a href="{{ block.settings.my_product.url }}">My product: {{ block.settings.my_product.title }}</a>
           </p>
+
+        {% when 'my_type_3' %}
+          <!-- URL link -->
+          <p>
+            <a href="{{ block.settings.my_url.url }}">My URL: {{ block.settings.my_url.url }}</a>
+          </p>
       {% endcase %}
     </div>
   {% endfor %}
@@ -71,6 +77,19 @@
           "type": "product",
           "id": "my_product",
           "label": "My Product"
+        }
+      ]
+    },
+    {
+      "name": "My URL",
+      "type": "my_type_3",
+      "settings": [
+        {
+          "type": "url",
+          "id": "my_url",
+          "label": "My URL",
+          "default": "/collections",
+          "info": "Choose a URL to point all collections, etc."
         }
       ]
     }
