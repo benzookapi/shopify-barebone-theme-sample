@@ -1,0 +1,62 @@
+{% comment %}
+  *** Collection list page ***
+  See https://shopify.dev/docs/themes/architecture/templates/list-collections
+{% endcomment %}
+<div class="my_section my_list-collection">
+  <!-- Collection list section -->
+  <div class="my_block_title">Section</div>
+
+  <h2>{{ section.settings.my_title }}</h2>
+
+  <!-- Collection list -->
+  {% comment %}
+    See https://shopify.dev/docs/api/liquid/objects/collections
+  {% endcomment %}
+  <div class="my_list">
+    <table>
+      {% for collection in collections %}
+        <tr>
+          <td style="text-align: center; border: none;">
+            {% if collection.image != null %}
+              {{ collection.image | image_url: width: 50 | image_tag: height: 50 }}
+            {% else %}
+              <p>🫥 No image</p>
+            {% endif %}
+          </td>
+          <td style="border: none;">
+            <p>
+              <a href="{{ collection.url }}">
+                {{ collection.title }}
+              </a>
+              (product count: {{ collection.all_products_count }})
+            </p>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  {% render 'home' %}
+
+  <p>
+    👉 <a href="https://shopify.dev/docs/themes/architecture/templates/list-collections" target="_blank">Dev. doc</a>
+  </p>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.list_collection.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "my_title",
+      "label": "Collection list title",
+      "default": "THIS IS MY COLLECTION LIST"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["list-collections"]
+  }
+}
+{% endschema %}

@@ -18,6 +18,9 @@
     "collection": {
       "name": "コレクション"
     },
+    "list_collection": {
+      "name": "コレクションリスト"
+    },
     "product": {
       "name": "商品"
     },

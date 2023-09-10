@@ -18,6 +18,9 @@
         "collection": {
             "name": "Collection"
         },
+        "list_collection": {
+            "name": "Collection List"
+        },
         "product": {
             "name": "Product"
         },

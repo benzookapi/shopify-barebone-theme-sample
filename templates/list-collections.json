@@ -1,0 +1,10 @@
+{
+    "sections": {
+        "my_list-collections": {
+            "type": "list-collections"
+        }
+    },
+    "order": [
+        "my_list-collections"
+    ]
+}
