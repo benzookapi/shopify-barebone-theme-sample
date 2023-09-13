@@ -9,11 +9,11 @@ The exact same as the [Shopify theme structure](https://shopify.dev/docs/themes/
 For better understanding of the theme mechanism, you should check these first. 
 
 - [Layout](https://shopify.dev/docs/themes/architecture/layouts) = the theme main file
-- [Templates](https://shopify.dev/docs/themes/architecture/templates) = each page configuration to render the sections below, most of which are JSON files (some are Liquid)
-- [Sections](https://shopify.dev/docs/themes/architecture/sections) = each page content written by HTML / JavaScript / CSS with Liquid code, most of which are Liquid files (some are JSON)
-- [Section schema](https://shopify.dev/docs/themes/architecture/sections/section-schema) = definition of how each section works  with the [theme editor](https://shopify.dev/docs/themes/tools/online-editor)
-- [App blocks](https://shopify.dev/docs/themes/architecture/sections/app-blocks) = Special blocks in each section to render [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions)
-- [Dynamic sources](https://shopify.dev/docs/themes/architecture/settings/dynamic-sources) = The theme editor function to connect store data instances to liquid objects
+- [Templates](https://shopify.dev/docs/themes/architecture/templates) = each page configuration to render the sections below, most of which are **JSON** files (some are Liquid)
+- [Sections](https://shopify.dev/docs/themes/architecture/sections) = each page content written by HTML / JavaScript / CSS with Liquid code, most of which are **Liquid** files (some are JSON)
+- [Section schema](https://shopify.dev/docs/themes/architecture/sections/section-schema) = definitions of how each section works with the [theme editor](https://shopify.dev/docs/themes/tools/online-editor)
+- [App blocks](https://shopify.dev/docs/themes/architecture/sections/app-blocks) = special blocks in each section to render [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions)
+- [Dynamic sources](https://shopify.dev/docs/themes/architecture/settings/dynamic-sources) = theme editor function to connect store data instances to liquid objects
 
 # How to run
 
