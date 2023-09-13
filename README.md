@@ -16,9 +16,9 @@ For better understanding of the theme mechanism, you should check these first.
 - [Dynamic sources](https://shopify.dev/docs/themes/architecture/settings/dynamic-sources) = theme editor function to connect store data instances to liquid objects
 
 # How to run
-Just for running this theme on your store, simply download this as a zip to upload to your store. However, most of this theme users must be developers who want to modify the code to apply the change immdiately, which can be enabled by [Shopify CLI](https://shopify.dev/docs/themes/tools/cli) with the following steps.
+Just for running this theme on your store, simply download this as a zip to upload to your store. However, most of this theme users must be developers who want to modify the code to apply the change immdiately, which can be done by [Shopify CLI](https://shopify.dev/docs/themes/tools/cli) with the following steps.
 
-1. Install the CLI followging the steps in the CLI page above (note that the CLI for theme is differet from [the app CLI](https://shopify.dev/docs/apps/tools/cli) as npm modules).
+1. Install the CLI followging the steps in the page above (note that the CLI for theme is different from [the app CLI](https://shopify.dev/docs/apps/tools/cli) given as a npm module).
 
 2. Clone this GitHub repo. or download as a ZIP to extract in your PC.
 
@@ -27,7 +27,7 @@ Just for running this theme on your store, simply download this as a zip to uplo
 4. If you're asked to login, follow the steps and copy and paste the two URLs shown for theme editor and storefront to your browser URL box.
 
 # How to install
-The steps above are for development mode, if you install the theme to your store, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push)
+The steps above are for development mode that gets terminated once you stop the running, if you install the theme to your store permanently, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push) to create a new theme named by you in your store.
 
 # Sample list
 
