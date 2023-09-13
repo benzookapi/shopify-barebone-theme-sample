@@ -4,7 +4,7 @@ This is an _unoffical_ sample code for scratch building [Shopify theme](https://
 If you are a theme beginner and feel it tough to grab the high volume source code of Dawn, this basic theme may work as a tutorial, but you are expected to be familiar with basic HTML / JavaScript / CSS.
 
 # Code structure
-The exact same as the [Shopify theme structure](https://shopify.dev/docs/themes/architecture)
+The exact same as the [Shopify theme structure](https://shopify.dev/docs/themes/architecture).
 
 For better understanding of the theme mechanism, you should check these first. 
 
@@ -16,8 +16,18 @@ For better understanding of the theme mechanism, you should check these first.
 - [Dynamic sources](https://shopify.dev/docs/themes/architecture/settings/dynamic-sources) = theme editor function to connect store data instances to liquid objects
 
 # How to run
+Just for running this theme on your store, simply download this as a zip to upload to your store. However, most of this theme users must be developers who want to modify the code to apply the change immdiately, which can be enabled by [Shopify CLI](https://shopify.dev/docs/themes/tools/cli) with the following steps.
+
+1. Install the CLI followging the steps in the CLI page above (note that the CLI for theme is differet from [the app CLI](https://shopify.dev/docs/apps/tools/cli) as npm modules).
+
+2. Clone this GitHub repo. or download as a ZIP to extract in your PC.
+
+3. Go to the directory of this theme above to run [shopify theme dev](https://shopify.dev/docs/themes/tools/cli/commands#dev) in your terminal.
+
+4. If you're asked to login, follow the steps and copy and paste the two URLs shown for theme editor and storefront to your browser URL box.
 
 # How to install
+The steps above are for development mode, if you install the theme to your store, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push)
 
 # Sample list
 
