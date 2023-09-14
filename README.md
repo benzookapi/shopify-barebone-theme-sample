@@ -18,7 +18,7 @@ For better understanding of the theme mechanism, you should check these first.
 # How to run
 Just for running this theme on your store, simply download this as a zip to upload to your store. However, most of this theme users must be developers who want to modify the code to apply the change immediately, which can be done by [Shopify CLI](https://shopify.dev/docs/themes/tools/cli) with the following steps.
 
-1. Install the CLI followging the steps in the page above (note that the CLI for theme is different from [the app CLI](https://shopify.dev/docs/apps/tools/cli) given as a npm module).
+1. [Install the CLI](https://shopify.dev/docs/themes/tools/cli/install) followging the steps (note that the CLI for theme is different from [the app CLI](https://shopify.dev/docs/apps/tools/cli) given as a npm module).
 
 2. Clone this GitHub repo. or download as a ZIP to extract in your PC.
 
