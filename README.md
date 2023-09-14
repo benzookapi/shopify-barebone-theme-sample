@@ -38,14 +38,14 @@ All samples are available at [Wiki](https://github.com/benzookapi/shopify-barebo
 # TIPS
 - Shopify Liquid has [the powerful internationalization features](https://shopify.dev/docs/themes/markets/multiple-currencies-languages), and your liquid object doesn't need to change the code for translation and currencies.
 For example, once you access the language path like `/ja`, liquid objects return Japanese translated data such as product titles if they have the translation. Also once you pass the currency and country parameters like `currency=JPY&country=JP`, liquid objects return the price in the specified currency with country. 
-   - ```
+   ```
      {{ product.title }} returns 'Test product' in `/` in English (when English is the default language), 
      does 'テスト商品' in `/ja` in Japanese without accepting any language parameters.
 
      {{ product.price | money_with_currency }} returns $5.00 USD after passing `currency=USD&country=US`,
      does ¥700 JPY with `currency=JPY&country=JP` without reading those parameters in code.
-    ```
-   - If you want to check the behaviors above, try [the translation API](https://shopify.dev/docs/apps/markets/translate-content) or use [translation apps](https://apps.shopify.com/translate-and-adapt), and try [the local currency settings](https://help.shopify.com/en/manual/markets/pricing/set-up-local-currencies).
+   ```
+   If you want to check the behaviors above, try [the translation API](https://shopify.dev/docs/apps/markets/translate-content) or use [translation apps](https://apps.shopify.com/translate-and-adapt), and try [the local currency settings](https://help.shopify.com/en/manual/markets/pricing/set-up-local-currencies).
 
 
 
