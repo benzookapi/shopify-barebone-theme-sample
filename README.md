@@ -46,6 +46,7 @@ For example, once you access the language path like `/ja`, liquid objects return
      does ¥700 JPY with `currency=JPY&country=JP` without reading those parameters in code.
    ```
    If you want to check the behaviors above, try [the translation API](https://shopify.dev/docs/apps/markets/translate-content) or use [translation apps](https://apps.shopify.com/translate-and-adapt), and try [the local currency settings](https://help.shopify.com/en/manual/markets/pricing/set-up-local-currencies).
+- This code doesn't have [customer my page implementation](https://shopify.dev/docs/themes/architecture/templates/customers-account) because it recommends to use [new customer login](https://help.shopify.com/en/manual/customers/customer-accounts/new-customer-accounts) which is not given by theme templates, but Shopify native features like other checkout extensibility.
 
 
 
