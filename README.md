@@ -30,9 +30,12 @@ Just for running this theme on your store, simply download this as a zip to uplo
 The steps above are for development mode that gets terminated once you stop the running, if you install the theme to your store permanently, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push) to create a new theme named by you in your store (For the second update, the `push` only without the parameter updates the current live theme).
 
 # Sample list
+All samples are available at [Wiki](https://github.com/benzookapi/shopify-barebone-theme-sample/wiki).
 
 # Trouble shooting 
+- If your change to files are not applied to the theme editor or storefront, make sure the `dev` output of CLI shows `Synced` without errors. 
 
 # TIPS
 
 # Disclaimer
+- This code is fully _unofficial_ and NOT guaranteed to pass [the public theme review](https://shopify.dev/docs/themes/store/review-process/submit-theme) for Shopify theme store. The official requirements are described [here](https://shopify.dev/docs/themes/store/requirements).
