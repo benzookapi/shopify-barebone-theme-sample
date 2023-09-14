@@ -47,9 +47,7 @@ For example, once you access the language path like `/ja`, liquid objects return
    ```
    If you want to check the behaviors above, try [the translation API](https://shopify.dev/docs/apps/markets/translate-content) or use [translation apps](https://apps.shopify.com/translate-and-adapt), and try [the local currency settings](https://help.shopify.com/en/manual/markets/pricing/set-up-local-currencies).
 - This code doesn't have [customer my page implementation](https://shopify.dev/docs/themes/architecture/templates/customers-account) because it recommends to use [new customer accounts](https://help.shopify.com/en/manual/customers/customer-accounts/new-customer-accounts) which is not given by theme templates, but Shopify native features like other checkout extensibility.
-- [Sections](https://shopify.dev/docs/themes/architecture/sections) (*.liquid) do NOT need their corresponding [templates](https://shopify.dev/docs/themes/architecture/templates) (.json) always. For example, [the recommendation Ajax API](https://shopify.dev/docs/api/ajax/reference/product-recommendations) returns the result as the specified section without its template, and also you can render each section in JavaScript suing [the section rendering API](https://shopify.dev/docs/api/section-rendering).
-
-
+- [Sections](https://shopify.dev/docs/themes/architecture/sections) (*.liquid) do NOT need their corresponding [templates](https://shopify.dev/docs/themes/architecture/templates) (.json) always. For example, [the recommendation Ajax API](https://shopify.dev/docs/api/ajax/reference/product-recommendations) returns the result as the specified section without its template, and also you can render each section in JavaScript dynamically using [the section rendering API](https://shopify.dev/docs/api/section-rendering).
 
 # Disclaimer
 - This code is fully _unofficial_ and NOT guaranteed to pass [the public theme review](https://shopify.dev/docs/themes/store/review-process/submit-theme) for Shopify theme store. The official requirements are described [here](https://shopify.dev/docs/themes/store/requirements).
