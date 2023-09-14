@@ -36,6 +36,13 @@ All samples are available at [Wiki](https://github.com/benzookapi/shopify-barebo
 - If your change to files are not applied to the theme editor or storefront, make sure the `dev` output of CLI shows `Synced` without errors. 
 
 # TIPS
+- Shopify Liquid has [the powerful internationalization features](https://shopify.dev/docs/themes/markets/multiple-currencies-languages), and your liquid object doesn't need to change the code for translation and currencies.
+For example, once you access the language path like `/ja`, liquid objects return Japanese translated data such as product titles if they have the translation. Also once you pass the currency and country parameters like `currency=JPY&country=JP`, liquid objects return the price of the specified currency with country.
+```
+{{ product.title }} returns 'Test product' in `/` in English (when English is the default language), does 'テスト商品' in `/ja` in Japanese without accepting any language parameters.
+
+
+```
 
 # Disclaimer
 - This code is fully _unofficial_ and NOT guaranteed to pass [the public theme review](https://shopify.dev/docs/themes/store/review-process/submit-theme) for Shopify theme store. The official requirements are described [here](https://shopify.dev/docs/themes/store/requirements).
