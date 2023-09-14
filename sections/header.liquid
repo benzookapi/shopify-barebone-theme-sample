@@ -19,13 +19,15 @@
     <!-- Cart link -->
     🛒 <a href="{{ routes.cart_url }}">My cart: {{ cart.item_count }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
 
-    <!-- language selector -->
+    <!-- language and currency selector -->
     {% comment %}
-      See https://shopify.dev/docs/api/liquid/objects/localization
-      'changeLang' is defined in 'my_js.js'.
+      See https://shopify.dev/docs/themes/markets/multiple-currencies-languages
+      'changeUrlInSelector' is defined in 'my_js.js'.
+      This sample uses simpler integration using request and route Liquid.
+      See https://shopify.dev/docs/api/liquid/objects/request
     {% endcomment %}
     🌎
-    <select onchange="changeLang(this);">
+    <select onchange="changeUrlInSelector(this);">
       {% for locale in localization.available_languages %}
         {% assign path = request.path | remove_first: request.locale.root_url %}
         {% assign url = locale.root_url | append: '/' | append: path | replace: '//', '/' | replace: '//', '/' %}
@@ -36,6 +38,21 @@
           {% endif %}
         >
           {{ locale.name }}
+        </option>
+      {% endfor %}
+    </select>
+    <select onchange="changeUrlInSelector(this);">
+      {% for country in localization.available_countries %}
+        <option
+          value="{{ request.path }}?currency={{ country.currency.iso_code }}&country={{ country.iso_code }}"
+          {% if country.currency.iso_code == localization.country.currency.iso_code
+            and country.iso_code == localization.country.iso_code
+          %}
+            selected
+          {% endif %}
+        >
+          {{ country.currency.symbol }}
+          {{ country.currency.iso_code }} / {{ country.iso_code }}
         </option>
       {% endfor %}
     </select>

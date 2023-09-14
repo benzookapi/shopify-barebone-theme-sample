@@ -27,7 +27,7 @@ Just for running this theme on your store, simply download this as a zip to uplo
 4. If you're asked to login, follow the steps and copy and paste the two URLs shown for theme editor and storefront to your browser URL box.
 
 # How to install
-The steps above are for development mode that gets terminated once you stop the running, if you install the theme to your store permanently, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push) to create a new theme named by you in your store.
+The steps above are for development mode that gets terminated once you stop the running, if you install the theme to your store permanently, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push) to create a new theme named by you in your store (For the second update, the `push` only without the parameter update the current theme).
 
 # Sample list
 
