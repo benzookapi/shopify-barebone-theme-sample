@@ -8,9 +8,9 @@ The exact same as the [Shopify theme structure](https://shopify.dev/docs/themes/
 
 For better understanding of the theme mechanism, you should check these first. 
 
-- [Layout](https://shopify.dev/docs/themes/architecture/layouts) = the theme main file
-- [Templates](https://shopify.dev/docs/themes/architecture/templates) = each page configuration to render the sections below, most of which are **JSON** files (some are Liquid)
-- [Sections](https://shopify.dev/docs/themes/architecture/sections) = each page content written by HTML / JavaScript / CSS with Liquid code, most of which are **Liquid** files (some are JSON)
+- [Layouts](https://shopify.dev/docs/themes/architecture/layouts) = the theme main file
+- [Templates](https://shopify.dev/docs/themes/architecture/templates) = each page configuration to render the sections below, most of which are `*.json` files (some are *.liquid)
+- [Sections](https://shopify.dev/docs/themes/architecture/sections) = each page content written by HTML / JavaScript / CSS with Liquid code, most of which are `*.liquid` files (some are *.json)
 - [Section schema](https://shopify.dev/docs/themes/architecture/sections/section-schema) = definitions of how each section works with the [theme editor](https://shopify.dev/docs/themes/tools/online-editor)
 - [App blocks](https://shopify.dev/docs/themes/architecture/sections/app-blocks) = special blocks in each section to render [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions)
 - [Dynamic sources](https://shopify.dev/docs/themes/architecture/settings/dynamic-sources) = theme editor function to connect store data instances to liquid objects
@@ -46,7 +46,7 @@ For example, once you access the language path like `/ja`, liquid objects return
      does ¥700 JPY with `currency=JPY&country=JP` without reading those parameters in code.
    ```
    If you want to check the behaviors above, try [the translation API](https://shopify.dev/docs/apps/markets/translate-content) or use [translation apps](https://apps.shopify.com/translate-and-adapt), and try [the local currency settings](https://help.shopify.com/en/manual/markets/pricing/set-up-local-currencies).
-- This code doesn't have [customer my page implementation](https://shopify.dev/docs/themes/architecture/templates/customers-account) because it recommends to use [new customer login](https://help.shopify.com/en/manual/customers/customer-accounts/new-customer-accounts) which is not given by theme templates, but Shopify native features like other checkout extensibility.
+- This code doesn't have [customer my page implementation](https://shopify.dev/docs/themes/architecture/templates/customers-account) because it recommends to use [new customer accounts](https://help.shopify.com/en/manual/customers/customer-accounts/new-customer-accounts) which is not given by theme templates, but Shopify native features like other checkout extensibility.
 
 
 
