@@ -16,7 +16,7 @@ For better understanding of the theme mechanism, you should check these first.
 - [Dynamic sources](https://shopify.dev/docs/themes/architecture/settings/dynamic-sources) = theme editor function to connect store data instances to liquid objects
 
 # How to run
-Just for running this theme on your store, simply download this as a zip to upload to your store. However, most of this theme users must be developers who want to modify the code to apply the change immdiately, which can be done by [Shopify CLI](https://shopify.dev/docs/themes/tools/cli) with the following steps.
+Just for running this theme on your store, simply download this as a zip to upload to your store. However, most of this theme users must be developers who want to modify the code to apply the change immediately, which can be done by [Shopify CLI](https://shopify.dev/docs/themes/tools/cli) with the following steps.
 
 1. Install the CLI followging the steps in the page above (note that the CLI for theme is different from [the app CLI](https://shopify.dev/docs/apps/tools/cli) given as a npm module).
 
@@ -24,10 +24,10 @@ Just for running this theme on your store, simply download this as a zip to uplo
 
 3. Go to the directory of this theme above to run [shopify theme dev](https://shopify.dev/docs/themes/tools/cli/commands#dev) in your terminal.
 
-4. If you're asked to login, follow the steps and copy and paste the two URLs shown for theme editor and storefront to your browser URL box.
+4. If you're asked to login, follow the steps and copy and paste the two URLs shown on the CLI output for theme editor and storefront to your browser address bars.
 
 # How to install
-The steps above are for development mode that gets terminated once you stop the running, if you install the theme to your store permanently, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push) to create a new theme named by you in your store (For the second update, the `push` only without the parameter update the current theme).
+The steps above are for development mode that gets terminated once you stop the running, if you install the theme to your store permanently, run [shopify theme push --unpublished](https://shopify.dev/docs/themes/tools/cli/commands#push) to create a new theme named by you in your store (For the second update, the `push` only without the parameter updates the current live theme).
 
 # Sample list
 
