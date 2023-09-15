@@ -174,13 +174,17 @@
 
   // Call the recommendation Ajax API to reder the result responsed by 'sections/recommendations.liquid'.
   // See https://shopify.dev/docs/api/ajax/reference/product-recommendations
-  fetch(
-    `${window.Shopify.routes.root}recommendations/products?product_id={{ product.id }}&limit=4&section_id=recommendations&intent=related`
-  )
-    .then((response) => response.text())
-    .then((text) => {
-      document.querySelector('#my_recommendations').innerHTML = text;
-    });
+  if (!Shopify.designMode) {
+    // If this is shown in the theme editor, cross origin network error occurrs, so this should be called on the storefront only.
+    // See https://shopify.dev/docs/themes/architecture/sections/integrate-sections-with-the-theme-editor
+    fetch(
+      `${window.Shopify.routes.root}recommendations/products?product_id={{ product.id }}&limit=4&section_id=recommendations&intent=related`
+    )
+      .then((response) => response.text())
+      .then((text) => {
+        document.querySelector('#my_recommendations').innerHTML = text;
+      });
+  }
 </script>
 
 {% schema %}
