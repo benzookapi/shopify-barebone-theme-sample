@@ -9,8 +9,8 @@ The exact same as the [Shopify theme structure](https://shopify.dev/docs/themes/
 For better understanding of the theme mechanism, you should check these first. 
 
 - [Layouts](https://shopify.dev/docs/themes/architecture/layouts) = the theme main files
-- [Templates](https://shopify.dev/docs/themes/architecture/templates) = each page configuration to render the sections below, most of which are `*.json` files (some are *.liquid)
-- [Sections](https://shopify.dev/docs/themes/architecture/sections) = each page content written as HTML / JavaScript / CSS with Liquid code, most of which are `*.liquid` files (some are *.json)
+- [Templates](https://shopify.dev/docs/themes/architecture/templates) = each page configuration to render the sections below, most of which are `*.json` files (some are `*.liquid`)
+- [Sections](https://shopify.dev/docs/themes/architecture/sections) = each page content written as HTML / JavaScript / CSS with Liquid code, most of which are `*.liquid` files (some are `*.json`)
 - [Section schema](https://shopify.dev/docs/themes/architecture/sections/section-schema) = definitions of how each section works in the [theme editor](https://shopify.dev/docs/themes/tools/online-editor), most of which have [blocks](https://shopify.dev/docs/themes/architecture/sections/section-schema#blocks) for each element
 - [App blocks](https://shopify.dev/docs/themes/architecture/sections/app-blocks) = special blocks in each section to render [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions)
 - [Section groups](https://shopify.dev/docs/themes/architecture/section-groups) = groups of sections which split the theme editor left navigation into some parts and work with [the store contextualization](https://shopify.dev/docs/themes/architecture/section-groups#contextual-section-groups) as `*.json` files under `/sections`, not `/templates`.
