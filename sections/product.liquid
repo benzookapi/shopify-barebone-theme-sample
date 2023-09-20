@@ -13,7 +13,13 @@
     <div style="float: left; width: 65%;">
       <fieldset>
         <legend>{{ product.title }}</legend>
-        <div id="my_img">{{ product | image_url: width: 600 | image_tag: height: 600, srcset: null }}</div>
+        <div id="my_img">
+          {% if product.images != empty %}
+            {{ product | image_url: width: 600 | image_tag: height: 600, srcset: null, alt: '🫥 No image' }}
+          {% else %}
+            <img alt="No image" src="" width="600" height="600" loading="lazy">
+          {% endif %}
+        </div>
       </fieldset>
     </div>
     <div style="float: left; width: 30%; margin-left: 3px;">
@@ -43,7 +49,7 @@
                       {% if variant == product.selected_or_first_available_variant %}
                         selected="selected"
                       {% endif %}
-                      data-img="{% if variant.image %}{{ variant | image_url: width: 600 }}{% else %}{{ product | image_url: width: 600 }}{% endif %}"
+                      data-img="{% if variant.image %}{{ variant | image_url: width: 600 }}{% elsif product.images != empty %}{{ product | image_url: width: 600 }}{% endif %}"
                       data-price="{{ variant.price | money_with_currency}}"
                     >
                       {{ variant.title }} - {{ variant.price | money }}

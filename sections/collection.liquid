@@ -15,7 +15,13 @@
         <fieldset>
           <legend>{{ product.title }}</legend>
           <div>
-            <a href="{{ product.url }}">{{ product | image_url: width: 300 | image_tag: height: 300 }}</a>
+            <a href="{{ product.url }}">
+              {% if product.images != empty %}
+                {{ product | image_url: width: 300 | image_tag: height: 300 }}
+              {% else %}
+                <img alt="No image" src="" width="300" height="300" loading="lazy">
+              {% endif %}
+            </a>
           </div>
           <div>{{ product.price | money_with_currency }}</div>
         </fieldset>

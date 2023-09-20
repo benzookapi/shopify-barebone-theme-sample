@@ -4,9 +4,9 @@
             "type": "home_page",
             "blocks": {
                 "9999": {
-                    "type": "my_type_1",
+                    "type": "my_type_3",
                     "settings": {
-                        "my_collection": "frontpage"
+                        "my_url": "shopify:\/\/collections\/all"
                     }
                 }
             },

@@ -20,7 +20,11 @@
             <tr>
               <td>
                 <!-- Item image -->
-                {{ item | image_url: width: 50 | image_tag: height: 50 }}
+                {% if item.image != null %}
+                  {{ item | image_url: width: 50 | image_tag: height: 50 }}
+                {% else %}
+                  <img alt="No image" src="" width="50" height="50" loading="lazy">
+                {% endif %}
               </td>
               <td style="text-align: left; padding-left: 1em;">
                 <!-- Item title -->

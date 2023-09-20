@@ -20,7 +20,7 @@
             {% if collection.image != null %}
               {{ collection.image | image_url: width: 50 | image_tag: height: 50 }}
             {% else %}
-              <p>🫥 No image</p>
+              <img alt="No image" src="" width="50" height="50" loading="lazy">
             {% endif %}
           </td>
           <td style="border: none;">
