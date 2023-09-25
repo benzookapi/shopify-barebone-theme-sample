@@ -96,7 +96,7 @@
   input.addEventListener('keypress', (e) => {
     if (event.key === 'Enter') {
       const path = `{{ request.locale.root_url }}/`.replace(/\/\//, '/');
-      window.location.href = `${path}search?q=${input.value}&type=product,page&options[unavailable_products]=hide&options[prefix]=last`;
+      window.location.href = `${path}search?q=${input.value}&type=product&options[unavailable_products]=hide&options[prefix]=last`;
     }
   });
   input.value = new URLSearchParams(window.location.search).get('q');

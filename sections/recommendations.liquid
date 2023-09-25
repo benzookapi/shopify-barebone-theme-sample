@@ -1,5 +1,5 @@
 {% comment %}
-  --- Recommendation result rendered dynamically after recommendation Ajax API called. --- 
+  --- Recommendation result rendered dynamically after recommendation Ajax API called. ---
     See https://shopify.dev/docs/themes/product-merchandising/recommendations/related-products
 {% endcomment %}
 <fieldset>
@@ -14,7 +14,13 @@
         <fieldset>
           <legend>{{ product.title }}</legend>
           <div>
-            <a href="{{ product.url }}">{{ product | image_url: width: 50 | image_tag: height: 50 }}</a>
+            <a href="{{ product.url }}">
+              {% if product.images != empty %}
+                {{ product | image_url: width: 50 | image_tag: height: 50 }}
+              {% else %}
+                <img alt="No image" src="" width="50" height="50" loading="lazy">
+              {% endif %}
+            </a>
           </div>
         </fieldset>
       </div>
