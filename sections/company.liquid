@@ -6,7 +6,7 @@
 {% if section.settings.show == true %}
   <div class="my_section my_company" style="padding-bottom: 1em;">
     <!-- Company section -->
-    <div class="my_block_title">Section</div>
+    {% render 'section_title' %}
 
     {% if customer.b2b? == true %}
       <h3>🏢 You'are accessing as a B2B customer.</h3>
