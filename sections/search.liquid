@@ -18,13 +18,16 @@
         <tr>
           <td style="width: 10%; height: 70px;">
             <!-- Item image -->
-            {{ item | image_url: width: 50 | image_tag: height: 50 }}
+            {% if item.images != empty %}
+              {{ item | image_url: width: 50 | image_tag: height: 50 }}
+            {% else %}
+              <img alt="No image" src="" width="50" height="50" loading="lazy">
+            {% endif %}
           </td>
           <td style="text-align: left; padding-left: 1em;">
             <!-- Item title and description -->
-           <a href="{{ item.url }}">{{ item.title | highlight: search.terms }}</a> 
-          {{ item.content | highlight: search.terms }} 
-          
+            <a href="{{ item.url }}">{{ item.title | highlight: search.terms }}</a>
+            {{ item.content | highlight: search.terms }}
           </td>
         </tr>
       {% endfor %}
