@@ -1,0 +1,10 @@
+{
+    "sections": {
+      "my_account": {
+        "type": "customer_account"
+      }
+    },
+    "order": [
+      "my_account"
+    ]
+  }

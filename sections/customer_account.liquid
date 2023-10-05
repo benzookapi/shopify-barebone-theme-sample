@@ -1,0 +1,62 @@
+{% comment %}
+  *** Customer account page ***
+  See https://shopify.dev/docs/themes/architecture/templates/customers-account
+{% endcomment %}
+<div class="my_section my_account">
+  <!-- Customer account section -->
+  {% render 'section_title' %}
+
+  <h2>Your info</h2>
+  <p>Email: {{ customer.email }}</p>
+  <p>Phone: {{ customer.phone }}</p>
+  <p>
+    Name: {{ customer.first_name }}
+    {{ customer.last_name }}
+  </p>
+  <p>Tags: {{ customer.tags }}</p>
+
+  <h2>Your orders</h2>
+  {% paginate customer.orders by 10 %}
+    {% for order in customer.orders %}
+      <p>
+        {{ order.order_number }}
+        {{ order.name }}
+        {{ order.total_price | money }}
+        {% for item in order.line_items %}
+          | {{ item.title }}
+          {{ item.unit_price | money }} [{{ item.quantity }}]
+        {% endfor %}
+      </p>
+    {% endfor %}
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+
+  <h2>Your addresses</h2>
+  {% if customer.default_address %}
+    <p>
+      {{ customer.default_address.address1 }}
+    </p>
+
+    {% if customer.default_address.address2 != blank %}
+      <p>
+        {{ customer.default_address.address2 }}
+      </p>
+    {% endif %}
+
+    <p>
+      {{ customer.default_address.city }},
+      {% if customer.default_address.province_code %}{{ customer.default_address.province_code }}{% endif %},
+      {{ customer.default_address.country_code }}
+    </p>
+    <p>
+      {{ customer.default_address.zip_code }}
+    </p>
+    <p>
+      {{ customer.default_address.phone }}
+    </p>
+  {% endif %}
+
+  🚪 <a href="{{ routes.account_logout_url }}">Logout</a>
+
+  {% render 'home' %}
+</div>
