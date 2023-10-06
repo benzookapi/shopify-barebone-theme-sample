@@ -16,22 +16,36 @@
   <p>Tags: {{ customer.tags }}</p>
 
   <h2>Your orders</h2>
-  {% paginate customer.orders by 10 %}
-    {% for order in customer.orders %}
-      <p>
-        {{ order.order_number }}
-        {{ order.name }}
-        {{ order.total_price | money }}
-        {% for item in order.line_items %}
-          | {{ item.title }}
-          {{ item.unit_price | money }} [{{ item.quantity }}]
-        {% endfor %}
-      </p>
-    {% endfor %}
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
+  <table style="width: 800px; text-align:">
+    <tr>
+      <td>Order #</td>
+      <td>Total</td>
+      <td>Items</td>
+    </tr>
+    {% paginate customer.orders by 10 %}
+      {% for order in customer.orders %}
+        <tr>
+          <td>
+            {{ order.order_number }}
+          </td>
+          <td>{{ order.total_price | money }}</td>
+          <td>
+            <ul>
+              {% for item in order.line_items %}
+                <li>
+                  {{ item.title }}
+                  {{ item.variant.price | money }} ({{ item.quantity }})
+                </li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+      {% endfor %}
+      {{ paginate | default_pagination }}
+    {% endpaginate %}
+  </table>
 
-  <h2>Your addresses</h2>
+  <h2>Your default address</h2>
   {% if customer.default_address %}
     <p>
       {{ customer.default_address.address1 }}
@@ -44,9 +58,8 @@
     {% endif %}
 
     <p>
-      {{ customer.default_address.city }},
-      {% if customer.default_address.province_code %}{{ customer.default_address.province_code }}{% endif %},
-      {{ customer.default_address.country_code }}
+      {{ customer.default_address.city }}, {{ customer.default_address.province }},
+      {{ customer.default_address.country }}
     </p>
     <p>
       {{ customer.default_address.zip_code }}
