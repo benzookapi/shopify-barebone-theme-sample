@@ -16,7 +16,7 @@
   <p>Tags: {{ customer.tags }}</p>
 
   <h2>Your orders</h2>
-  <table style="width: 800px; text-align:">
+  <table style="width: 800px;">
     <tr>
       <td>Order #</td>
       <td>Total</td>
@@ -30,7 +30,7 @@
           </td>
           <td>{{ order.total_price | money }}</td>
           <td>
-            <ul>
+            <ul style="text-align: left;">
               {% for item in order.line_items %}
                 <li>
                   {{ item.title }}
