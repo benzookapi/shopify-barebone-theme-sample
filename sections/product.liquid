@@ -17,7 +17,7 @@
           {% if product.images != empty %}
             {{ product | image_url: width: 600 | image_tag: height: 600, srcset: null, alt: '🫥 No image' }}
           {% else %}
-            <img alt="No image" src="" width="600" height="600" loading="lazy">
+            <img alt="No image" width="600" height="600" loading="lazy">
           {% endif %}
         </div>
       </fieldset>
