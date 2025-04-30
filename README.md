@@ -58,4 +58,3 @@ For example, once you access the language path like `/ja` in your storefront URL
 # Disclaimer
 - This code is fully _unofficial_ and NOT guaranteed to pass [the public theme review](https://shopify.dev/docs/themes/store/review-process/submit-theme) for Shopify theme store. The official requirements are described [here](https://shopify.dev/docs/themes/store/requirements).
 - If you use this code for your production, **all resposibilties are owned by you**.
-
