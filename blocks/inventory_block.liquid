@@ -1,0 +1,53 @@
+{% comment %}
+  Independent block for displaying product inventory information.
+  See https://shopify.dev/docs/storefronts/themes/architecture/blocks
+{% endcomment %}
+
+<style>
+  .my-inventory-block {
+    text-align: {{ block.settings.alignment }};
+    font-size: {{ block.settings.font_size }}px;
+    color: {{ block.settings.font_color }};
+    padding: 1px 100px 1px 100px;
+  }
+</style>
+
+<div class="my-inventory-block">
+  <span>
+    {% if product.selected_or_first_available_variant.inventory_management %}
+      Inventory: {{ product.selected_or_first_available_variant.inventory_quantity }}
+    {% else %}
+      Out of stock
+    {% endif %}
+  </span>
+</div>
+
+{% schema %}
+{
+  "name": "Inventory Block",
+  "settings": [
+    {
+      "type": "text_alignment",
+      "id": "alignment",
+      "label": "Alignment",
+      "default": "right"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 12,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Font size",
+      "default": 32
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font color",
+      "default": "#FF0000"
+    }
+  ]
+}
+{% endschema %}

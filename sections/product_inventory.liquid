@@ -1,0 +1,26 @@
+{% comment %}
+  Section for displaying product inventory information working with independent blocks.
+  See https://shopify.dev/docs/storefronts/themes/architecture/blocks/theme-blocks
+{% endcomment %}
+
+<section>
+  {% content_for 'blocks' %}
+</section>
+
+{% schema %}
+{
+  "name": "Show Inventory",
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "max_blocks": 1,
+  "presets": [
+    {
+      "name": "Add inventory section",
+      "blocks": [
+        {
+          "type": "inventory_block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
