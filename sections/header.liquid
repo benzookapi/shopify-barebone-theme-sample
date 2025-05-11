@@ -1,6 +1,6 @@
 {% comment %}
   *** Header ***
-  See https://shopify.dev/docs/themes/architecture/layouts
+  Read https://shopify.dev/docs/themes/architecture/layouts
 {% endcomment %}
 <div class="my_section my_header">
   <!-- Header section -->
@@ -21,10 +21,10 @@
 
     <!-- language and currency selector -->
     {% comment %}
-      See https://shopify.dev/docs/themes/markets/multiple-currencies-languages
+      Read https://shopify.dev/docs/themes/markets/multiple-currencies-languages
       'changeUrlInSelector' is defined in 'my_js.js'.
       This sample uses simpler integration using request and route Liquid.
-      See https://shopify.dev/docs/api/liquid/objects/request
+      Read https://shopify.dev/docs/api/liquid/objects/request
     {% endcomment %}
     🌎
     <select onchange="changeUrlInSelector(this);">
@@ -91,7 +91,7 @@
 </div>
 
 <script>
-  // See https://shopify.dev/docs/themes/navigation-search/search
+  // Read https://shopify.dev/docs/themes/navigation-search/search
   const input = document.querySelector('#my_search');
   input.addEventListener('keypress', (e) => {
     if (event.key === 'Enter') {

@@ -1,12 +1,12 @@
 {% comment %}
   --- Recommendation result rendered dynamically after recommendation Ajax API called. ---
-    See https://shopify.dev/docs/themes/product-merchandising/recommendations/related-products
+    Read https://shopify.dev/docs/themes/product-merchandising/recommendations/related-products
 {% endcomment %}
 <fieldset>
   <legend>You may also like</legend>
   <!-- Product thumbnails -->
   {% comment %}
-    See https://shopify.dev/docs/api/liquid/objects/recommendations
+    Read https://shopify.dev/docs/api/liquid/objects/recommendations
   {% endcomment %}
   <div style="overflow: hidden; margin: 0 auto;">
     {% for product in recommendations.products %}

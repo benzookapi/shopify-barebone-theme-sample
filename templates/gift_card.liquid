@@ -1,6 +1,6 @@
 {% comment %}
   *** Gift card page ***
-  See https://shopify.dev/docs/themes/architecture/templates/gift-card-liquid
+  Read https://shopify.dev/docs/themes/architecture/templates/gift-card-liquid
 {% endcomment %}
 
 {% layout none %}
@@ -11,7 +11,7 @@
     {{ content_for_header }}
 
     <!--
-      This JS doesn't need to be in your theme assets. See https://shopify.dev/docs/api/liquid/filters/shopify_asset_url
+      This JS doesn't need to be in your theme assets. Read https://shopify.dev/docs/api/liquid/filters/shopify_asset_url
     -->
     <!-- VSCode Liquid extension ask to add 'defer' or 'async' not to block the loading. -->
     <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
@@ -52,7 +52,7 @@
     </div>
 
     <script>
-      // See https://github.com/Shopify/theme-check/blob/main/docs/checks/parser_blocking_javascript.md
+      // Read https://github.com/Shopify/theme-check/blob/main/docs/checks/parser_blocking_javascript.md
       // If you set 'defer' to the included Shopify global asset of qrcode.js, you need to change the code as following
       // otherwise you QR code is not shown up in the buyer's link.
       document.addEventListener('DOMContentLoaded', () => {

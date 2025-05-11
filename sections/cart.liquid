@@ -1,6 +1,6 @@
 {% comment %}
   *** Cart page ***
-  See https://shopify.dev/docs/themes/architecture/templates/cart
+  Read https://shopify.dev/docs/themes/architecture/templates/cart
 {% endcomment %}
 <div class="my_section my_cart">
   <!-- Cart section -->
@@ -152,8 +152,8 @@
 <script>
   const cartUpdate = (obj) => {
     // Item quantity update triggered by the input change above
-    // See https://shopify.dev/docs/api/ajax
-    // See https://shopify.dev/docs/api/ajax/reference/cart#update-line-item-quantities
+    // Read https://shopify.dev/docs/api/ajax
+    // Read https://shopify.dev/docs/api/ajax/reference/cart#update-line-item-quantities
     const url = `${window.Shopify.routes.root}cart/update.js`;
     console.log(`url: ${url}`);
     const body = `updates[${obj.id}]=${obj.value}`;

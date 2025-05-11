@@ -1,13 +1,13 @@
 {% comment %}
   *** Base page to render all theme contents ***
-  See https://shopify.dev/docs/themes/architecture
+  Read https://shopify.dev/docs/themes/architecture
 {% endcomment %}
 <!doctype html>
 <html>
   <head>
     <!-- Shopify generated header contents -->
     {% comment %}
-      See https://shopify.dev/docs/themes/architecture/layouts#content_for_header
+      Read https://shopify.dev/docs/themes/architecture/layouts#content_for_header
     {% endcomment %}
     {{ content_for_header }}
 
@@ -19,7 +19,7 @@
 
     <!-- My own font CSS (if selected only) -->
     {% comment %}
-      See https://shopify.dev/docs/themes/architecture/settings/fonts
+      Read https://shopify.dev/docs/themes/architecture/settings/fonts
     {% endcomment %}
     {% if settings.use_font == true %}
       {{ 'my_font.css' | asset_url | stylesheet_tag }}
@@ -33,7 +33,7 @@
 
       <!-- Shopify generated template (body) contents -->
       {% comment %}
-        See https://shopify.dev/docs/themes/architecture/layouts#content_for_layout
+        Read https://shopify.dev/docs/themes/architecture/layouts#content_for_layout
       {% endcomment %}
       {{ content_for_layout }}
 

@@ -1,6 +1,6 @@
 {% comment %}
   *** Product page ***
-  See https://shopify.dev/docs/themes/architecture/templates/product
+  Read https://shopify.dev/docs/themes/architecture/templates/product
 {% endcomment %}
 <div class="my_section my_product">
   <!-- Product section -->
@@ -35,7 +35,7 @@
                 <!-- Free text -->
                 {% comment %}
                   You can choose the metafield for the text block with dynamic sources.
-                   See https://shopify.dev/docs/themes/architecture/settings/dynamic-sources
+                   Read https://shopify.dev/docs/themes/architecture/settings/dynamic-sources
                 {% endcomment %}
                 <div style="text-align: left;" class="my_left_space my_bottom_space my_top_space">
                   <b>Text:</b> {{ block.settings.my_text }}
@@ -92,7 +92,7 @@
               {% when 'my_type_6' %}
                 <!-- Selling Plan selector -->
                 {% comment %}
-                  See https://shopify.dev/docs/themes/pricing-payments/purchase-options/subscription-ux-guidelines
+                  Read https://shopify.dev/docs/themes/pricing-payments/purchase-options/subscription-ux-guidelines
                 {% endcomment %}
                 <fieldset id="my_plan" style="text-align: left;">
                   <legend>Choose your selling plan</legend>
@@ -131,7 +131,7 @@
               {% when '@app' %}
                 <!-- App block -->
                 {% comment %}
-                  See https://shopify.dev/docs/themes/architecture/sections/app-blocks
+                  Read https://shopify.dev/docs/themes/architecture/sections/app-blocks
                 {% endcomment %}
                 {% render block %}
                 <p>
@@ -152,8 +152,8 @@
 
   <!-- Recommendation -->
   {% comment %}
-    See https://shopify.dev/docs/themes/product-merchandising/recommendations
-    See https://shopify.dev/docs/api/section-rendering
+    Read https://shopify.dev/docs/themes/product-merchandising/recommendations
+    Read https://shopify.dev/docs/api/section-rendering
   {% endcomment %}
   <div id="my_recommendations"></div>
 
@@ -180,10 +180,10 @@
   idChange(document.querySelector('#my_id'));
 
   // Call the recommendation Ajax API to reder the result responsed by 'sections/recommendations.liquid'.
-  // See https://shopify.dev/docs/api/ajax/reference/product-recommendations
+  // Read https://shopify.dev/docs/api/ajax/reference/product-recommendations
   if (!Shopify.designMode) {
     // If this is shown in the theme editor, cross origin network error occurrs, so this should be called on the storefront only.
-    // See https://shopify.dev/docs/themes/architecture/sections/integrate-sections-with-the-theme-editor
+    // Read https://shopify.dev/docs/themes/architecture/sections/integrate-sections-with-the-theme-editor
     fetch(
       `${window.Shopify.routes.root}recommendations/products?product_id={{ product.id }}&limit=4&section_id=recommendations&intent=related`
     )
