@@ -1,0 +1,139 @@
+<div class="my_section my_filtered_collection">
+  {% render 'section_title' %}
+
+  {% if customer %}
+    {%- assign customer_access = customer.metafields.custom.access_code.value -%}
+    {% if customer_access != blank %}
+      <h2>{{ section.settings.title }}</h2>
+      {%- assign matched_count = 0 -%}
+      <div class="filtered-collection__grid">
+        {% for product in collection.products %}
+          {%- assign product_codes = product.metafields.custom.access_codes.value -%}
+          {% if product_codes != blank %}
+            {% if product_codes contains customer_access %}
+              {%- assign matched_count = matched_count | plus: 1 -%}
+              <div class="filtered-collection__item">
+                <a href="{{ product.url }}">
+                  {% if product.images != empty %}
+                    {{ product | image_url: width: 300 | image_tag: height: 300 }}
+                  {% else %}
+                    <div class="filtered-collection__placeholder" aria-hidden="true"></div>
+                  {% endif %}
+                  <p class="filtered-collection__product-title">{{ product.title }}</p>
+                </a>
+                <p class="filtered-collection__product-price">{{ product.price | money_with_currency }}</p>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if matched_count == 0 %}
+        <p class="filtered-collection__message">{{ 'sections.customer_filtered_collection.no_products' | t }}</p>
+      {% endif %}
+    {% else %}
+      <p class="filtered-collection__message">{{ 'sections.customer_filtered_collection.no_access' | t }}</p>
+    {% endif %}
+  {% else %}
+    <p class="filtered-collection__message">{{ 'sections.customer_filtered_collection.login_required' | t }}</p>
+    <a class="filtered-collection__login-link" href="{{ routes.account_login_url }}">
+      {{ 'sections.customer_filtered_collection.login_link' | t }}
+    </a>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .my_filtered_collection {
+    padding: 20px;
+  }
+  .filtered-collection__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .filtered-collection__item {
+    width: calc(33.333% - 14px);
+    border: 1px solid #e5e5e5;
+    padding: 15px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  .filtered-collection__item img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+  .filtered-collection__placeholder {
+    width: 300px;
+    height: 300px;
+    max-width: 100%;
+    background-color: #f4f4f4;
+    margin: 0 auto;
+  }
+  .filtered-collection__item a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .filtered-collection__product-title {
+    font-weight: bold;
+    margin: 8px 0 4px;
+  }
+  .filtered-collection__product-price {
+    color: #555;
+    margin: 0;
+  }
+  .filtered-collection__message {
+    padding: 20px 0;
+    color: #555;
+  }
+  .filtered-collection__login-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  @media (max-width: 768px) {
+    .filtered-collection__item {
+      width: calc(50% - 10px);
+    }
+  }
+  @media (max-width: 480px) {
+    .filtered-collection__item {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.customer_filtered_collection.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.customer_filtered_collection.settings.title.label",
+      "default": "Products for you"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.customer_filtered_collection.settings.metafield_setup_header.content"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.customer_filtered_collection.settings.metafield_setup_info.content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.customer_filtered_collection.name"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection"]
+  }
+}
+{% endschema %}

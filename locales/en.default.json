@@ -5,6 +5,48 @@
         },
         "customer_login": {
             "message": "Use the new customer login."
+        },
+        "customer_filtered_collection": {
+            "name": "Customer filtered collection",
+            "login_required": "Please log in to view products.",
+            "login_link": "Log in",
+            "no_access": "No products are available for your account.",
+            "no_products": "No matching products found.",
+            "settings": {
+                "title": {
+                    "label": "Title"
+                },
+                "metafield_setup_header": {
+                    "content": "Metafield setup"
+                },
+                "metafield_setup_info": {
+                    "content": "Required metafields — Customer: namespace=custom, key=access_code (single_line_text_field). Product: namespace=custom, key=access_codes (list.single_line_text_field)."
+                }
+            }
+        },
+        "customer_filtered_search": {
+            "name": "Customer filtered search",
+            "login_required": "Please log in to search products.",
+            "login_link": "Log in",
+            "no_access": "No products are available for your account.",
+            "no_results": "No matching products found.",
+            "settings": {
+                "title": {
+                    "label": "Title"
+                },
+                "placeholder": {
+                    "label": "Search placeholder text"
+                },
+                "button_label": {
+                    "label": "Search button label"
+                },
+                "metafield_setup_header": {
+                    "content": "Metafield setup"
+                },
+                "metafield_setup_info": {
+                    "content": "Required metafields — Customer: namespace=custom, key=access_code (single_line_text_field). Product: namespace=custom, key=access_codes (list.single_line_text_field)."
+                }
+            }
         }
     },
     "snipets": {
