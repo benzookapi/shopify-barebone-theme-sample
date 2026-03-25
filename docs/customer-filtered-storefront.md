@@ -6,10 +6,10 @@ Sections that show only products matching the logged-in customer's metafield val
 
 | File | Purpose |
 |------|---------|
-| `sections/customer_filtered_collection.liquid` | Collection page — filtered product grid |
-| `sections/customer_filtered_search.liquid` | Search page — filtered search form + results |
-| `locales/en.default.json` | Runtime translation keys |
-| `locales/en.default.schema.json` | Theme editor label keys |
+| [sections/customer_filtered_collection.liquid](../blob/main/sections/customer_filtered_collection.liquid) | Collection page — filtered product grid |
+| [sections/customer_filtered_search.liquid](../blob/main/sections/customer_filtered_search.liquid) | Search page — filtered search form + results |
+| [locales/en.default.json](../blob/main/locales/en.default.json) | Runtime translation keys |
+| [locales/en.default.schema.json](../blob/main/locales/en.default.schema.json) | Theme editor label keys |
 
 ## Metafield Setup (Shopify Admin)
 
@@ -45,18 +45,9 @@ Customer login state
             └─ does not contain                          → Skip
 ```
 
-In Liquid:
-
-```liquid
-{%- assign customer_access = customer.metafields.custom.access_code.value -%}
-
-{% for product in collection.products %}
-  {%- assign product_codes = product.metafields.custom.access_codes.value -%}
-  {% if product_codes != blank and product_codes contains customer_access %}
-    {# render product #}
-  {% endif %}
-{% endfor %}
-```
+See the implementation in:
+- [sections/customer_filtered_collection.liquid](../blob/main/sections/customer_filtered_collection.liquid)
+- [sections/customer_filtered_search.liquid](../blob/main/sections/customer_filtered_search.liquid)
 
 ## Adding Sections to Templates
 
