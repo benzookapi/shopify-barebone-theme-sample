@@ -6,10 +6,10 @@ Sections that show only products matching the logged-in customer's metafield val
 
 | File | Purpose |
 |------|---------|
-| [sections/customer_filtered_collection.liquid](../blob/main/sections/customer_filtered_collection.liquid) | Collection page — filtered product grid |
-| [sections/customer_filtered_search.liquid](../blob/main/sections/customer_filtered_search.liquid) | Search page — filtered search form + results |
-| [locales/en.default.json](../blob/main/locales/en.default.json) | Runtime translation keys |
-| [locales/en.default.schema.json](../blob/main/locales/en.default.schema.json) | Theme editor label keys |
+| [sections/customer_filtered_collection.liquid](../sections/customer_filtered_collection.liquid) | Collection page — filtered product grid |
+| [sections/customer_filtered_search.liquid](../sections/customer_filtered_search.liquid) | Search page — filtered search form + results |
+| [locales/en.default.json](../locales/en.default.json) | Runtime translation keys |
+| [locales/en.default.schema.json](../locales/en.default.schema.json) | Theme editor label keys |
 
 ## Metafield Setup (Shopify Admin)
 
@@ -46,8 +46,8 @@ Customer login state
 ```
 
 See the implementation in:
-- [sections/customer_filtered_collection.liquid](../blob/main/sections/customer_filtered_collection.liquid)
-- [sections/customer_filtered_search.liquid](../blob/main/sections/customer_filtered_search.liquid)
+- [sections/customer_filtered_collection.liquid](../sections/customer_filtered_collection.liquid)
+- [sections/customer_filtered_search.liquid](../sections/customer_filtered_search.liquid)
 
 ## Adding Sections to Templates
 
