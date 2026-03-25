@@ -44,6 +44,40 @@
         },
         "company": {
             "name": "Company"
+        },
+        "customer_filtered_collection": {
+            "name": "Filtered collection",
+            "settings": {
+                "title": {
+                    "label": "Title"
+                },
+                "metafield_setup_header": {
+                    "content": "Metafield setup"
+                },
+                "metafield_setup_info": {
+                    "content": "Required metafields — Customer: namespace=custom, key=access_code (single_line_text_field). Product: namespace=custom, key=access_codes (list.single_line_text_field)."
+                }
+            }
+        },
+        "customer_filtered_search": {
+            "name": "Customer filtered search",
+            "settings": {
+                "title": {
+                    "label": "Title"
+                },
+                "placeholder": {
+                    "label": "Search placeholder text"
+                },
+                "button_label": {
+                    "label": "Search button label"
+                },
+                "metafield_setup_header": {
+                    "content": "Metafield setup"
+                },
+                "metafield_setup_info": {
+                    "content": "Required metafields — Customer: namespace=custom, key=access_code (single_line_text_field). Product: namespace=custom, key=access_codes (list.single_line_text_field)."
+                }
+            }
         }
     }
 }

@@ -1,0 +1,194 @@
+<div class="my_section my_filtered_search">
+  {% render 'section_title' %}
+
+  <h1>{{ section.settings.title }}</h1>
+
+  {% if customer %}
+    {%- assign customer_access = customer.metafields.custom.access_code.value -%}
+    {% if customer_access != blank %}
+      <div class="filtered-search__form-wrapper">
+        <form action="{{ routes.search_url }}" method="get" class="filtered-search__form" role="search">
+          <input type="hidden" name="type" value="product">
+          <div class="filtered-search__input-group">
+            <input
+              type="search"
+              name="q"
+              class="filtered-search__input"
+              value="{{ search.terms | escape }}"
+              placeholder="{{ section.settings.placeholder }}"
+              aria-label="{{ section.settings.placeholder }}"
+            >
+            <button type="submit" class="filtered-search__button">
+              {{ section.settings.button_label }}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {% if search.performed %}
+        {%- assign matched_count = 0 -%}
+        <div class="filtered-search__results">
+          <table class="filtered-search__table">
+            {% for item in search.results %}
+              {%- assign product_codes = item.metafields.custom.access_codes.value -%}
+              {% if product_codes != blank %}
+                {% if product_codes contains customer_access %}
+                  {%- assign matched_count = matched_count | plus: 1 -%}
+                  <tr class="filtered-search__result-row">
+                    <td class="filtered-search__result-image">
+                      {% if item.images != empty %}
+                        {{ item | image_url: width: 60 | image_tag: height: 60 }}
+                      {% else %}
+                        <div class="filtered-search__placeholder" aria-hidden="true"></div>
+                      {% endif %}
+                    </td>
+                    <td class="filtered-search__result-info">
+                      <a href="{{ item.url }}">{{ item.title | highlight: search.terms }}</a>
+                      <p class="filtered-search__result-price">{{ item.price | money_with_currency }}</p>
+                    </td>
+                  </tr>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </table>
+          {% if matched_count == 0 %}
+            <p class="filtered-search__message">{{ 'sections.customer_filtered_search.no_results' | t }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% else %}
+      <p class="filtered-search__message">{{ 'sections.customer_filtered_search.no_access' | t }}</p>
+    {% endif %}
+  {% else %}
+    <p class="filtered-search__message">{{ 'sections.customer_filtered_search.login_required' | t }}</p>
+    <a class="filtered-search__login-link" href="{{ routes.account_login_url }}">
+      {{ 'sections.customer_filtered_search.login_link' | t }}
+    </a>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .my_filtered_search {
+    padding: 20px;
+  }
+  .filtered-search__form-wrapper {
+    margin: 20px 0;
+  }
+  .filtered-search__input-group {
+    display: flex;
+    gap: 8px;
+    max-width: 600px;
+  }
+  .filtered-search__input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    outline: none;
+  }
+  .filtered-search__input:focus {
+    border-color: #000;
+  }
+  .filtered-search__button {
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  .filtered-search__button:hover {
+    background-color: #333;
+  }
+  .filtered-search__results {
+    margin-top: 20px;
+  }
+  .filtered-search__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .filtered-search__result-row {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .filtered-search__result-image {
+    width: 80px;
+    height: 80px;
+    padding: 10px;
+    vertical-align: middle;
+  }
+  .filtered-search__result-image img {
+    display: block;
+  }
+  .filtered-search__result-info {
+    padding: 10px;
+    vertical-align: middle;
+    text-align: left;
+  }
+  .filtered-search__result-info a {
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+  }
+  .filtered-search__result-info a:hover {
+    text-decoration: underline;
+  }
+  .filtered-search__result-price {
+    color: #555;
+    margin: 4px 0 0;
+  }
+  .filtered-search__message {
+    padding: 20px 0;
+    color: #555;
+  }
+  .filtered-search__login-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.customer_filtered_search.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:sections.customer_filtered_search.settings.title.label",
+      "default": "Search products"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "t:sections.customer_filtered_search.settings.placeholder.label",
+      "default": "Search products..."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.customer_filtered_search.settings.button_label.label",
+      "default": "Search"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.customer_filtered_search.settings.metafield_setup_header.content"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.customer_filtered_search.settings.metafield_setup_info.content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.customer_filtered_search.name"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["search"]
+  }
+}
+{% endschema %}
