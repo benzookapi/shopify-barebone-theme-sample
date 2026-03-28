@@ -2,7 +2,7 @@
 
 Sections that show only products matching the logged-in customer's metafield value.
 
-**Demo:** [Wiki — Customer-specific product filtering with metafields](https://github.com/shopify-apac-ts/shopify-barebone-theme-sample/wiki#customer-specific-product-filtering-with-metafields-member-only-storefront)
+**Demo:** [Wiki — Customer-specific product filtering with metafields](../../wiki#customer-specific-product-filtering-with-metafields-member-only-storefront)
 
 ## Files
 
