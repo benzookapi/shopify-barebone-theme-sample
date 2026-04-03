@@ -61,21 +61,31 @@ Sample: [snippets/breadcrumbs-metafield.liquid](../snippets/breadcrumbs-metafiel
 ### Method D — Unified (Recommended)
 
 ```
-Home > [ancestors from menu or metafield] > Current page
+Home > [ancestors from taxonomy / metafield / menu] > Current page
 ```
 
-A single snippet (`snippets/breadcrumbs.liquid`) and a single section (`sections/breadcrumbs.liquid`) handle all page types from the header group:
+A single snippet (`snippets/breadcrumbs.liquid`) and a single section (`sections/breadcrumbs.liquid`) handle all page types from the header group.
+For product pages, resolution is attempted in priority order:
+
+| Priority | Condition | Source |
+|----------|-----------|--------|
+| 1 | `product.category` is set (Shopify standard taxonomy) | `product.category.ancestors` → resolved via `collections[category.id]` |
+| 2 | `custom.breadcrumb_collections` metafield is set | Pipe-separated collection handles → resolved via `collections[handle]` |
+| 3 | Neither | Navigation menu traversal |
 
 | Page type | Source |
 |-----------|--------|
 | Home | Renders nothing |
+| Product page with taxonomy category | Ancestors resolved automatically — no metafield needed |
 | Product page with `custom.breadcrumb_collections` metafield | Resolves collection handles → title + URL automatically |
-| Product page without metafield | Menu traversal (falls back to `Home > Product title`) |
+| Product page with neither | Menu traversal (falls back to `Home > Product title`) |
 | Collection, Blog, Article, Page, Search, 404 | Menu traversal; if current page is not in the menu, `page_title` is used as the current crumb |
 
-Compared to Method C, the metafield is reduced from two fields to one:
+**Priority 1 — taxonomy:** Shopify's standard product taxonomy exposes `product.category.ancestors` (array of parent nodes, root first) and `product.category` (the leaf node) in Liquid. Each node has an `id` property (e.g. `hb-1-9-6`). If collection handles are created to match these IDs, the full hierarchy resolves automatically with no metafield required.
 
-| | Method C | Method D |
+**Priority 2 — metafield:** Compared to Method C, reduced from two fields to one:
+
+| | Method C | Method D priority 2 |
 |---|---|---|
 | Metafield 1 | `custom.breadcrumb_path` (labels) | — removed |
 | Metafield 2 | `custom.breadcrumb_urls` (URLs) | — removed |
@@ -288,17 +298,42 @@ Home / [Product title]
 
 ### Method D — Unified
 
-Method D uses a single section placed in the header group. It handles all page types automatically.
+Method D uses a single section placed in the header group. It handles all page types automatically, with three resolution priorities for product pages.
 
 #### Step 1: Create the navigation menu
 
-Follow the same steps as Method B (Step 1) to create a `breadcrumb-nav` menu in **Online Store > Navigation**.
+In **Online Store > Navigation > Add menu**, create a menu with the handle `breadcrumb-nav` (or a custom handle you'll enter in the section settings). Build nested links mirroring your category hierarchy.
 
-This menu is used for all pages except product pages that have the `custom.breadcrumb_collections` metafield set.
+This menu is the fallback for:
+- All non-product pages (collection, blog, article, page, search, 404).
+- Product pages without a taxonomy category or metafield.
 
-#### Step 2: (Optional) Set the metafield on products
+#### Step 2 (Priority 1): Create collections with taxonomy category ID handles
 
-For product pages that need deep ancestry (e.g. 4+ levels), add the `custom.breadcrumb_collections` metafield:
+If your products have a Shopify standard taxonomy category set, the breadcrumb hierarchy can resolve fully automatically.
+
+**How it works:**
+- `product.category.ancestors` returns the full ancestor chain (root → direct parent), each with an `id` like `hb-1-9-6`.
+- `product.category` is the leaf node (the category assigned directly to the product).
+- The snippet looks up `collections[category.id]` for each node to get its title and URL.
+
+**Requirement:** collection handles must equal the taxonomy category IDs exactly.
+
+1. In **Online Store > Sidekick** (or an import app), generate collections from your product categories. When creating each collection, set its handle to match the taxonomy category ID.
+
+   | Taxonomy category | Category ID | Collection handle |
+   |-------------------|-------------|-------------------|
+   | Health & Beauty | `hb-1` | `hb-1` |
+   | Vitamins & Supplements | `hb-1-9` | `hb-1-9` |
+   | Multivitamins | `hb-1-9-6` | `hb-1-9-6` |
+
+2. Assign the taxonomy category to each product in **Products > [product] > Category**.
+
+No metafield entry is required. As long as each taxonomy node has a matching collection, the breadcrumb resolves completely automatically.
+
+#### Step 3 (Priority 2, optional): Set the metafield on products
+
+For products that have no taxonomy category set (e.g. custom product types), you can override with the `custom.breadcrumb_collections` metafield.
 
 1. In **Settings > Custom data > Products**, click **Add definition**:
 
@@ -308,7 +343,7 @@ For product pages that need deep ancestry (e.g. 4+ levels), add the `custom.brea
    | Namespace & key | `custom.breadcrumb_collections` |
    | Type | Single line text |
 
-2. Open a product in the Shopify admin. Scroll to **Metafields** and fill in:
+2. Open a product and scroll to **Metafields**:
 
    | Field | Example value |
    |-------|--------------|
@@ -316,28 +351,27 @@ For product pages that need deep ancestry (e.g. 4+ levels), add the `custom.brea
 
    - Values are pipe-separated collection **handles** (not titles or URLs).
    - Order is shallowest → deepest ancestor. The current product title is appended automatically.
-   - Titles and URLs are resolved automatically from the handle — no separate URL field needed.
+   - Titles and URLs are resolved from the handle — no separate URL field needed.
 
-   Products without this metafield fall back to menu traversal. If the product is not in the menu either, only `Home > [Product title]` is shown.
-
-#### Step 3: Add the section in the theme editor
+#### Step 4: Add the section in the theme editor
 
 1. **Online Store > Themes > Customize**.
 2. Select the **Header** group in the left panel.
 3. Click **Add section** → **Breadcrumbs**.
 4. Leave **Menu handle** as `breadcrumb-nav` (or type your custom handle).
 
-#### Step 4: Verify
+#### Step 5: Verify
 
-| Page | Expected breadcrumb |
-|------|---------------------|
-| Home | (nothing rendered) |
-| `/collections/mens-tops` (in menu) | `Home / Mens / Tops` |
-| Product with metafield `clothing\|mens\|mens-tops` | `Home / Clothing / Mens / Tops / [Product title]` |
-| Product without metafield (in menu) | `Home / [ancestor from menu] / [Product title]` |
-| Product without metafield (not in menu) | `Home / [Product title]` |
-| Article page | `Home / [Blog name] / [Article title]` |
-| Static page (not in menu) | `Home / [Page title]` |
+| Page | Source used | Expected breadcrumb |
+|------|-------------|---------------------|
+| Home | — | (nothing rendered) |
+| Product with taxonomy category `hb-1-9-6` | Priority 1 | `Home / Health & Beauty / Vitamins & Supplements / Multivitamins / [Product title]` |
+| Product with metafield `clothing\|mens\|mens-tops` | Priority 2 | `Home / Clothing / Mens / Tops / [Product title]` |
+| Product with neither (in menu) | Priority 3 | `Home / [ancestor from menu] / [Product title]` |
+| Product with neither (not in menu) | Priority 3 | `Home / [Product title]` |
+| `/collections/mens-tops` (in menu) | Priority 3 | `Home / Mens / Tops` |
+| Article page | Priority 3 | `Home / [Blog name] / [Article title]` |
+| Static page (not in menu) | Priority 3 | `Home / [Page title]` |
 
 ---
 

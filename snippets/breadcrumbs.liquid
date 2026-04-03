@@ -3,21 +3,35 @@
 
   Renders nothing on the home page (template.name == 'index').
 
-  For product pages:
-    Checks for the custom.breadcrumb_collections metafield (pipe-separated collection handles).
-    Each handle is resolved to a collection object via the global collections[] accessor,
-    so title and URL are obtained automatically — no URL metafield needed.
-    If the metafield is absent, falls back to menu traversal.
+  For product pages, resolution is attempted in priority order:
 
-  For all other pages (collection, article, blog, page, search, 404) and
-  product pages without the metafield:
+    Priority 1 — Shopify taxonomy category (product.category):
+      Reads product.category.ancestors (root → direct parent) and product.category
+      to resolve the full hierarchy automatically.
+      Each level is looked up via collections[category.id], so collection handles
+      must equal the Shopify taxonomy category ID (e.g. 'hb-1-9-6').
+      Category nodes with no matching collection are skipped silently.
+
+    Priority 2 — custom.breadcrumb_collections metafield:
+      Used when no taxonomy category is set on the product.
+      Pipe-separated collection handles are resolved via collections[handle].
+
+    Priority 3 — Navigation menu traversal (fallback):
+      Used when neither taxonomy category nor metafield is available,
+      and for all non-product pages.
+
+  For all other pages (collection, article, blog, page, search, 404):
     Traverses the navigation menu specified by menu_handle (default: breadcrumb-nav).
     Uses link.active and link.child_active to locate ancestors and current page
     up to 4 levels deep.
     If the current page is not listed in the menu, page_title is shown as the
     current crumb (graceful fallback — covers articles, static pages, etc.).
 
-  Metafield setup for product pages (Settings > Custom data > Products):
+  Collection handle convention for taxonomy (priority 1):
+    In Shopify admin, create collections with handles equal to the taxonomy category ID.
+    Example: category ID 'hb-1-9-6' → collection handle 'hb-1-9-6'.
+
+  Metafield setup for product pages, priority 2 (Settings > Custom data > Products):
     Namespace & key : custom.breadcrumb_collections
     Type            : Single line text
     Example value   : clothing|mens|mens-tops
@@ -40,37 +54,67 @@
   {%- assign bc_current_title = page_title -%}
   {%- assign bc_current_url = request.path -%}
   {%- assign crumb_string = '' -%}
-  {%- assign use_metafield = false -%}
+  {%- assign bc_resolved = false -%}
 
-  {%- comment %} Product page: resolve collection handles from metafield {% endcomment -%}
   {%- if template.name == 'product' -%}
-    {%- assign bc_handles_raw = product.metafields.custom.breadcrumb_collections.value | default: '' -%}
-    {%- if bc_handles_raw != blank -%}
-      {%- assign use_metafield = true -%}
-      {%- assign bc_handle_list = bc_handles_raw | split: '|' -%}
-      {%- for h in bc_handle_list -%}
-        {%- assign col = collections[h] -%}
-        {%- if col != blank -%}
+
+    {%- comment %} Priority 1: Shopify taxonomy category {% endcomment -%}
+    {%- assign cat = product.category -%}
+    {%- if cat != blank -%}
+      {%- assign bc_resolved = true -%}
+      {%- for ancestor in cat.ancestors -%}
+        {%- assign anc_col = collections[ancestor.id] -%}
+        {%- if anc_col != blank -%}
           {%- if crumb_string != blank -%}
-            {%- capture crumb_string -%}{{ crumb_string }}|{{ col.title }}::{{ col.url }}{%- endcapture -%}
+            {%- capture crumb_string -%}{{ crumb_string }}|{{ anc_col.title }}::{{ anc_col.url }}{%- endcapture -%}
           {%- else -%}
-            {%- capture crumb_string -%}{{ col.title }}::{{ col.url }}{%- endcapture -%}
+            {%- capture crumb_string -%}{{ anc_col.title }}::{{ anc_col.url }}{%- endcapture -%}
           {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
+      {%- assign leaf_col = collections[cat.id] -%}
+      {%- if leaf_col != blank -%}
+        {%- if crumb_string != blank -%}
+          {%- capture crumb_string -%}{{ crumb_string }}|{{ leaf_col.title }}::{{ leaf_col.url }}{%- endcapture -%}
+        {%- else -%}
+          {%- capture crumb_string -%}{{ leaf_col.title }}::{{ leaf_col.url }}{%- endcapture -%}
+        {%- endif -%}
+      {%- endif -%}
       {%- assign bc_current_title = product.title -%}
       {%- assign bc_current_url = product.url -%}
     {%- endif -%}
+
+    {%- comment %} Priority 2: custom.breadcrumb_collections metafield {% endcomment -%}
+    {%- unless bc_resolved -%}
+      {%- assign bc_handles_raw = product.metafields.custom.breadcrumb_collections.value | default: '' -%}
+      {%- if bc_handles_raw != blank -%}
+        {%- assign bc_resolved = true -%}
+        {%- assign bc_handle_list = bc_handles_raw | split: '|' -%}
+        {%- for h in bc_handle_list -%}
+          {%- assign col = collections[h] -%}
+          {%- if col != blank -%}
+            {%- if crumb_string != blank -%}
+              {%- capture crumb_string -%}{{ crumb_string }}|{{ col.title }}::{{ col.url }}{%- endcapture -%}
+            {%- else -%}
+              {%- capture crumb_string -%}{{ col.title }}::{{ col.url }}{%- endcapture -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- assign bc_current_title = product.title -%}
+        {%- assign bc_current_url = product.url -%}
+      {%- endif -%}
+    {%- endunless -%}
+
   {%- endif -%}
 
   {%- comment %}
-    Menu traversal: used for all non-product pages, and for product pages
-    where the metafield is not set.
+    Priority 3: Menu traversal — used for all non-product pages, and for product
+    pages where neither taxonomy category nor metafield is available.
     Ancestors are collected into crumb_string; the exact active link becomes
     bc_current_title/url. If the current page is not in the menu, bc_current_title
     remains page_title (fallback).
   {% endcomment -%}
-  {%- unless use_metafield -%}
+  {%- unless bc_resolved -%}
     {%- assign breadcrumb_menu = linklists[resolved_menu_handle] -%}
     {%- assign found = false -%}
 
