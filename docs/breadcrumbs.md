@@ -82,7 +82,7 @@ Create `snippets/breadcrumbs.liquid` and `render` it from each page template.
 | `search` | Home > Search results |
 | `404` | Home > 404 |
 
-### Phase 2 — Deeper hierarchy (for Japanese EC sites)
+### Phase 2 — Deeper hierarchy (for marketplace-style sites)
 
 - **Method B**: Create a `breadcrumb-nav` menu in Shopify admin with nested links, then traverse with Liquid nested loops.
 - **Method C**: Add `custom.breadcrumb_path` and `custom.breadcrumb_urls` metafields to products/collections and split them in Liquid.
@@ -95,7 +95,7 @@ Create `snippets/breadcrumbs.liquid` and `render` it from each page template.
 
 ---
 
-## Deep Hierarchy for Japanese EC Sites (Rakuten-style)
+## Deep Hierarchy for Marketplace-style Sites
 
 For 5–6 level hierarchies, the best approach is **Method C (Metafields) + Metaobjects**:
 
@@ -123,7 +123,7 @@ This approach allows:
 | Simple store (up to 3 levels) | Method A — collection context |
 | 4–5 levels, admin-manageable | Method B — navigation menu traversal |
 | Per-product full customization | Method C — metafields |
-| Rakuten-scale deep hierarchy | Method C + Metaobjects |
+| Marketplace-style deep hierarchy | Method C + Metaobjects |
 
 ---
 
