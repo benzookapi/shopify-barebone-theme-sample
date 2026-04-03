@@ -1,0 +1,41 @@
+{% comment %}
+  *** Breadcrumbs (unified) ***
+  Single section that handles all page types from the header group.
+
+  How to add:
+    Theme editor > Header group > Add section > "Breadcrumbs"
+
+  How it works:
+    - Home page       : renders nothing.
+    - Product page    : uses custom.breadcrumb_collections metafield (collection handles,
+                        pipe-separated) if set; falls back to menu traversal.
+    - All other pages : traverses the menu specified by "Menu handle".
+
+  See docs/breadcrumbs.md for full setup instructions.
+{% endcomment %}
+
+{% render 'breadcrumbs', menu_handle: section.settings.menu_handle %}
+
+{% schema %}
+{
+  "name": "t:sections.breadcrumbs.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "menu_handle",
+      "label": "t:sections.breadcrumbs.settings.menu_handle.label",
+      "default": "breadcrumb-nav",
+      "info": "t:sections.breadcrumbs.settings.menu_handle.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.breadcrumbs.name"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

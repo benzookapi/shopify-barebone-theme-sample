@@ -1,0 +1,225 @@
+{% doc %}
+  Unified breadcrumb navigation snippet.
+
+  Renders nothing on the home page (template.name == 'index').
+
+  For product pages:
+    Checks for the custom.breadcrumb_collections metafield (pipe-separated collection handles).
+    Each handle is resolved to a collection object via the global collections[] accessor,
+    so title and URL are obtained automatically — no URL metafield needed.
+    If the metafield is absent, falls back to menu traversal.
+
+  For all other pages (collection, article, blog, page, search, 404) and
+  product pages without the metafield:
+    Traverses the navigation menu specified by menu_handle (default: breadcrumb-nav).
+    Uses link.active and link.child_active to locate ancestors and current page
+    up to 4 levels deep.
+    If the current page is not listed in the menu, page_title is shown as the
+    current crumb (graceful fallback — covers articles, static pages, etc.).
+
+  Metafield setup for product pages (Settings > Custom data > Products):
+    Namespace & key : custom.breadcrumb_collections
+    Type            : Single line text
+    Example value   : clothing|mens|mens-tops
+    (pipe-separated collection handles, shallowest ancestor first)
+
+  Menu setup for all other pages (Online Store > Navigation):
+    Create a menu with the handle specified by menu_handle (default: breadcrumb-nav).
+    Build the full category hierarchy as nested menu links up to 4 levels deep.
+
+  @param {string} [menu_handle] - Handle of the navigation menu. Defaults to 'breadcrumb-nav'.
+
+  @example
+  {% render 'breadcrumbs' %}
+  {% render 'breadcrumbs', menu_handle: section.settings.menu_handle %}
+{% enddoc %}
+
+{%- unless template.name == 'index' -%}
+
+  {%- assign resolved_menu_handle = menu_handle | default: 'breadcrumb-nav' -%}
+  {%- assign bc_current_title = page_title -%}
+  {%- assign bc_current_url = request.path -%}
+  {%- assign crumb_string = '' -%}
+  {%- assign use_metafield = false -%}
+
+  {%- comment %} Product page: resolve collection handles from metafield {% endcomment -%}
+  {%- if template.name == 'product' -%}
+    {%- assign bc_handles_raw = product.metafields.custom.breadcrumb_collections.value | default: '' -%}
+    {%- if bc_handles_raw != blank -%}
+      {%- assign use_metafield = true -%}
+      {%- assign bc_handle_list = bc_handles_raw | split: '|' -%}
+      {%- for h in bc_handle_list -%}
+        {%- assign col = collections[h] -%}
+        {%- if col != blank -%}
+          {%- if crumb_string != blank -%}
+            {%- capture crumb_string -%}{{ crumb_string }}|{{ col.title }}::{{ col.url }}{%- endcapture -%}
+          {%- else -%}
+            {%- capture crumb_string -%}{{ col.title }}::{{ col.url }}{%- endcapture -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- assign bc_current_title = product.title -%}
+      {%- assign bc_current_url = product.url -%}
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- comment %}
+    Menu traversal: used for all non-product pages, and for product pages
+    where the metafield is not set.
+    Ancestors are collected into crumb_string; the exact active link becomes
+    bc_current_title/url. If the current page is not in the menu, bc_current_title
+    remains page_title (fallback).
+  {% endcomment -%}
+  {%- unless use_metafield -%}
+    {%- assign breadcrumb_menu = linklists[resolved_menu_handle] -%}
+    {%- assign found = false -%}
+
+    {%- if breadcrumb_menu != blank -%}
+      {%- for l1 in breadcrumb_menu.links -%}
+        {%- unless found -%}
+          {%- if l1.active -%}
+            {%- assign bc_current_title = l1.title -%}
+            {%- assign bc_current_url = l1.url -%}
+            {%- assign found = true -%}
+          {%- elsif l1.child_active -%}
+            {%- capture crumb_string -%}{{ l1.title }}::{{ l1.url }}{%- endcapture -%}
+            {%- for l2 in l1.links -%}
+              {%- unless found -%}
+                {%- if l2.active -%}
+                  {%- assign bc_current_title = l2.title -%}
+                  {%- assign bc_current_url = l2.url -%}
+                  {%- assign found = true -%}
+                {%- elsif l2.child_active -%}
+                  {%- capture crumb_string -%}{{ crumb_string }}|{{ l2.title }}::{{ l2.url }}{%- endcapture -%}
+                  {%- for l3 in l2.links -%}
+                    {%- unless found -%}
+                      {%- if l3.active -%}
+                        {%- assign bc_current_title = l3.title -%}
+                        {%- assign bc_current_url = l3.url -%}
+                        {%- assign found = true -%}
+                      {%- elsif l3.child_active -%}
+                        {%- capture crumb_string -%}{{ crumb_string }}|{{ l3.title }}::{{ l3.url }}{%- endcapture -%}
+                        {%- for l4 in l3.links -%}
+                          {%- unless found -%}
+                            {%- if l4.active -%}
+                              {%- assign bc_current_title = l4.title -%}
+                              {%- assign bc_current_url = l4.url -%}
+                              {%- assign found = true -%}
+                            {%- endif -%}
+                          {%- endunless -%}
+                        {%- endfor -%}
+                        {%- unless found -%}{%- assign found = true -%}{%- endunless -%}
+                      {%- endif -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                  {%- unless found -%}{%- assign found = true -%}{%- endunless -%}
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+            {%- unless found -%}{%- assign found = true -%}{%- endunless -%}
+          {%- endif -%}
+        {%- endunless -%}
+      {%- endfor -%}
+    {%- endif -%}
+  {%- endunless -%}
+
+  {%- assign crumb_items = crumb_string | split: '|' -%}
+  {%- assign current_position = crumb_items.size | plus: 2 -%}
+
+  <nav aria-label="breadcrumb" class="breadcrumbs">
+    <ol class="breadcrumbs__list" itemscope itemtype="https://schema.org/BreadcrumbList">
+
+      <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a class="breadcrumbs__link" href="{{ routes.root_url }}" itemprop="item">
+          <span itemprop="name">{{ 'general.breadcrumbs.home' | t }}</span>
+        </a>
+        <meta itemprop="position" content="1">
+      </li>
+
+      {%- for crumb in crumb_items -%}
+        {%- assign parts = crumb | split: '::' -%}
+        <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a class="breadcrumbs__link" href="{{ parts[1] }}" itemprop="item">
+            <span itemprop="name">{{ parts[0] }}</span>
+          </a>
+          <meta itemprop="position" content="{{ forloop.index | plus: 1 }}">
+        </li>
+      {%- endfor -%}
+
+      <li class="breadcrumbs__item breadcrumbs__item--current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span class="breadcrumbs__current" itemprop="name" aria-current="page">{{ bc_current_title }}</span>
+        <meta itemprop="position" content="{{ current_position }}">
+      </li>
+
+    </ol>
+  </nav>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": {{ 'general.breadcrumbs.home' | t | json }},
+        "item": {{ shop.url | append: routes.root_url | json }}
+      }
+      {%- for crumb in crumb_items -%}
+        {%- assign parts = crumb | split: '::' -%}
+        ,{
+          "@type": "ListItem",
+          "position": {{ forloop.index | plus: 1 }},
+          "name": {{ parts[0] | json }},
+          "item": {{ shop.url | append: parts[1] | json }}
+        }
+      {%- endfor -%}
+      ,{
+        "@type": "ListItem",
+        "position": {{ current_position }},
+        "name": {{ bc_current_title | json }},
+        "item": {{ shop.url | append: bc_current_url | json }}
+      }
+    ]
+  }
+  </script>
+
+{% stylesheet %}
+  .breadcrumbs {
+    padding: 0.5rem 0;
+  }
+
+  .breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  .breadcrumbs__item + .breadcrumbs__item::before {
+    content: '/';
+    color: currentColor;
+    opacity: 0.4;
+    margin-right: 0.25rem;
+  }
+
+  .breadcrumbs__link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .breadcrumbs__link:hover {
+    opacity: 0.7;
+  }
+
+  .breadcrumbs__current {
+    opacity: 0.6;
+  }
+{% endstylesheet %}
+
+{%- endunless -%}

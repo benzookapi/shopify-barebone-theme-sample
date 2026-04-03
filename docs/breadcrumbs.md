@@ -58,7 +58,34 @@ Home > Clothing > Women > Tops > Cut & Sew > Product
 
 Sample: [snippets/breadcrumbs-metafield.liquid](../snippets/breadcrumbs-metafield.liquid)
 
-### Method D — Product Tags as Pseudo-Hierarchy (Reference only)
+### Method D — Unified (Recommended)
+
+```
+Home > [ancestors from menu or metafield] > Current page
+```
+
+A single snippet (`snippets/breadcrumbs.liquid`) and a single section (`sections/breadcrumbs.liquid`) handle all page types from the header group:
+
+| Page type | Source |
+|-----------|--------|
+| Home | Renders nothing |
+| Product page with `custom.breadcrumb_collections` metafield | Resolves collection handles → title + URL automatically |
+| Product page without metafield | Menu traversal (falls back to `Home > Product title`) |
+| Collection, Blog, Article, Page, Search, 404 | Menu traversal; if current page is not in the menu, `page_title` is used as the current crumb |
+
+Compared to Method C, the metafield is reduced from two fields to one:
+
+| | Method C | Method D |
+|---|---|---|
+| Metafield 1 | `custom.breadcrumb_path` (labels) | — removed |
+| Metafield 2 | `custom.breadcrumb_urls` (URLs) | — removed |
+| Metafield | — | `custom.breadcrumb_collections` (handles only) |
+
+URLs and labels are resolved automatically via `collections['handle'].url` and `collections['handle'].title`.
+
+Samples: [snippets/breadcrumbs.liquid](../snippets/breadcrumbs.liquid), [sections/breadcrumbs.liquid](../sections/breadcrumbs.liquid)
+
+### Method E — Product Tags as Pseudo-Hierarchy (Reference only)
 
 - Use tag naming conventions such as `cat:mens` and `subcat:shirts` and parse them in Liquid.
 - Not recommended: tag count limits and parse complexity make this harder to maintain than Method C.
@@ -124,6 +151,7 @@ This approach allows:
 | 4–5 levels, admin-manageable | Method B — navigation menu traversal |
 | Per-product full customization | Method C — metafields |
 | Marketplace-style deep hierarchy | Method C + Metaobjects |
+| All-in-one, single header section | Method D — unified (recommended) |
 
 ---
 
@@ -249,10 +277,67 @@ Home / [Product title]
 
 | File | Description |
 |------|-------------|
+| [sections/breadcrumbs.liquid](../sections/breadcrumbs.liquid) | Method D unified section — add via header group in theme editor |
+| [snippets/breadcrumbs.liquid](../snippets/breadcrumbs.liquid) | Method D unified logic — all page types, metafield + menu traversal |
 | [sections/breadcrumbs_nav_menu.liquid](../sections/breadcrumbs_nav_menu.liquid) | Method B section — add via header group in theme editor |
 | [sections/breadcrumbs_metafield.liquid](../sections/breadcrumbs_metafield.liquid) | Method C section — add per template in theme editor |
 | [snippets/breadcrumbs-nav-menu.liquid](../snippets/breadcrumbs-nav-menu.liquid) | Method B logic — navigation menu traversal (up to 4 levels) |
 | [snippets/breadcrumbs-metafield.liquid](../snippets/breadcrumbs-metafield.liquid) | Method C logic — metafield-based breadcrumbs (unlimited depth) |
+
+---
+
+### Method D — Unified
+
+Method D uses a single section placed in the header group. It handles all page types automatically.
+
+#### Step 1: Create the navigation menu
+
+Follow the same steps as Method B (Step 1) to create a `breadcrumb-nav` menu in **Online Store > Navigation**.
+
+This menu is used for all pages except product pages that have the `custom.breadcrumb_collections` metafield set.
+
+#### Step 2: (Optional) Set the metafield on products
+
+For product pages that need deep ancestry (e.g. 4+ levels), add the `custom.breadcrumb_collections` metafield:
+
+1. In **Settings > Custom data > Products**, click **Add definition**:
+
+   | Field | Value |
+   |-------|-------|
+   | Name | Breadcrumb collections |
+   | Namespace & key | `custom.breadcrumb_collections` |
+   | Type | Single line text |
+
+2. Open a product in the Shopify admin. Scroll to **Metafields** and fill in:
+
+   | Field | Example value |
+   |-------|--------------|
+   | `custom.breadcrumb_collections` | `clothing\|mens\|mens-tops` |
+
+   - Values are pipe-separated collection **handles** (not titles or URLs).
+   - Order is shallowest → deepest ancestor. The current product title is appended automatically.
+   - Titles and URLs are resolved automatically from the handle — no separate URL field needed.
+
+   Products without this metafield fall back to menu traversal. If the product is not in the menu either, only `Home > [Product title]` is shown.
+
+#### Step 3: Add the section in the theme editor
+
+1. **Online Store > Themes > Customize**.
+2. Select the **Header** group in the left panel.
+3. Click **Add section** → **Breadcrumbs**.
+4. Leave **Menu handle** as `breadcrumb-nav` (or type your custom handle).
+
+#### Step 4: Verify
+
+| Page | Expected breadcrumb |
+|------|---------------------|
+| Home | (nothing rendered) |
+| `/collections/mens-tops` (in menu) | `Home / Mens / Tops` |
+| Product with metafield `clothing\|mens\|mens-tops` | `Home / Clothing / Mens / Tops / [Product title]` |
+| Product without metafield (in menu) | `Home / [ancestor from menu] / [Product title]` |
+| Product without metafield (not in menu) | `Home / [Product title]` |
+| Article page | `Home / [Blog name] / [Article title]` |
+| Static page (not in menu) | `Home / [Page title]` |
 
 ---
 

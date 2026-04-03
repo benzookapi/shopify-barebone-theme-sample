@@ -59,6 +59,15 @@
                 }
             }
         },
+        "breadcrumbs": {
+            "name": "Breadcrumbs",
+            "settings": {
+                "menu_handle": {
+                    "label": "Menu handle",
+                    "info": "Handle of the navigation menu to traverse for all pages except product pages with a metafield set. Create a menu in Online Store > Navigation and paste its handle here."
+                }
+            }
+        },
         "breadcrumbs_nav_menu": {
             "name": "Breadcrumbs (nav menu)",
             "settings": {
