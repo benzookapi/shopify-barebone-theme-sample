@@ -33,6 +33,21 @@ The steps above are for development mode that gets terminated once you stop the 
 # Sample list
 All samples are available at [Wiki](../../wiki).
 
+# Breadcrumb Navigation
+A unified breadcrumb section handles all page types from a single header group section.
+See [docs/breadcrumbs.md](docs/breadcrumbs.md) for full setup instructions.
+
+Resolution priority for product pages:
+
+| Priority | Condition | Source |
+|----------|-----------|--------|
+| 1 | Shopify standard taxonomy category is set on the product | `product.category.ancestors` → resolved via `collections[category.id]` |
+| 2 | `custom.breadcrumb_collections` metafield is set | Pipe-separated collection handles → resolved via `collections[handle]` |
+| 3 | Neither | Navigation menu traversal (`breadcrumb-nav`) |
+
+All other pages (collection, blog, article, page, search, 404) use Priority 3.
+JSON-LD `BreadcrumbList` structured data is injected automatically.
+
 # Trouble shooting 
 - If your change to files are not applied to the theme editor or storefront, make sure the `dev` output of CLI shows `Synced` without errors. Even if you have no errors but the editor or storefront doesn't reflect the change, shutdown the CLI with `Ctrl + C` to relaunch `shopify theme dev` (this sometimes happens when you modify the JSON temaplate or section schema).
 
