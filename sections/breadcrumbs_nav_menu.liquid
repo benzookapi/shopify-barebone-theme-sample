@@ -1,0 +1,40 @@
+{% comment %}
+  *** Breadcrumbs (nav menu) — Method B ***
+  Renders breadcrumb navigation by traversing a dedicated navigation menu.
+
+  How to add:
+    Theme editor > Header group > Add section > "Breadcrumbs (nav menu)"
+
+  How it works:
+    Traverses the menu specified by "Menu handle" in the section settings.
+    The current page is detected automatically via link.active / link.child_active.
+    Supports up to 4 nested levels.
+
+  See docs/breadcrumbs.md for full setup instructions.
+{% endcomment %}
+
+{% render 'breadcrumbs-nav-menu', menu_handle: section.settings.menu_handle %}
+
+{% schema %}
+{
+  "name": "t:sections.breadcrumbs_nav_menu.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "text",
+      "id": "menu_handle",
+      "label": "t:sections.breadcrumbs_nav_menu.settings.menu_handle.label",
+      "default": "breadcrumb-nav",
+      "info": "t:sections.breadcrumbs_nav_menu.settings.menu_handle.info"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.breadcrumbs_nav_menu.name"
+    }
+  ],
+  "enabled_on": {
+    "groups": ["header"]
+  }
+}
+{% endschema %}

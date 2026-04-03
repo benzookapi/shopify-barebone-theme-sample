@@ -53,5 +53,10 @@
         "hello": {
             "text": "Hello {{ name }}!"
         }
+    },
+    "general": {
+        "breadcrumbs": {
+            "home": "Home"
+        }
     }
 }

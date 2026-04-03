@@ -1,0 +1,45 @@
+{% comment %}
+  *** Breadcrumbs (metafield) — Method C ***
+  Renders breadcrumb navigation driven by metafields on the current product or collection.
+
+  How to add:
+    Theme editor > select a template (e.g. Collection, Product) > Add section > "Breadcrumbs (metafield)"
+
+  How it works:
+    Reads custom.breadcrumb_path and custom.breadcrumb_urls from the current
+    product / collection metafields and renders each pipe-separated segment as a crumb.
+    Supports unlimited depth.
+
+  Required metafields (Settings > Custom data in Shopify admin):
+    - custom.breadcrumb_path : single_line_text — pipe-separated labels  e.g. "Clothing|Women|Tops"
+    - custom.breadcrumb_urls : single_line_text — pipe-separated URLs    e.g. "/collections/clothing|/collections/women|/collections/tops"
+
+  See docs/breadcrumbs.md for full setup instructions.
+{% endcomment %}
+
+{% render 'breadcrumbs-metafield' %}
+
+{% schema %}
+{
+  "name": "t:sections.breadcrumbs_metafield.name",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.breadcrumbs_metafield.settings.setup_header.content"
+    },
+    {
+      "type": "paragraph",
+      "content": "t:sections.breadcrumbs_metafield.settings.setup_info.content"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.breadcrumbs_metafield.name"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["collection", "product", "article", "page"]
+  }
+}
+{% endschema %}

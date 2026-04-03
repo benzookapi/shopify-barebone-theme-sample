@@ -1,0 +1,185 @@
+{% doc %}
+  Method B: Breadcrumb navigation built by traversing a dedicated Shopify navigation menu.
+
+  Setup in Shopify admin:
+    1. Go to Online Store > Navigation.
+    2. Create a menu (default handle: "breadcrumb-nav").
+    3. Build the full category hierarchy as nested menu links (up to 4 levels).
+    4. The current page is detected automatically via link.active / link.child_active.
+
+  Usage:
+    {% render 'breadcrumbs-nav-menu' %}
+    {% render 'breadcrumbs-nav-menu', menu_handle: 'my-custom-menu' %}
+
+  The snippet also injects a JSON-LD BreadcrumbList into <head> via a <script> tag
+  for SEO structured data.
+
+  @param {string} [menu_handle] - Handle of the navigation menu to traverse. Defaults to 'breadcrumb-nav'.
+
+  @example
+  {% render 'breadcrumbs-nav-menu' %}
+  {% render 'breadcrumbs-nav-menu', menu_handle: section.settings.menu_handle %}
+{% enddoc %}
+
+{%- assign resolved_menu_handle = menu_handle | default: 'breadcrumb-nav' -%}
+{%- assign breadcrumb_menu = linklists[resolved_menu_handle] -%}
+
+{%- comment %} Build the crumb array as a pipe-delimited string: "title::url|title::url|..." {% endcomment -%}
+{%- assign crumb_string = '' -%}
+{%- assign found = false -%}
+
+{%- if breadcrumb_menu != blank -%}
+  {%- for l1 in breadcrumb_menu.links -%}
+    {%- unless found -%}
+      {%- if l1.active or l1.child_active -%}
+        {%- capture crumb_string -%}{{ l1.title }}::{{ l1.url }}{%- endcapture -%}
+
+        {%- if l1.active and l1.links.size == 0 -%}
+          {%- assign found = true -%}
+        {%- else -%}
+          {%- for l2 in l1.links -%}
+            {%- unless found -%}
+              {%- if l2.active or l2.child_active -%}
+                {%- capture crumb_string -%}{{ crumb_string }}|{{ l2.title }}::{{ l2.url }}{%- endcapture -%}
+
+                {%- if l2.active and l2.links.size == 0 -%}
+                  {%- assign found = true -%}
+                {%- else -%}
+                  {%- for l3 in l2.links -%}
+                    {%- unless found -%}
+                      {%- if l3.active or l3.child_active -%}
+                        {%- capture crumb_string -%}{{ crumb_string }}|{{ l3.title }}::{{ l3.url }}{%- endcapture -%}
+
+                        {%- if l3.active and l3.links.size == 0 -%}
+                          {%- assign found = true -%}
+                        {%- else -%}
+                          {%- for l4 in l3.links -%}
+                            {%- unless found -%}
+                              {%- if l4.active -%}
+                                {%- capture crumb_string -%}{{ crumb_string }}|{{ l4.title }}::{{ l4.url }}{%- endcapture -%}
+                                {%- assign found = true -%}
+                              {%- endif -%}
+                            {%- endunless -%}
+                          {%- endfor -%}
+                        {%- endif -%}
+                      {%- endif -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endunless -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- assign crumb_items = crumb_string | split: '|' -%}
+
+<nav aria-label="breadcrumb" class="breadcrumbs breadcrumbs--nav-menu">
+  <ol class="breadcrumbs__list" itemscope itemtype="https://schema.org/BreadcrumbList">
+
+    <li class="breadcrumbs__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+      <a class="breadcrumbs__link" href="{{ routes.root_url }}" itemprop="item">
+        <span itemprop="name">{{ 'general.breadcrumbs.home' | t | default: 'Home' }}</span>
+      </a>
+      <meta itemprop="position" content="1">
+    </li>
+
+    {%- for crumb in crumb_items -%}
+      {%- assign parts = crumb | split: '::' -%}
+      {%- assign crumb_title = parts[0] -%}
+      {%- assign crumb_url = parts[1] -%}
+      {%- assign position = forloop.index | plus: 1 -%}
+      {%- assign is_last = false -%}
+      {%- if forloop.last -%}
+        {%- assign is_last = true -%}
+      {%- endif -%}
+
+      <li class="breadcrumbs__item{% if is_last %} breadcrumbs__item--current{% endif %}"
+          itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        {%- if is_last -%}
+          <span class="breadcrumbs__current" itemprop="name" aria-current="page">{{ crumb_title }}</span>
+        {%- else -%}
+          <a class="breadcrumbs__link" href="{{ crumb_url }}" itemprop="item">
+            <span itemprop="name">{{ crumb_title }}</span>
+          </a>
+        {%- endif -%}
+        <meta itemprop="position" content="{{ position }}">
+      </li>
+    {%- endfor -%}
+
+    {%- if crumb_items.size == 0 -%}
+      {%- comment %} Fallback: menu match not found, show page title only {% endcomment -%}
+      <li class="breadcrumbs__item breadcrumbs__item--current"
+          itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <span class="breadcrumbs__current" itemprop="name" aria-current="page">{{ page_title }}</span>
+        <meta itemprop="position" content="2">
+      </li>
+    {%- endif -%}
+
+  </ol>
+</nav>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": {{ 'general.breadcrumbs.home' | t | default: 'Home' | json }},
+      "item": {{ shop.url | append: routes.root_url | json }}
+    }
+    {%- for crumb in crumb_items -%}
+      {%- assign parts = crumb | split: '::' -%}
+      ,{
+        "@type": "ListItem",
+        "position": {{ forloop.index | plus: 1 }},
+        "name": {{ parts[0] | json }},
+        "item": {{ shop.url | append: parts[1] | json }}
+      }
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% stylesheet %}
+  .breadcrumbs {
+    padding: 0.5rem 0;
+  }
+
+  .breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.875rem;
+  }
+
+  .breadcrumbs__item + .breadcrumbs__item::before {
+    content: '/';
+    color: currentColor;
+    opacity: 0.4;
+    margin-right: 0.25rem;
+  }
+
+  .breadcrumbs__link {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .breadcrumbs__link:hover {
+    opacity: 0.7;
+  }
+
+  .breadcrumbs__current {
+    opacity: 0.6;
+  }
+{% endstylesheet %}

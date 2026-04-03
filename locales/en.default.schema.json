@@ -59,6 +59,26 @@
                 }
             }
         },
+        "breadcrumbs_nav_menu": {
+            "name": "Breadcrumbs (nav menu)",
+            "settings": {
+                "menu_handle": {
+                    "label": "Menu handle",
+                    "info": "Handle of the navigation menu to traverse. Create a menu in Online Store > Navigation and paste its handle here."
+                }
+            }
+        },
+        "breadcrumbs_metafield": {
+            "name": "Breadcrumbs (metafield)",
+            "settings": {
+                "setup_header": {
+                    "content": "Metafield setup"
+                },
+                "setup_info": {
+                    "content": "Required metafields on products/collections — custom.breadcrumb_path (pipe-separated labels) and custom.breadcrumb_urls (pipe-separated URLs). Set these in Settings > Custom data."
+                }
+            }
+        },
         "customer_filtered_search": {
             "name": "Customer filtered search",
             "settings": {
