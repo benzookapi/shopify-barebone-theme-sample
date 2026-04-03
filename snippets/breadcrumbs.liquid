@@ -61,27 +61,31 @@
     {%- comment %} Priority 1: Shopify taxonomy category {% endcomment -%}
     {%- assign cat = product.category -%}
     {%- if cat != blank -%}
-      {%- assign bc_resolved = true -%}
+      {%- assign tax_crumb_string = '' -%}
       {%- for ancestor in cat.ancestors -%}
         {%- assign anc_col = collections[ancestor.id] -%}
         {%- if anc_col != blank -%}
-          {%- if crumb_string != blank -%}
-            {%- capture crumb_string -%}{{ crumb_string }}|{{ anc_col.title }}::{{ anc_col.url }}{%- endcapture -%}
+          {%- if tax_crumb_string != blank -%}
+            {%- capture tax_crumb_string -%}{{ tax_crumb_string }}|{{ anc_col.title }}::{{ anc_col.url }}{%- endcapture -%}
           {%- else -%}
-            {%- capture crumb_string -%}{{ anc_col.title }}::{{ anc_col.url }}{%- endcapture -%}
+            {%- capture tax_crumb_string -%}{{ anc_col.title }}::{{ anc_col.url }}{%- endcapture -%}
           {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
       {%- assign leaf_col = collections[cat.id] -%}
       {%- if leaf_col != blank -%}
-        {%- if crumb_string != blank -%}
-          {%- capture crumb_string -%}{{ crumb_string }}|{{ leaf_col.title }}::{{ leaf_col.url }}{%- endcapture -%}
+        {%- if tax_crumb_string != blank -%}
+          {%- capture tax_crumb_string -%}{{ tax_crumb_string }}|{{ leaf_col.title }}::{{ leaf_col.url }}{%- endcapture -%}
         {%- else -%}
-          {%- capture crumb_string -%}{{ leaf_col.title }}::{{ leaf_col.url }}{%- endcapture -%}
+          {%- capture tax_crumb_string -%}{{ leaf_col.title }}::{{ leaf_col.url }}{%- endcapture -%}
         {%- endif -%}
       {%- endif -%}
-      {%- assign bc_current_title = product.title -%}
-      {%- assign bc_current_url = product.url -%}
+      {%- if tax_crumb_string != blank -%}
+        {%- assign bc_resolved = true -%}
+        {%- assign crumb_string = tax_crumb_string -%}
+        {%- assign bc_current_title = product.title -%}
+        {%- assign bc_current_url = product.url -%}
+      {%- endif -%}
     {%- endif -%}
 
     {%- comment %} Priority 2: custom.breadcrumb_collections metafield {% endcomment -%}
