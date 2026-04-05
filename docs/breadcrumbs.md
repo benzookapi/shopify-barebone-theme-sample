@@ -192,6 +192,22 @@ from the app's main page:
 
 > The navigation menu API supports a maximum of 3 nesting levels. If your taxonomy is deeper than 3 levels, the menu is truncated at 3 levels. The Liquid breadcrumb snippet handles deeper hierarchies correctly via Priority 1 (taxonomy) regardless of menu depth.
 
+### Alternative: Node.js script (no Sidekick required)
+
+For development stores or any environment where Shopify Sidekick is not available, use the included Node.js script instead. It performs the same four operations (fetch categories, create smart collections, build menu tree, create/update menu) directly against the Admin GraphQL API.
+
+**Requirements:** Node.js 18+, Admin API access token with scopes `read_products`, `write_products`, `read_online_store_navigation`, `write_online_store_navigation`.
+
+```bash
+SHOPIFY_STORE_DOMAIN=your-store.myshopify.com \
+SHOPIFY_ACCESS_TOKEN=shpat_xxxx \
+node docs/setup-breadcrumb-taxonomy.js
+```
+
+The script is idempotent — safe to re-run. Existing collections are reused; the menu is updated in place.
+
+→ See [setup-breadcrumb-taxonomy.js](setup-breadcrumb-taxonomy.js) for the full source.
+
 ---
 
 ## Deep Hierarchy for Marketplace-style Sites
