@@ -51,6 +51,14 @@ See the implementation in:
 - [sections/customer_filtered_collection.liquid](../sections/customer_filtered_collection.liquid)
 - [sections/customer_filtered_search.liquid](../sections/customer_filtered_search.liquid)
 
+## Direct Product Page Access
+
+These filtered collection and search sections only control which products appear in listing views. If you also need to prevent customers from viewing a product page directly by URL, add the same metafield check to the product page Liquid.
+
+For example, compare the logged-in customer's `custom.access_code` metafield with the product's `custom.access_codes` metafield before rendering product details. If the values do not match, either render an access-denied message, skip the product detail output, or use a client-side redirect to another page such as the home page.
+
+This theme-level guard improves the storefront experience, but it should not be treated as a substitute for app-level or backend access control for highly sensitive content.
+
 ## Adding Sections to Templates
 
 Open the theme editor in Shopify Admin and add the sections to the appropriate templates.
