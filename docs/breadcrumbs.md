@@ -3,6 +3,8 @@
 Custom Liquid implementation of breadcrumb navigation for Shopify themes (e.g. Dawn).
 Shopify does not include breadcrumbs out of the box, so this guide covers how to build them using Liquid.
 
+**Demo:** [Wiki — Breadcrumb menu with collections, product categories, and metafields](../../../wiki#breadcrumb-menu-with-collections-product-categories-and-metafields)
+
 ---
 
 ## Understanding Shopify's Structural Constraints
