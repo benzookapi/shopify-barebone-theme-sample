@@ -59,6 +59,12 @@ For example, compare the logged-in customer's `custom.access_code` metafield wit
 
 This theme-level guard improves the storefront experience, but it should not be treated as a substitute for app-level or backend access control for highly sensitive content.
 
+## Production Checkout Enforcement
+
+For a stronger production guard, consider adding a Shopify Function using the Cart and Checkout Validation Function API. A validation function can compare the products in the cart with the purchasing customer's metafields and block checkout when the customer's access code does not match the product's allowed access codes.
+
+This is outside the scope of this theme-only implementation, so it is not covered in this sample. See Shopify's [Cart and Checkout Validation Function API](https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation) documentation for implementation details.
+
 ## Adding Sections to Templates
 
 Open the theme editor in Shopify Admin and add the sections to the appropriate templates.
