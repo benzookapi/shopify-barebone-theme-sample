@@ -228,6 +228,97 @@ For 5–6 level hierarchies beyond what the standard taxonomy supports, consider
 
 ---
 
+## Advanced: Semantic Blog and Article Breadcrumbs Independent from URLs
+
+For WordPress-to-Shopify blog migrations, breadcrumbs sometimes need to preserve a deep semantic hierarchy that is independent from the Shopify URL structure. In that case, keep the UI breadcrumbs and the JSON-LD `BreadcrumbList` driven by the same normalized breadcrumb data.
+
+The balanced approach is to use `blog.custom.breadcrumb_node` as the default source of truth, with `blog.custom.breadcrumb_path` available as an override for exceptional cases.
+
+### Data model
+
+Create a `breadcrumb_node` Metaobject for centrally managed hierarchy nodes:
+
+| Field | Type | Purpose |
+|---|---|---|
+| `title` | Single line text | Breadcrumb label |
+| `url` | URL | Breadcrumb link target |
+| `parent` | Metaobject reference to `breadcrumb_node` | Parent semantic node |
+
+Create a `breadcrumb_item` Metaobject only if fixed path overrides are needed:
+
+| Field | Type | Purpose |
+|---|---|---|
+| `title` | Single line text | Breadcrumb label |
+| `url` | URL | Breadcrumb link target |
+
+Add these metafields where needed:
+
+| Owner | Metafield | Type | Purpose |
+|---|---|---|---|
+| Blog or article | `custom.breadcrumb_node` | Metaobject reference to `breadcrumb_node` | Default semantic node |
+| Blog or article | `custom.breadcrumb_path` | List of Metaobject references to `breadcrumb_item` | Ordered fixed breadcrumb override |
+
+### Recommended default: `blog.custom.breadcrumb_node`
+
+Use a `metaobject_reference` metafield that points to the deepest semantic node for the blog.
+
+Example value:
+
+| Owner | Metafield | Value |
+|---|---|---|
+| Blog: `migration-guides` | `custom.breadcrumb_node` | `breadcrumb_node: wordpress-migration` |
+
+Example `breadcrumb_node` Metaobjects:
+
+| Metaobject handle | Title | URL | Parent |
+|---|---|---|---|
+| `guides` | Guides | `/pages/guides` | — |
+| `shopify-migration` | Shopify Migration | `/collections/shopify-migration` | `guides` |
+| `wordpress-migration` | WordPress Migration | `/pages/wordpress-migration` | `shopify-migration` |
+
+Article breadcrumbs can then be resolved by traversing the node's parent chain and appending the blog and article:
+
+```text
+Home > Guides > Shopify Migration > WordPress Migration > [Blog title] > [Article title]
+```
+
+This works well when the same semantic node needs to be reused across blogs, pages, collections, or products. The hierarchy is centrally managed in Metaobjects, while each resource only points to its own deepest semantic node.
+
+### Optional override: `blog.custom.breadcrumb_path`
+
+Use a `list.metaobject_reference` metafield when a blog needs a fixed breadcrumb path that should not be derived from parent traversal.
+
+Example value:
+
+| Owner | Metafield | Value |
+|---|---|---|
+| Blog: `migration-guides` | `custom.breadcrumb_path` | `breadcrumb_item: guides`, `breadcrumb_item: shopify-migration`, `breadcrumb_item: wordpress-migration` |
+
+Each `breadcrumb_item` Metaobject stores the already-resolved breadcrumb label and URL:
+
+| Metaobject handle | Title | URL |
+|---|---|---|
+| `guides` | Guides | `/pages/guides` |
+| `shopify-migration` | Shopify Migration | `/collections/shopify-migration` |
+| `wordpress-migration` | WordPress Migration | `/pages/wordpress-migration` |
+
+The path field is easier to render because it is already ordered, but it duplicates hierarchy data. Use it as an override, not as the primary model, when the store needs a one-off editorial breadcrumb trail.
+
+### Article-level overrides
+
+Most articles should inherit the blog-level breadcrumb source. For special articles, add the same metafields to articles and resolve them before the blog-level values:
+
+1. `article.custom.breadcrumb_path`
+2. `article.custom.breadcrumb_node`
+3. `blog.custom.breadcrumb_path`
+4. `blog.custom.breadcrumb_node`
+5. Navigation menu fallback
+6. `Home > [Blog title] > [Article title]`
+
+Whichever source is selected, normalize it into a single breadcrumb array first, then render both the visible UI and JSON-LD from that same array.
+
+---
+
 ## References
 
 - [Shopify Liquid: taxonomy_category object](https://shopify.dev/docs/api/liquid/objects/taxonomy_category)
@@ -237,3 +328,4 @@ For 5–6 level hierarchies beyond what the standard taxonomy supports, consider
 - [Shopify Metaobjects](https://shopify.dev/docs/apps/custom-data/metaobjects)
 - [CollectionRuleColumn: PRODUCT_CATEGORY_ID_WITH_DESCENDANTS](https://shopify.dev/changelog/introducing-productcategoryidwithdescendants-in-collectionrulecolumn-for-smart-collections)
 - [Schema.org BreadcrumbList](https://schema.org/BreadcrumbList)
+- [Google Search Central: Breadcrumb structured data](https://developers.google.com/search/docs/appearance/structured-data/breadcrumb)
