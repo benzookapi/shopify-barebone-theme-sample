@@ -88,6 +88,18 @@ Womens           → /collections/womens
 
 URLs must match actual collection URLs in your store. The snippet uses `link.active` and `link.child_active` to detect the current page automatically — no manual configuration per page needed.
 
+#### Why the menu hierarchy is required
+
+For collection, blog, article, page, search, and fallback product breadcrumbs, the snippet does not infer parent-child relationships from URLs. Shopify collections and pages do not have native parent collections or parent pages, so the breadcrumb hierarchy must come from a navigation menu.
+
+The snippet traverses the configured menu and uses `link.active` / `link.child_active` to detect the current page and its ancestors. This means the menu links must point to the same storefront URLs as the pages being rendered, and the nesting in the menu must mirror the intended breadcrumb hierarchy.
+
+If the current page is not present in the menu, or if the URL does not match, Liquid cannot detect its ancestors. In that case, the breadcrumb gracefully falls back to the current `page_title`, producing a shallow trail such as:
+
+```text
+Home > [Current page title]
+```
+
 > You can use Shopify Sidekick or the Admin GraphQL API to generate this menu automatically from your taxonomy category hierarchy. See the Sidekick prompt below.
 
 ---
@@ -103,6 +115,21 @@ If your products have a Shopify standard taxonomy category set, breadcrumbs reso
 | Health & Beauty | `hb-1` | `hb-1` |
 | Vitamins & Supplements | `hb-1-9` | `hb-1-9` |
 | Multivitamins | `hb-1-9-6` | `hb-1-9-6` |
+
+#### Why matching collections are required
+
+`product.category` exposes the Shopify standard taxonomy category assigned to the product, including its ancestor category objects. These category objects are useful for hierarchy, but they are not storefront collection pages by themselves.
+
+Breadcrumb items need clickable labels and URLs. For taxonomy-based product breadcrumbs, the snippet resolves each category node by looking up a collection whose handle matches the category ID:
+
+```liquid
+{% assign anc_col = collections[ancestor.id] %}
+{% assign leaf_col = collections[cat.id] %}
+```
+
+Because of that lookup, each taxonomy category that should appear in the breadcrumb must have a matching collection. For example, category ID `hb-1-9-6` must have a collection with handle `hb-1-9-6`.
+
+If a matching collection does not exist, that category level is skipped because Liquid has no collection title or collection URL to render. If none of the taxonomy categories resolve to collections, Priority 1 is not used and the snippet falls through to the metafield-based or navigation-menu fallback.
 
 For smart (automated) collections, use these rule types:
 
