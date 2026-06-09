@@ -15,6 +15,9 @@
     "home_page": {
       "name": "ホームページ"
     },
+    "home_theme_blocks": {
+      "name": "ホームテーマブロック"
+    },
     "collection": {
       "name": "コレクション"
     },
@@ -44,6 +47,49 @@
     },
     "company": {
       "name": "会社"
+    },
+    "customer_filtered_collection": {
+      "name": "フィルター付きコレクション",
+      "settings": {
+        "title": {
+          "label": "タイトル"
+        },
+        "metafield_setup_header": {
+          "content": "メタフィールド設定"
+        },
+        "metafield_setup_info": {
+          "content": "必要なメタフィールド — Customer: namespace=custom, key=access_code (single_line_text_field). Product: namespace=custom, key=access_codes (list.single_line_text_field)."
+        }
+      }
+    },
+    "breadcrumbs": {
+      "name": "パンくずリスト",
+      "settings": {
+        "menu_handle": {
+          "label": "メニューハンドル",
+          "info": "商品ページでメタフィールドが設定されていない場合を除き、各ページで辿るナビゲーションメニューのハンドルです。Online Store > Navigation でメニューを作成し、そのハンドルをここに貼り付けます。"
+        }
+      }
+    },
+    "customer_filtered_search": {
+      "name": "カスタマー別フィルター検索",
+      "settings": {
+        "title": {
+          "label": "タイトル"
+        },
+        "placeholder": {
+          "label": "検索プレースホルダーテキスト"
+        },
+        "button_label": {
+          "label": "検索ボタンラベル"
+        },
+        "metafield_setup_header": {
+          "content": "メタフィールド設定"
+        },
+        "metafield_setup_info": {
+          "content": "必要なメタフィールド — Customer: namespace=custom, key=access_code (single_line_text_field). Product: namespace=custom, key=access_codes (list.single_line_text_field)."
+        }
+      }
     }
   }
 }

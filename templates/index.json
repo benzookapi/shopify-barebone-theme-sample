@@ -13,9 +13,36 @@
             "block_order": [
                 "9999"
             ]
+        },
+        "theme_block_examples": {
+            "type": "home_theme_blocks",
+            "blocks": {
+                "all_collections": {
+                    "type": "link_card",
+                    "settings": {
+                        "url": "shopify:\/\/collections\/all",
+                        "label": "All collections"
+                    }
+                },
+                "theme_docs": {
+                    "type": "link_card",
+                    "settings": {
+                        "url": "https:\/\/shopify.dev\/docs\/storefronts\/themes\/architecture\/blocks",
+                        "label": "Theme blocks documentation"
+                    }
+                }
+            },
+            "block_order": [
+                "all_collections",
+                "theme_docs"
+            ],
+            "settings": {
+                "title": "Theme block examples"
+            }
         }
     },
     "order": [
-        "my_home"
+        "my_home",
+        "theme_block_examples"
     ]
 }

@@ -1,0 +1,64 @@
+{% comment %}
+  Home page section that delegates reusable UI parts to theme blocks.
+  Read https://shopify.dev/docs/storefronts/themes/architecture/blocks
+{% endcomment %}
+
+<div class="my_section my_home_theme_blocks">
+  {% render 'section_title' %}
+
+  <h2>{{ section.settings.title }}</h2>
+
+  <div class="my-theme-block-grid">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .my-theme-block-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+    "name": "t:sections.home_theme_blocks.name",
+    "limit": 1,
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Reusable theme blocks"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "@theme"
+        },
+        {
+            "type": "@app"
+        }
+    ],
+    "enabled_on": {
+        "templates": ["index"]
+    },
+    "presets": [
+        {
+            "name": "t:sections.home_theme_blocks.name",
+            "blocks": [
+                {
+                    "type": "link_card"
+                },
+                {
+                    "type": "collection_card"
+                },
+                {
+                    "type": "product_card"
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}

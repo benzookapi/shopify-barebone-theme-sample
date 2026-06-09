@@ -15,6 +15,9 @@
         "home_page": {
             "name": "Home Page"
         },
+        "home_theme_blocks": {
+            "name": "Home theme blocks"
+        },
         "collection": {
             "name": "Collection"
         },
