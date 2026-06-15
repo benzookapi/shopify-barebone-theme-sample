@@ -4,18 +4,30 @@ This is an _unofficial_ sample code for scratch building [Shopify theme](https:/
 If you are a theme beginner and feel it tough to grab the high volume source code of Dawn, this basic theme may work as a tutorial, but you are expected to be familiar with basic HTML / JavaScript / CSS.
 
 # Code structure
-The exact same as the [Shopify theme structure](https://shopify.dev/docs/storefronts/themes/architecture).
+This sample follows the standard [Shopify theme structure](https://shopify.dev/docs/storefronts/themes/architecture).
 
-For better understanding of the theme mechanism, you should check these first. 
+Start with these core theme concepts:
 
-- [Layouts](https://shopify.dev/docs/storefronts/themes/architecture/layouts) = the theme main files
-- [Templates](https://shopify.dev/docs/storefronts/themes/architecture/templates) = each page configuration to render the sections below, most of which are `*.json` files (some are `*.liquid`)
-- [Sections](https://shopify.dev/docs/storefronts/themes/architecture/sections) = each page content written as HTML / JavaScript / CSS with Liquid code, most of which are `*.liquid` files (some are `*.json`)
-- [Section blocks](https://shopify.dev/docs/storefronts/themes/architecture/sections/section-schema#blocks) = blocks defined inside a section schema. They are useful for section-specific repeated content.
-- [Theme blocks](https://shopify.dev/docs/storefronts/themes/architecture/blocks) = reusable UI components stored in `/blocks`. Sections render them with `{% content_for 'blocks' %}`, and section schemas can allow theme blocks with `{ "type": "@theme" }`.
-- [App blocks](https://shopify.dev/docs/storefronts/themes/architecture/sections/app-blocks) = special blocks in each section to render [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions)
-- [Section groups](https://shopify.dev/docs/storefronts/themes/architecture/section-groups) = groups of sections which split the theme editor left navigation into some parts and work with [the store contextualization](https://shopify.dev/docs/storefronts/themes/architecture/section-groups#contextual-section-groups) as `*.json` files under `/sections`, not `/templates`.
-- [Dynamic sources](https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources) = theme editor function to connect store data instances to liquid objects
+| Concept | Where it lives in this repo | Role |
+|---|---|---|
+| [Layouts](https://shopify.dev/docs/storefronts/themes/architecture/layouts) | `layout/*.liquid` | Theme shell files. `layout/theme.liquid` wraps storefront pages and loads global assets. |
+| [Templates](https://shopify.dev/docs/storefronts/themes/architecture/templates) | `templates/*.json`, `templates/*.liquid` | Page definitions that choose which sections render for each template type. Most templates are JSON; gift cards use Liquid. |
+| [Sections](https://shopify.dev/docs/storefronts/themes/architecture/sections) | `sections/*.liquid`, `sections/*.json` | Merchant-configurable page modules written with HTML, JavaScript, CSS, and Liquid. JSON files here are section groups, not templates. |
+| [Section blocks](https://shopify.dev/docs/storefronts/themes/architecture/sections/section-schema#blocks) | Block schemas inside `sections/*.liquid` | Section-specific repeated content defined inside a section schema. |
+| [Theme blocks](https://shopify.dev/docs/storefronts/themes/architecture/blocks) | `blocks/*.liquid` | Reusable UI components that sections render with `{% content_for 'blocks' %}` and allow with `{ "type": "@theme" }`. |
+| [App blocks](https://shopify.dev/docs/storefronts/themes/architecture/sections/app-blocks) | Allowed from section schemas | Extension points for rendering [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions). |
+| [Section groups](https://shopify.dev/docs/storefronts/themes/architecture/section-groups) | `sections/*_group*.json` | Persistent groups such as header and footer. They split the theme editor navigation and can support [contextual section groups](https://shopify.dev/docs/storefronts/themes/architecture/section-groups#contextual-section-groups). |
+| [Dynamic sources](https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources) | Theme editor setting connections | Theme editor feature for connecting store data instances to Liquid objects. |
+
+Supporting folders in this sample:
+
+| Folder | Purpose |
+|---|---|
+| `assets/` | Theme CSS, JavaScript, fonts, and other static assets. `.liquid` assets can use Liquid before Shopify serves them. |
+| `config/` | Theme settings schema and saved setting data. |
+| `docs/` | Feature setup guides for examples in this repo. |
+| `locales/` | Translation files for storefront content and theme editor labels. |
+| `snippets/` | Reusable Liquid partials included by layouts, sections, or blocks. |
 
 This sample intentionally keeps some older section-local blocks so you can see the classic section/block model. It also includes theme block examples that are closer to current Horizon-style composition, where small reusable UI parts live under `/blocks` and sections decide where those blocks can be placed.
 
