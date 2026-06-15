@@ -95,6 +95,11 @@ For example, once you access the language path like `/ja` in your storefront URL
 - [Templates](https://shopify.dev/docs/storefronts/themes/architecture/templates) used by the theme editor have naming rules to detect [each type](https://shopify.dev/docs/storefronts/themes/architecture/templates#template-types). For example, if you want to have multiple product templates, their names need to be `product.json` (default), `product.test1.json`, `product.test2.json`, .... etc. You can check it creating a new template from [the code editor](https://shopify.dev/docs/storefronts/themes/tools/code-editor).
 - Note that if you connect your theme in the store to its GitHub repo., **Shopify bot automatically updates your GitHub code** which sometimes conflicts with your local change.
 
+# Best Practices
+- When you customize an existing theme, such as a Theme Store theme, avoid overwriting the original theme code as much as possible. Copy the original template, section, or block first, add your custom code to the copy, and then select your custom template, section, or block from the Shopify product detail page or the online store editor instead of the original one.
+- Keep UI code in theme blocks where possible so it stays reusable across sections and templates.
+- Before changing theme source code directly, first try lower-risk options such as custom Liquid in the online store editor or AI-generated theme edits with Shopify Sidekick.
+
 # Disclaimer
 - This code is fully _unofficial_ and NOT guaranteed to pass [the public theme review](https://shopify.dev/docs/storefronts/themes/store/review-process/submit-theme) for Shopify theme store. The official requirements are described [here](https://shopify.dev/docs/storefronts/themes/store/requirements).
 - If you use this code for your production, **all responsibilities are owned by you**.
