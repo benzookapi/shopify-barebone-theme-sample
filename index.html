@@ -567,195 +567,27 @@
         </div>
       </div>
       <section class="practices" id="best-practices" aria-labelledby="practices-title">
-        <div class="wrap">
-          <h2 id="practices-title">Best practices</h2>
-          <section class="practice-topic">
-            <h3>Keep the original component</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  Duplicate the theme and work in the unpublished copy. Check which products share the
-                  template you plan to change.
-                </li>
-                <li>
-                  Build the new feature as <strong>its own section or block</strong>. Give it a preset so the
-                  merchant can add it to a compatible template or section and move it in the editor.
-                </li>
-                <li>
-                  After placing the new component, use the eye icon to <strong>hide the original</strong>. Its
-                  settings stay saved, so the merchant can switch back.
-                </li>
-              </ul>
-              <table class="practice-example">
-                <caption>
-                  Replacing a product description block
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Block</th>
-                    <th scope="col">Before</th>
-                    <th scope="col">After</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">Original description</th>
-                    <td>Visible</td>
-                    <td>Hidden (settings kept)</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Materials and care</th>
-                    <td>Not added</td>
-                    <td>Visible</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>Make text, images, and links editable</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  <strong>Text.</strong> Use <code>text</code> or <code>richtext</code> settings. For a
-                  description that varies by product, connect a compatible product metafield as a dynamic
-                  source.
-                </li>
-                <li>
-                  <strong>Images.</strong> Use <code>image_picker</code> for a shared image. Connect a
-                  file-reference metafield containing an image when each product needs its own.
-                </li>
-                <li>
-                  <strong>Related items.</strong> Use a <code>product</code> or
-                  <code>collection</code> picker. Omit the link when the selection is empty.
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Compatible dynamic sources <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/blocks/product_card.liquid"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Sample product picker <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>Keep custom fonts in assets/</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  Add the font file to the theme’s <code>assets/</code> directory. Load it with
-                  <code>@font-face</code> and <code>asset_url</code>, and specify a fallback font.
-                </li>
-                <li>
-                  In this sample, the <code>use_font</code> theme setting controls whether
-                  <code>my_font.woff</code> loads.
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/assets/my_font.css.liquid"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Sample font CSS <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/best-practices/performance/self-host-web-fonts"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Shopify font guidance <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>Test changes in the editor</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  Select and move the block, change its text and image, and save. Reopen the editor and check
-                  the storefront preview.
-                </li>
-                <li>
-                  For interactive sections, reinitialize JavaScript on <code>shopify:section:load</code> and
-                  remove event listeners on <code>shopify:section:unload</code>.
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/best-practices/editor/integrate-sections-and-blocks"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Theme editor events <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>Protect saved settings during updates</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  Keep existing <strong>setting IDs</strong> stable. Renaming an ID can disconnect the value
-                  the merchant saved.
-                </li>
-                <li>
-                  Direct edits to vendor files can conflict with a theme update. Check the custom component
-                  and its saved values in the updated draft before publishing.
-                </li>
-                <li>
-                  On a GitHub-connected theme, editor saves create commits. Pull those changes and review the
-                  JSON templates and <code>config/settings_data.json</code> before pushing.
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://help.shopify.com/en/manual/online-store/themes/managing-themes/updating-themes"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Updating themes <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/tools/github"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Shopify GitHub integration <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <nav class="pager" aria-label="Best practices">
-            <a class="next" href="#faq">Continue to theme FAQ <span aria-hidden="true">→</span></a>
-          </nav>
-        </div>
+        <h2 class="wrap" id="practices-title">Best practices</h2>
+        <ul class="wrap practice-points">
+          <li>
+            <strong>Keep the original theme files intact.</strong> Add a new section or block and hide the
+            original in the theme editor. Editing the original file can break saved editor settings or cause
+            conflicts when the theme is updated.
+          </li>
+          <li>
+            <strong>Build customizations as sections or blocks.</strong> Verify that merchants can add, move,
+            and edit them in the online store theme editor and that their saved changes appear on the
+            storefront.
+          </li>
+          <li>
+            <strong>Expose text, referenced data, and images through schema settings.</strong> Connect
+            compatible dynamic sources for values that vary by product so merchants can update content in the
+            theme editor without editing code.
+          </li>
+          <li>
+            <strong>Put custom font files in the theme’s <code>assets/</code> directory.</strong>
+          </li>
+        </ul>
       </section>
       <section class="faq-band" id="faq" aria-labelledby="faq-title">
         <div class="wrap faq-grid">

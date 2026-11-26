@@ -566,193 +566,24 @@
         </div>
       </div>
       <section class="practices" id="best-practices" aria-labelledby="practices-title">
-        <div class="wrap">
-          <h2 id="practices-title">ベストプラクティス</h2>
-          <section class="practice-topic">
-            <h3>元の部品を残して<wbr />差し替える</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  テーマを複製し、未公開のコピーで作業する。対象のテンプレートを使う商品を確認する。
-                </li>
-                <li>
-                  追加する機能は<strong>専用のセクションかブロック</strong>にする。プリセットを用意し、エディタから追加・移動できるようにする。
-                </li>
-                <li>
-                  新しい部品を配置したら、目のアイコンで<strong>元の部品を非表示</strong>にする。保存済みの設定を残せるので、表示を切り替えれば元に戻せる。
-                </li>
-              </ul>
-              <table class="practice-example">
-                <caption>
-                  商品説明ブロックの差し替え例
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">ブロック</th>
-                    <th scope="col">変更前</th>
-                    <th scope="col">変更後</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">標準の商品説明</th>
-                    <td>表示</td>
-                    <td>非表示（設定は保持）</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">素材とお手入れ</th>
-                    <td>未追加</td>
-                    <td>表示</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>文言・画像・参照先を<wbr />設定項目にする</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  <strong>文言</strong>はスキーマの <code>text</code> や
-                  <code>richtext</code>
-                  で編集できるようにする。商品ごとの説明は、動的ソースで対応する商品メタフィールドに接続する。
-                </li>
-                <li>
-                  <strong>画像</strong>は
-                  <code>image_picker</code>
-                  で選べるようにする。商品ごとに画像を変える場合は、画像を持つファイル参照型メタフィールドを接続する。
-                </li>
-                <li>
-                  <strong>参照先</strong>は <code>product</code> や
-                  <code>collection</code> で選べるようにする。未選択のときはリンクを表示しない。
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >動的ソースと設定型の対応表 <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/blocks/product_card.liquid"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >商品選択の実装例 <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>独自フォントは<wbr /> assets/ に置く</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  フォントファイルをテーマの <code>assets/</code> に追加する。<code>@font-face</code> から
-                  <code>asset_url</code> で読み込み、代替フォントも指定する。
-                </li>
-                <li>
-                  このサンプルでは、テーマ設定 <code>use_font</code> で
-                  <code>my_font.woff</code> の読み込みを切り替えられる。
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/assets/my_font.css.liquid"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >フォント CSS の実装例 <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/best-practices/performance/self-host-web-fonts"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >Shopify のフォントガイド <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>エディタで<wbr />動作を確かめる</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  ブロックを選択・移動し、文言と画像を変えて保存する。エディタを開き直し、ストアのプレビューにも変更が反映されているか確認する。
-                </li>
-                <li>
-                  JavaScript を使うセクションは <code>shopify:section:load</code> で再初期化し、<code
-                    >shopify:section:unload</code
-                  >
-                  でイベントリスナーを解除する。
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/best-practices/editor/integrate-sections-and-blocks"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >エディタのイベント仕様 <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <section class="practice-topic">
-            <h3>テーマ更新時に<wbr />保存内容を守る</h3>
-            <div>
-              <ul class="practice-points">
-                <li>
-                  既存の<strong>設定 ID</strong> を維持する。ID
-                  を変えると、マーチャントが保存した値を読み出せなくなることがある。
-                </li>
-                <li>
-                  元ファイルへの直接編集は、テーマの新版と競合することがある。更新後の下書きで独自の部品と保存値を確認してから公開する。
-                </li>
-                <li>
-                  GitHub 連携テーマではエディタの保存もコミットされる。push 前に取り込み、JSON テンプレートと
-                  <code>config/settings_data.json</code> の差分を確認する。
-                </li>
-              </ul>
-              <ul class="source-links">
-                <li>
-                  <a
-                    href="https://help.shopify.com/ja/manual/online-store/themes/managing-themes/updating-themes"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >テーマの更新手順 <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://shopify.dev/docs/storefronts/themes/tools/github"
-                    target="_blank"
-                    rel="noopener"
-                    aria-describedby="external-link-note"
-                    >テーマの GitHub 連携 <span aria-hidden="true">↗</span></a
-                  >
-                </li>
-              </ul>
-            </div>
-          </section>
-          <nav class="pager" aria-label="ベストプラクティス">
-            <a class="next" href="#faq">テーマ開発の FAQ へ <span aria-hidden="true">→</span></a>
-          </nav>
-        </div>
+        <h2 class="wrap" id="practices-title">ベストプラクティス</h2>
+        <ul class="wrap practice-points">
+          <li>
+            <strong>既存のテーマファイルは上書きしない。</strong
+            >新しいセクションやブロックを追加し、元のものはテーマエディタで非表示にする。元ファイルを直接書き換えると、エディタで保存した設定が反映されなくなったり、テーマ更新時に修正が競合したりすることがある。
+          </li>
+          <li>
+            <strong>カスタマイズはセクションやブロックとして実装する。</strong
+            >管理画面の［オンラインストア］からテーマエディタを開き、部品の追加・移動・編集と、保存した変更の反映を確認する。
+          </li>
+          <li>
+            <strong>テキスト・参照データ・画像はスキーマで設定項目にする。</strong
+            >商品ごとに値を変える場合は対応する動的ソースを接続し、マーチャントがコードを編集せずにテーマエディタで更新できるようにする。
+          </li>
+          <li>
+            <strong>独自フォントはテーマの <code>assets/</code> に置く。</strong>
+          </li>
+        </ul>
       </section>
       <section class="faq-band" id="faq" aria-labelledby="faq-title">
         <div class="wrap faq-grid">
