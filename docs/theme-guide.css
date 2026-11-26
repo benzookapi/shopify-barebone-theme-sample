@@ -177,36 +177,24 @@ code { font-family: var(--mono); background: #eef2ed; color: #264637; padding: .
 .pager a { font-size: 14px; font-weight: 650; text-decoration: none; }
 .pager a:hover { text-decoration: underline; }
 .pager .next { margin-left: auto; }
-.practices { padding-block: 40px; border-top: 1px solid var(--line); background: white; scroll-margin-top: 14px; }
-.practice-head h2 { margin: 6px 0 12px; font-size: clamp(28px, 3.3vw, 44px); line-height: 1.2; letter-spacing: -.035em; }
-.practice-head > p:last-child { max-width: 80ch; color: var(--muted); }
-.practice-workflow, .practice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 3vw, 40px); }
-.practice-workflow { align-items: center; margin-block: 22px; }
-.practice-steps { padding-inline-start: 1.6em; }
-.practice-steps li { padding-inline-start: .35em; }
-.practice-steps li + li { margin-top: 12px; }
-.practice-steps li::marker { color: var(--green); font-weight: 750; }
-.practice-steps strong { display: block; }
-.visibility-demo { border: 1px solid var(--line); border-radius: 9px; padding: 18px; background: var(--soft); }
-.visibility-demo fieldset { min-width: 0; border: 0; padding: 0; margin: 0; }
-.visibility-demo legend { font-weight: 700; padding: 0; margin-bottom: 6px; }
-.visibility-demo label { display: flex; align-items: center; gap: 8px; padding-block: 4px; cursor: pointer; font-size: 15px; }
-.visibility-demo input { width: 17px; height: 17px; margin: 0; accent-color: var(--green); }
-.practice-preview { margin-top: 12px; padding: 11px 14px; border: 1px solid var(--line); border-radius: 5px; background: white; }
-.practice-preview strong { display: block; color: var(--green); font-size: 13px; }
-.practice-preview p { margin-top: 4px; }
-.visibility-demo:not(:has([name="show-original"]:checked)) #original-preview,
-.visibility-demo:not(:has([name="show-custom"]:checked)) #custom-preview,
-.visibility-demo:has(input:checked) .empty-preview { display: none; }
-.practice-grid { margin-top: 24px; }
-.practice-grid > section { min-width: 0; padding: clamp(16px, 2vw, 24px); border: 1px solid var(--line); border-radius: 9px; }
-.practice-grid h3 { font-size: 21px; line-height: 1.4; margin-bottom: 12px; }
-.practice-grid p, .practice-list dd { font-size: 15px; color: var(--muted); }
-.practice-list > div { padding-block: 11px; border-top: 1px solid var(--line); }
-.practice-grid p + .practice-list { margin-top: 14px; }
-.practice-list dt { font-weight: 700; margin-bottom: 3px; }
-.practices .source-links { margin-top: 8px; }
-html[lang="ja"] .practices { line-height: 1.8; }
+.practices { padding-block: clamp(32px, 4vw, 60px); border-top: 1px solid var(--line); background: white; scroll-margin-top: 14px; }
+.practices h2 {
+  margin-bottom: clamp(20px, 3vw, 36px); font-size: clamp(2.1rem, 8.6vw, 4rem);
+  line-height: 1.15; letter-spacing: -.045em;
+}
+.practice-topic { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(24px, 4vw, 56px); padding-block: clamp(22px, 3vw, 36px); border-top: 1px solid var(--line); }
+.practice-topic h3 { color: var(--green); font-size: clamp(1.45rem, 2.3vw, 2rem); line-height: 1.35; letter-spacing: -.025em; text-wrap: balance; }
+html[lang="ja"] .practice-topic h3 { word-break: keep-all; }
+.practice-points { padding-inline-start: 1.3em; list-style-type: disc; font-size: clamp(1rem, 1.25vw, 1.125rem); line-height: 1.65; }
+.practice-points li { padding-inline-start: .18em; }
+.practice-points li + li { margin-top: .55em; }
+.practice-points li::marker { color: var(--green); }
+.practice-example { margin-top: 20px; width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.5; text-align: start; }
+.practice-example caption { margin-bottom: 7px; color: var(--ink); text-align: start; font-size: 16px; font-weight: 700; }
+.practice-example th, .practice-example td { padding: 7px 12px; border-block-end: 1px solid var(--line); text-align: start; }
+.practice-example thead { background: var(--soft); }
+.practice-example tbody th { font-weight: 550; }
+.practices .source-links { margin: 14px 0 0; font-size: 14px; }
 .faq-band { background: #eaf0e8; border-block: 1px solid var(--line); }
 .faq-grid { padding-block: 42px 47px; display: grid; gap: 6%; grid-template-columns: minmax(0,.62fr) minmax(0,1.38fr); }
 .faq-grid header h2 { font-size: clamp(38px,4.6vw,61px); line-height: 1.03; letter-spacing: -.052em; margin-top: 10px; }
@@ -239,7 +227,7 @@ html[lang="ja"] .faq-grid header h2 { line-height: 1.2; }
   .blueprint { width: 100%; }
   .model { max-width: 390px; }
   .workspace, .faq-grid { grid-template-columns: 1fr; gap: 22px; padding-block: 30px; }
-  .practice-workflow, .practice-grid { grid-template-columns: 1fr; }
+  .practice-topic { grid-template-columns: 1fr; gap: 12px; }
   .syllabus { position: static; }
   .syllabus ol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3px 6px; }
   .syllabus a { padding: 6px 7px; gap: 7px; font-size: 13px; }
@@ -250,6 +238,7 @@ html[lang="ja"] .faq-grid header h2 { line-height: 1.2; }
   .wrap { width: calc(100% - 32px); }
   .mast-inner { justify-content: space-between; gap: 8px; }
   .top-nav { width: 100%; order: 3; margin: 0; gap: 19px; }
+  .practice-example th, .practice-example td { padding: 6px; }
   .eyebrow { margin-bottom: 14px; }
   .hero h1 { font-size: clamp(44px, 12.6vw, 56px); }
   .intro { font-size: 15px; }
