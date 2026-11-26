@@ -99,10 +99,11 @@ For example, once you access the language path like `/ja` in your storefront URL
 
 # Best Practices
 
-- Keep the original theme files intact. Add a new section or block and hide the original in the theme editor. Direct edits can break saved settings or conflict with a [theme update](https://help.shopify.com/en/manual/online-store/themes/managing-themes/updating-themes).
-- Build customizations as sections or blocks. Check that merchants can add, move, edit, and save them in the [theme editor](https://shopify.dev/docs/storefronts/themes/best-practices/editor/integrate-sections-and-blocks).
-- Expose text, resource references, and images through schema settings. Merchants can update the content in the editor and connect product-specific values through [dynamic sources](https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources).
-- Put custom font files in `assets/`. See the [sample font stylesheet](assets/my_font.css.liquid).
+- Start with the theme editor. If a merchant needs a new component, add a separately named section or block in a duplicate theme. Place it in the editor and hide the original to preserve its settings. Preview both the component and saved content again after a theme update.
+- Expose editable text, images, and resource references through schema settings. Connect compatible dynamic sources for product-specific values. Check that a merchant can select, reorder, edit, and save the component in the editor.
+- Keep custom font files in `assets/` and load them with `@font-face` and `asset_url`. This sample uses the `use_font` theme setting to toggle its [font stylesheet](assets/my_font.css.liquid).
+
+See the [visual guide to theme customization](https://benzookapi.github.io/shopify-barebone-theme-sample/#best-practices) for a before-and-after example and handoff checks.
 
 # Disclaimer
 - This code is fully _unofficial_ and NOT guaranteed to pass [the public theme review](https://shopify.dev/docs/storefronts/themes/store/review-process/submit-theme) for Shopify theme store. The official requirements are described [here](https://shopify.dev/docs/storefronts/themes/store/requirements).
