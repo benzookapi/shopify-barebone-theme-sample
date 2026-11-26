@@ -3,6 +3,8 @@ This is an _unofficial_ sample code for scratch building [Shopify theme](https:/
 
 If you are a theme beginner and feel it tough to grab the high volume source code of Dawn, this basic theme may work as a tutorial, but you are expected to be familiar with basic HTML / JavaScript / CSS.
 
+Follow the six illustrated lessons in the [Theme field guide (English)](https://benzookapi.github.io/shopify-barebone-theme-sample/) or [日本語版](https://benzookapi.github.io/shopify-barebone-theme-sample/ja/). The guide covers common mistakes and links each exercise to its source. To try the actual storefront, use the CLI preview below.
+
 # Code structure
 This sample follows the standard [Shopify theme structure](https://shopify.dev/docs/storefronts/themes/architecture).
 
@@ -15,7 +17,7 @@ Start with these core theme concepts:
 | [Sections](https://shopify.dev/docs/storefronts/themes/architecture/sections) | `sections/*.liquid`, `sections/*.json` | Merchant-configurable page modules written with HTML, JavaScript, CSS, and Liquid. JSON files here are section groups, not templates. |
 | [Section blocks](https://shopify.dev/docs/storefronts/themes/architecture/sections/section-schema#blocks) | Block schemas inside `sections/*.liquid` | Section-specific repeated content defined inside a section schema. |
 | [Theme blocks](https://shopify.dev/docs/storefronts/themes/architecture/blocks) | `blocks/*.liquid` | Reusable UI components that sections render with `{% content_for 'blocks' %}` and allow with `{ "type": "@theme" }`. |
-| [App blocks](https://shopify.dev/docs/storefronts/themes/architecture/sections/app-blocks) | Allowed from section schemas | Extension points for rendering [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions). |
+| [App blocks](https://shopify.dev/docs/storefronts/themes/architecture/blocks/app-blocks) | Allowed from section schemas | Extension points for rendering [theme app extensions](https://shopify.dev/docs/apps/online-store/theme-app-extensions). |
 | [Section groups](https://shopify.dev/docs/storefronts/themes/architecture/section-groups) | `sections/*_group*.json` | Persistent groups such as header and footer. They split the theme editor navigation and can support [contextual section groups](https://shopify.dev/docs/storefronts/themes/architecture/section-groups#contextual-section-groups). |
 | [Dynamic sources](https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources) | Theme editor setting connections | Theme editor feature for connecting store data instances to Liquid objects. |
 
@@ -52,7 +54,7 @@ All samples are available at [Wiki](../../wiki).
 
 ## Breadcrumb Navigation
 
-Adds breadcrumb navigation to all page types via a single header group section.
+Add the Breadcrumbs section to the header group to show a trail on pages other than the home page.
 Resolves hierarchy from Shopify standard taxonomy, a metafield, or a navigation menu — in that priority order.
 JSON-LD `BreadcrumbList` structured data is injected automatically.
 
@@ -60,7 +62,7 @@ JSON-LD `BreadcrumbList` structured data is injected automatically.
 
 ## Customer-Filtered Storefront
 
-Restricts collection and search pages to show only products the logged-in customer is authorized to view, using an access code metafield on both the customer and product.
+The optional collection and search sections display matching product cards using customer and product access-code metafields. Direct product pages and checkout have separate enforcement requirements.
 
 → See [docs/customer-filtered-storefront.md](docs/customer-filtered-storefront.md) for setup instructions.
 
@@ -89,7 +91,7 @@ For example, once you access the language path like `/ja` in your storefront URL
    If you want to check the behaviors above, try [the translation API](https://shopify.dev/docs/apps/markets/translate-content) or use [translation apps](https://apps.shopify.com/translate-and-adapt), and try [the local currency settings](https://help.shopify.com/en/manual/markets/pricing/set-up-local-currencies).
 - This sample doesn't have [customer my page implementation](https://shopify.dev/docs/storefronts/themes/architecture/templates/customers-account) because it recommends to use [new customer accounts](https://help.shopify.com/en/manual/customers/customer-accounts/new-customer-accounts) which is not given by theme templates, but Shopify native features like other checkout extensibility.
 - [Sections](https://shopify.dev/docs/storefronts/themes/architecture/sections) (`*.liquid`) do NOT need their corresponding [templates](https://shopify.dev/docs/storefronts/themes/architecture/templates) (`*.json`) always. For example, [the recommendation Ajax API](https://shopify.dev/docs/api/ajax/reference/product-recommendations) returns the result as the specified section without its template, and also you can render each section in JavaScript dynamically using [the section rendering API](https://shopify.dev/docs/api/section-rendering).
-- If you create portable sections which can be inserted to all pages or specific ones, don't forget to add `presets` and `enabled_on` fields in the section schema. In this sample, every section can be inserted to a single template only (non portable) except for `list-collections.liquid` which is defined as a portal one for some specified templates in [its section schema](https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/sections/list-collections.liquid).
+- Give a section a preset to offer it in **Add section**. Use `enabled_on` or `disabled_on` when placement should be restricted. For example, the [theme block examples section](sections/home_theme_blocks.liquid) allows one instance on the home template.
 - Some global JavaScript objects like [window.Shopify](https://shopify.dev/docs/api/consent-tracking) are given by Shopify's generated code with [{{ content_for_header }}](https://shopify.dev/docs/storefronts/themes/architecture/layouts#content_for_header), and  global JS and CSS files are accessible with [the hosted file filters](https://shopify.dev/docs/api/liquid/filters/shopify_asset_url).
 - [Gift card template](https://shopify.dev/docs/storefronts/themes/architecture/templates/gift-card-liquid) has the specific implementation with its own layout to work with checkout.
 - [Templates](https://shopify.dev/docs/storefronts/themes/architecture/templates) used by the theme editor have naming rules to detect [each type](https://shopify.dev/docs/storefronts/themes/architecture/templates#template-types). For example, if you want to have multiple product templates, their names need to be `product.json` (default), `product.test1.json`, `product.test2.json`, .... etc. You can check it creating a new template from [the code editor](https://shopify.dev/docs/storefronts/themes/tools/code-editor).

@@ -74,6 +74,8 @@ Open the theme editor in Shopify Admin and add the sections to the appropriate t
 | Collection | **Filtered collection** |
 | Search | **Customer filtered search** |
 
+For a filtered-only listing, hide or remove the standard listing section in the same template. Each visible section renders its own results.
+
 ## Notes
 
 - Filtering is done in Liquid after the collection/search results are loaded. Products that do not match are skipped at render time.
