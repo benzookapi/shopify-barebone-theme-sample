@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shopify テーマの基礎 | テーマ開発ガイド</title>
+    <meta
+      name="description"
+      content="サンプルテーマを読みながら、ストアの画面とテーマファイルの関係を6つのレッスンで学びます。図解と操作例で、つまずきやすい点を確認できます。"
+    />
+    <link rel="canonical" href="https://benzookapi.github.io/shopify-barebone-theme-sample/ja/" />
+    <link rel="alternate" hreflang="en" href="https://benzookapi.github.io/shopify-barebone-theme-sample/" />
+    <link
+      rel="alternate"
+      hreflang="ja"
+      href="https://benzookapi.github.io/shopify-barebone-theme-sample/ja/"
+    />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="../docs/theme-guide.css" />
+    <script defer src="../docs/theme-guide.js"></script>
+  </head>
+  <body id="top">
+    <a class="skip" href="#lessons">レッスンへ移動</a>
+    <header class="mast">
+      <div class="wrap mast-inner">
+        <a href="#top" class="brand"
+          ><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>テーマ開発ガイド</a
+        >
+        <nav class="top-nav" aria-label="ガイドのナビゲーション">
+          <a href="#lessons">レッスン</a><a href="#faq">FAQ</a>
+          <a href="https://github.com/benzookapi/shopify-barebone-theme-sample"
+            >GitHub <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <nav class="languages" aria-label="言語">
+          <a href="../" lang="en" hreflang="en">EN</a>
+          <a href="./" lang="ja" hreflang="ja" aria-current="page">日本語</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="wrap hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyeline"></span>パートナー向け教材</p>
+            <h1 id="hero-title">Shopify テーマの<br /><em>基礎を学ぶ</em></h1>
+            <p class="intro">
+              ストアの画面は、どのファイルからできているのか。サンプルテーマを6つの図解で読み解き、よくある間違いを実例で確かめます。
+            </p>
+            <div class="hero-actions">
+              <a class="start" href="#layout">最初のレッスンへ <span aria-hidden="true">→</span></a
+              ><a class="quiet" href="#faq">FAQ を見る <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
+          <figure class="blueprint">
+            <figcaption><span class="cross" aria-hidden="true">+</span> テーマを構成する4つの層</figcaption>
+            <div class="model">
+              <div class="drawing" aria-hidden="true">
+                <div class="plate plate-1">
+                  <i class="pane-top"><b></b><b></b><b></b></i><i class="pane-window"><b></b><b></b></i>
+                </div>
+                <div class="plate plate-2">
+                  <i class="pane-strip"></i><i class="pane-strip"></i><i class="pane-strip"></i>
+                </div>
+                <div class="plate plate-3">
+                  <i class="pane-feature"></i><i class="pane-copy"><b></b><b></b><b></b></i>
+                </div>
+                <div class="plate plate-4">
+                  <i class="pane-card"></i><i class="pane-card"></i><i class="pane-card"></i>
+                </div>
+              </div>
+              <ol class="figure-labels">
+                <li>
+                  <a href="#layout"><span>01</span>レイアウト</a>
+                </li>
+                <li>
+                  <a href="#templates"><span>02</span>テンプレート</a>
+                </li>
+                <li>
+                  <a href="#sections"><span>03</span>セクション</a>
+                </li>
+                <li>
+                  <a href="#blocks"><span>04</span>ブロック</a>
+                </li>
+              </ol>
+            </div>
+          </figure>
+        </div>
+      </section>
+      <div class="wrap workspace" id="lessons">
+        <aside class="syllabus">
+          <h2>学習の流れ</h2>
+          <nav aria-label="レッスン一覧">
+            <ol>
+              <li>
+                <a href="#layout"><span class="step-no">01</span><span>レイアウト</span></a>
+              </li>
+              <li>
+                <a href="#templates"><span class="step-no">02</span><span>JSON テンプレート</span></a>
+              </li>
+              <li>
+                <a href="#sections"><span class="step-no">03</span><span>セクションの設定</span></a>
+              </li>
+              <li>
+                <a href="#blocks"><span class="step-no">04</span><span>ブロックとスニペット</span></a>
+              </li>
+              <li>
+                <a href="#breadcrumbs"><span class="step-no">05</span><span>パンくず</span></a>
+              </li>
+              <li>
+                <a href="#visibility"><span class="step-no">06</span><span>顧客別の商品表示</span></a>
+              </li>
+            </ol>
+          </nav>
+        </aside>
+        <div class="reader">
+          <article class="lesson" id="layout" aria-labelledby="title-layout">
+            <header class="lesson-head">
+              <p class="kicker">レッスン 01 <span>/ 06</span></p>
+              <h2 id="title-layout" tabindex="-1">レイアウトから画面を読む</h2>
+              <p>
+                ホームと商品ページは同じレイアウトを使います。Shopify はヘッダーとフッターの間にある
+                <code>content_for_layout</code> に、選択したテンプレートの内容を差し込みます。
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>layout/theme.liquid の中身</figcaption>
+              <div class="layout-figure">
+                <div class="file-stack">
+                  <div><code>header_group</code><small>全ページで共有</small></div>
+                  <div class="active">
+                    <code>content_for_layout</code><small>選択されたテンプレートの出力</small>
+                  </div>
+                  <div><code>footer_group</code><small>全ページで共有</small></div>
+                </div>
+                <span class="diagram-arrow" aria-hidden="true">→</span>
+                <div class="store-wire">
+                  <span class="wire-header"><i></i><b></b><b></b></span
+                  ><span class="wire-body"><i></i><b>ページ本文</b></span
+                  ><span class="wire-footer"></span>
+                </div>
+              </div>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">よくある落とし穴</p>
+                <h3>ホームだけの変更が商品ページにも出た</h3>
+                <p>
+                  <code>layout/theme.liquid</code>
+                  に直接書いた内容は、同じレイアウトを使う全ページに表示されます。ホーム専用の表示は
+                  <code>templates/index.json</code> から呼ぶセクションに置きます。
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>試してみよう</h3>
+              <p>
+                サンプルのディレクトリで、自分のストアのドメインを指定して
+                <code>shopify theme dev --store your-store.myshopify.com</code>
+                を実行します。プレビューでホームから商品ページに移動し、共通する部分を探しましょう。
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/layout/theme.liquid"
+                  >theme.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/layouts"
+                  >レイアウトの仕様 <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/api/shopify-cli/theme/theme-dev"
+                  >CLI プレビュー <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="レッスンの移動 1">
+              <a class="next" href="#templates">次のレッスン <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="templates" aria-labelledby="title-templates">
+            <header class="lesson-head">
+              <p class="kicker">レッスン 02 <span>/ 06</span></p>
+              <h2 id="title-templates" tabindex="-1">JSON テンプレートで表示順を追う</h2>
+              <p>
+                <code>templates/index.json</code> の <code>sections</code> には、セクションのインスタンス ID
+                とファイルを指定する <code>type</code> があります。各インスタンスの表示順は
+                <code>order</code> で決まります。
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>ホームでの表示順を変える</figcaption>
+              <div class="order-example">
+                <div class="demo-code">
+                  <span>templates/index.json · order</span>
+                  <pre>[<br>  <b data-order-id>"my_home"</b>,<br>  <b data-order-id>"theme_block_examples"</b><br>]</pre>
+                </div>
+                <span class="diagram-arrow" aria-hidden="true">→</span>
+                <div class="order-output">
+                  <small>ストアの表示例</small>
+                  <ol class="order-list">
+                    <li>ホームセクション</li>
+                    <li>テーマブロックの例</li>
+                  </ol>
+                </div>
+              </div>
+              <button type="button" class="swap" hidden>
+                <span aria-hidden="true">⇅</span> 表示順を入れ替える
+              </button>
+              <span class="sr-only" role="status" data-order-status></span>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">よくある落とし穴</p>
+                <h3>セクション名は合っているのに参照できない</h3>
+                <p>
+                  このサンプルでは ID が <code>my_home</code>、型が <code>home_page</code> です。<code
+                    >order</code
+                  >
+                  には <code>my_home</code> を指定し、実装を読むときは型から
+                  <code>sections/home_page.liquid</code> を開きます。
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>試してみよう</h3>
+              <p>
+                順番を逆にすると何が先頭に来るか予想し、図のプレビューで確かめます。次にホームのテンプレートで2つの
+                ID を探しましょう。
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/templates/index.json"
+                  >templates/index.json <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/templates/json-templates"
+                  >JSON テンプレートの仕様 <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="レッスンの移動 2">
+              <a href="#layout"><span aria-hidden="true">←</span> 前へ</a
+              ><a class="next" href="#sections">次のレッスン <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="sections" aria-labelledby="title-sections">
+            <header class="lesson-head">
+              <p class="kicker">レッスン 03 <span>/ 06</span></p>
+              <h2 id="title-sections" tabindex="-1">セクションを追加できる場所を調べる</h2>
+              <p>
+                セクションは画面に出すマークアップとエディタ用のスキーマを持ちます。<code
+                  >home_theme_blocks.liquid</code
+                >
+                にはプリセットがあり、ホーム（<code>index</code>）に1つまで配置できます。
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>エディタで追加できる条件</figcaption>
+              <div class="flow">
+                <div><code>presets</code><span>追加時の初期構成を用意</span></div>
+                <div><code>enabled_on</code><span>追加先のテンプレートやグループを指定</span></div>
+                <div><code>limit</code><span>同じ追加先での配置数を制限</span></div>
+              </div>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">よくある落とし穴</p>
+                <h3>ファイルがあるのに「セクションを追加」に出てこない</h3>
+                <p>
+                  プリセット、編集中のテンプレートやセクショングループ、配置数の上限を確認します。このサンプルでは、テーマブロックの例はホームにすでに1つ配置されています。
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>試してみよう</h3>
+              <p>
+                テーマエディタでホームに配置済みのテーマブロックの例を開き、タイトルを変更します。セクション内の
+                <code>section.settings.title</code> と表示を照合しましょう。
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/sections/home_theme_blocks.liquid"
+                  >home_theme_blocks.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/sections/section-schema"
+                  >セクションスキーマの仕様 <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="レッスンの移動 3">
+              <a href="#templates"><span aria-hidden="true">←</span> 前へ</a
+              ><a class="next" href="#blocks">次のレッスン <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="blocks" aria-labelledby="title-blocks">
+            <header class="lesson-head">
+              <p class="kicker">レッスン 04 <span>/ 06</span></p>
+              <h2 id="title-blocks" tabindex="-1">ブロックとスニペットを使い分ける</h2>
+              <p>
+                マーチャントが何を編集するかを考えます。<code>home_page.liquid</code> には専用ブロック、<code
+                  >home_theme_blocks.liquid</code
+                >
+                には再利用できるリンクカードがあり、どちらも同じタイトル用スニペットを呼びます。
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>誰がどこで使う部品か</figcaption>
+              <dl class="compare">
+                <div>
+                  <dt>セクションブロック</dt>
+                  <dd>
+                    <code>my_type_3</code><span>ホームのセクション内で定義・描画する URL ブロック。</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt>テーマブロック</dt>
+                  <dd>
+                    <code>blocks/link_card.liquid</code
+                    ><span>対応するセクションにマーチャントが追加できるカード。</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt>スニペット</dt>
+                  <dd>
+                    <code>snippets/section_title.liquid</code
+                    ><span>テーマコードが render タグで呼ぶ共通部品。</span>
+                  </dd>
+                </div>
+              </dl>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">よくある落とし穴</p>
+                <h3>blocks/ にカードを作ったのに表示されない</h3>
+                <p>
+                  このリンクカードでは、親が <code>@theme</code> を許可し、<code>content_for 'blocks'</code>
+                  で子を描画します。カードのインスタンスも必要です。マーチャントはカードのプリセットから追加できます。
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>試してみよう</h3>
+              <p>
+                ホームで一方のリンクカードのラベルを変更し、もう一方のラベルが独立していることを確認します。<code
+                  >index.json</code
+                >
+                で <code>link_card</code> の2つのインスタンスを探しましょう。
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/blocks/link_card.liquid"
+                  >link_card.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/snippets/section_title.liquid"
+                  >section_title.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/blocks"
+                  >ブロックの種類 <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="レッスンの移動 4">
+              <a href="#sections"><span aria-hidden="true">←</span> 前へ</a
+              ><a class="next" href="#breadcrumbs">次のレッスン <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="breadcrumbs" aria-labelledby="title-breadcrumbs">
+            <header class="lesson-head">
+              <p class="kicker">レッスン 05 <span>/ 06</span></p>
+              <h2 id="title-breadcrumbs" tabindex="-1">パンくずの階層をたどる</h2>
+              <p>
+                1つの商品は複数のコレクションに属せます。ヘッダーグループに「パンくず」を追加すると、商品ページではサンプルが次の順序で階層を探します。
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>このサンプルが商品の階層を探す順序</figcaption>
+              <ol class="trail">
+                <li><b>商品分類</b><span>カテゴリー ID と一致するコレクションハンドルを探す。</span></li>
+                <li><b>メタフィールド</b><span>商品メタフィールドのコレクションハンドルを読む。</span></li>
+                <li><b>メニュー</b><span>指定したメニュー内で現在のページを探す。</span></li>
+              </ol>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">よくある落とし穴</p>
+                <h3>商品にカテゴリーがあってもパンくずが浅い</h3>
+                <p>
+                  商品分類から階層を出すには、カテゴリー ID
+                  と一致するコレクションハンドルが1つ以上必要です。一致しなければ
+                  <code>custom.breadcrumb_collections</code
+                  >、次にメニューを確認します。どちらでも階層が見つからなければ「ホーム ›
+                  ページタイトル」になります。
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>試してみよう</h3>
+              <p>
+                カテゴリーを設定した商品で、その ID
+                とコレクションハンドルを比べます。パンくずのリンクがどのデータから作られたかを確認しましょう。ホームではパンくずは表示されません。
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/breadcrumbs.md"
+                  >パンくずの設定手順 <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/snippets/breadcrumbs.liquid"
+                  >breadcrumbs.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="レッスンの移動 5">
+              <a href="#blocks"><span aria-hidden="true">←</span> 前へ</a
+              ><a class="next" href="#visibility">次のレッスン <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="visibility" aria-labelledby="title-visibility">
+            <header class="lesson-head">
+              <p class="kicker">レッスン 06 <span>/ 06</span></p>
+              <h2 id="title-visibility" tabindex="-1">表示ルールが効く範囲を確かめる</h2>
+              <p>
+                オプションの顧客別コレクション・検索セクションは、顧客の
+                <code>custom.access_code</code> と商品のリスト
+                <code>custom.access_codes</code> を照合し、一致した商品のカードを表示します。
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>ログイン状態とアクセスコードによる表示の違い</figcaption>
+              <dl class="compare">
+                <div>
+                  <dt>未ログイン</dt>
+                  <dd>ログインを促すリンクを表示。</dd>
+                </div>
+                <div>
+                  <dt>顧客コードなし</dt>
+                  <dd>閲覧対象がないことを示すメッセージを表示。</dd>
+                </div>
+                <div>
+                  <dt>顧客コードが group-a</dt>
+                  <dd>商品側のアクセスコード一覧に <code>group-a</code> があればカードを表示。</dd>
+                </div>
+              </dl>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">よくある落とし穴</p>
+                <h3>カードを隠せば購入も制限できると思ってしまう</h3>
+                <p>
+                  絞り込みが効くのはこの2つの一覧セクションです。商品ページの直接表示には別の制御が必要です。購入まで制限する場合は、サンプルの範囲外となるカート・チェックアウトでの検証も設計します。
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>試してみよう</h3>
+              <p>
+                開発テーマで標準のコレクション一覧を顧客別セクションに置き換えます。未ログイン時とコードが一致する顧客で一覧を比較し、その商品の詳細ページも確認しましょう。
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/customer-filtered-storefront.md"
+                  >顧客別表示の設定手順 <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation"
+                  >チェックアウト検証の仕様 <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="レッスンの移動 6">
+              <a href="#breadcrumbs"><span aria-hidden="true">←</span> 前へ</a
+              ><a class="next" href="#faq">FAQ へ <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+        </div>
+      </div>
+      <section class="faq-band" id="faq" aria-labelledby="faq-title">
+        <div class="wrap faq-grid">
+          <header>
+            <p class="kicker">トラブルシューティング</p>
+            <h2 id="faq-title">よくある<br />質問</h2>
+          </header>
+          <div class="questions">
+            <details id="faq-preview">
+              <summary>GitHub Pages で実際のストアをプレビューできますか？</summary>
+              <div>
+                <p>
+                  Pages ではこの教材と図解を閲覧できます。実際のストアデータで Liquid
+                  を描画するには、サンプルのディレクトリで <code>shopify theme dev</code> を実行し、CLI
+                  のプレビュー URL を開きます。後日も使う未公開テーマとして保存する場合は
+                  <code>shopify theme push --unpublished</code> を使います。
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#how-to-run"
+                  >プレビューの手順 <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-template">
+              <summary>1つのテンプレートを編集すると、なぜ複数の商品が変わるのですか？</summary>
+              <div>
+                <p>
+                  同じテンプレートを割り当てた商品は、セクションの構成を共有します。構成を変えるときは
+                  <code>product.featured.json</code>
+                  のような別テンプレートを作り、対象の商品に割り当てます。構成は同じで値だけ商品ごとに変えたいときは、対応する設定に動的ソースとして商品メタフィールドを接続できます。
+                </p>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources"
+                  >動的ソースの仕様 <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-settings">
+              <summary>スキーマの初期値を変えても、以前のタイトルが残るのはなぜですか？</summary>
+              <div>
+                <p>
+                  既存のセクションには保存済みの値があります。たとえばホームのテンプレートには
+                  <code>theme_block_examples</code>
+                  のタイトルが設定済みです。テーマエディタでそのインスタンスを開き、保存されているタイトルを変更します。
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/templates/index.json"
+                  >ホームのテンプレート <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-snippet">
+              <summary>スニペットの中でローカル変数が空になるのはなぜですか？</summary>
+              <div>
+                <p>
+                  <code>render</code>
+                  で呼んだスニペットは独自のローカルスコープを持ちます。必要な変数は名前付き引数で渡します。パンくずセクションでは
+                  <code>menu_handle: section.settings.menu_handle</code> として渡しています。
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/sections/breadcrumbs.liquid"
+                  >呼び出し元のコード <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-app-block">
+              <summary>@app を許可するとアプリブロックは自動で追加されますか？</summary>
+              <div>
+                <p>
+                  スキーマの指定により、そのセクションがアプリブロックの配置先になります。対応ブロックを提供するアプリをインストールし、テーマエディタで追加します。ホームのテーマブロック用セクションでは
+                  <code>content_for 'blocks'</code> の位置に描画します。
+                </p>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/blocks/app-blocks"
+                  >アプリブロックの仕様 <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-listing">
+              <summary>顧客別セクションを追加しても対象外の商品が表示されるのはなぜですか？</summary>
+              <div>
+                <p>
+                  標準のコレクション・検索テンプレートには一覧セクションが配置済みです。標準の一覧と顧客別の一覧を両方置くと、それぞれが結果を表示します。この演習では、テーマエディタで対象テンプレートを確認し、標準の一覧を削除または非表示にします。
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/customer-filtered-storefront.md"
+                  >顧客別表示の設定手順 <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-sync">
+              <summary>変更がテーマエディタに反映されないとき、最初に何を確認しますか？</summary>
+              <div>
+                <p>
+                  CLI の出力で対象ストアとテーマを確認し、その開発テーマ用のエディタ URL
+                  を開きます。同期エラーやスキーマのエラーも確認します。同期後も古い内容が表示される場合は
+                  <code>shopify theme dev</code> を再起動し、表示された URL を開き直します。
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#trouble-shooting"
+                  >README のトラブルシューティング <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="wrap site-footer">
+      <div>
+        <strong>テーマ開発ガイド</strong>
+        <p>
+          このガイドはパートナー教育用の非公式サンプルです。利用はご自身の判断でお願いします。
+          <a href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#disclaimer"
+            >免責事項</a
+          >
+        </p>
+      </div>
+      <a href="#top">ページの先頭へ ↑</a>
+    </footer>
+  </body>
+</html>

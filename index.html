@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shopify theme fundamentals | Theme field guide</title>
+    <meta
+      name="description"
+      content="Learn how a Shopify theme fits together. Follow six lessons through a working sample, test your assumptions, and diagnose common mistakes."
+    />
+    <link rel="canonical" href="https://benzookapi.github.io/shopify-barebone-theme-sample/" />
+    <link rel="alternate" hreflang="en" href="https://benzookapi.github.io/shopify-barebone-theme-sample/" />
+    <link
+      rel="alternate"
+      hreflang="ja"
+      href="https://benzookapi.github.io/shopify-barebone-theme-sample/ja/"
+    />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./docs/theme-guide.css" />
+    <script defer src="./docs/theme-guide.js"></script>
+  </head>
+  <body id="top">
+    <a class="skip" href="#lessons">Skip to lessons</a>
+    <header class="mast">
+      <div class="wrap mast-inner">
+        <a href="#top" class="brand"
+          ><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>Theme field guide</a
+        >
+        <nav class="top-nav" aria-label="Guide navigation">
+          <a href="#lessons">Lessons</a><a href="#faq">FAQ</a>
+          <a href="https://github.com/benzookapi/shopify-barebone-theme-sample"
+            >GitHub <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <nav class="languages" aria-label="Language">
+          <a href="./" lang="en" hreflang="en" aria-current="page">EN</a>
+          <a href="ja/" lang="ja" hreflang="ja">日本語</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="wrap hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="eyeline"></span>Partner education</p>
+            <h1 id="hero-title">Shopify theme<br /><em>fundamentals.</em></h1>
+            <p class="intro">
+              Trace a storefront from layout to block. Explore a working theme in six visual lessons, with
+              common mistakes to check along the way.
+            </p>
+            <div class="hero-actions">
+              <a class="start" href="#layout">Start learning <span aria-hidden="true">→</span></a
+              ><a class="quiet" href="#faq">Browse FAQ <span aria-hidden="true">↓</span></a>
+            </div>
+          </div>
+          <figure class="blueprint">
+            <figcaption><span class="cross" aria-hidden="true">+</span> Anatomy of a theme</figcaption>
+            <div class="model">
+              <div class="drawing" aria-hidden="true">
+                <div class="plate plate-1">
+                  <i class="pane-top"><b></b><b></b><b></b></i><i class="pane-window"><b></b><b></b></i>
+                </div>
+                <div class="plate plate-2">
+                  <i class="pane-strip"></i><i class="pane-strip"></i><i class="pane-strip"></i>
+                </div>
+                <div class="plate plate-3">
+                  <i class="pane-feature"></i><i class="pane-copy"><b></b><b></b><b></b></i>
+                </div>
+                <div class="plate plate-4">
+                  <i class="pane-card"></i><i class="pane-card"></i><i class="pane-card"></i>
+                </div>
+              </div>
+              <ol class="figure-labels">
+                <li>
+                  <a href="#layout"><span>01</span>Layout</a>
+                </li>
+                <li>
+                  <a href="#templates"><span>02</span>Template</a>
+                </li>
+                <li>
+                  <a href="#sections"><span>03</span>Section</a>
+                </li>
+                <li>
+                  <a href="#blocks"><span>04</span>Block</a>
+                </li>
+              </ol>
+            </div>
+          </figure>
+        </div>
+      </section>
+      <div class="wrap workspace" id="lessons">
+        <aside class="syllabus">
+          <h2>Learning path</h2>
+          <nav aria-label="Learning path">
+            <ol>
+              <li>
+                <a href="#layout"><span class="step-no">01</span><span>The layout</span></a>
+              </li>
+              <li>
+                <a href="#templates"><span class="step-no">02</span><span>JSON templates</span></a>
+              </li>
+              <li>
+                <a href="#sections"><span class="step-no">03</span><span>Section settings</span></a>
+              </li>
+              <li>
+                <a href="#blocks"><span class="step-no">04</span><span>Blocks & snippets</span></a>
+              </li>
+              <li>
+                <a href="#breadcrumbs"><span class="step-no">05</span><span>Breadcrumbs</span></a>
+              </li>
+              <li>
+                <a href="#visibility"><span class="step-no">06</span><span>Customer visibility</span></a>
+              </li>
+            </ol>
+          </nav>
+        </aside>
+        <div class="reader">
+          <article class="lesson" id="layout" aria-labelledby="title-layout">
+            <header class="lesson-head">
+              <p class="kicker">Lesson 01 <span>/ 06</span></p>
+              <h2 id="title-layout" tabindex="-1">Start with the page frame</h2>
+              <p>
+                The home page and a product page share a layout. Shopify inserts the selected template at
+                <code>content_for_layout</code>, between the header and footer groups.
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>Inside layout/theme.liquid</figcaption>
+              <div class="layout-figure">
+                <div class="file-stack">
+                  <div><code>header_group</code><small>Shared across pages</small></div>
+                  <div class="active">
+                    <code>content_for_layout</code><small>Filled by the selected template</small>
+                  </div>
+                  <div><code>footer_group</code><small>Shared across pages</small></div>
+                </div>
+                <span class="diagram-arrow" aria-hidden="true">→</span>
+                <div class="store-wire">
+                  <span class="wire-header"><i></i><b></b><b></b></span
+                  ><span class="wire-body"><i></i><b>Page content</b></span
+                  ><span class="wire-footer"></span>
+                </div>
+              </div>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">Common pitfall</p>
+                <h3>A home-page edit shows up on product pages</h3>
+                <p>
+                  Content written directly in <code>layout/theme.liquid</code> appears on every page using
+                  that layout. Put a home-only module in a section referenced by
+                  <code>templates/index.json</code>.
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>Try it</h3>
+              <p>
+                From the sample directory, run
+                <code>shopify theme dev --store your-store.myshopify.com</code> with your own store domain.
+                Open the preview and move from home to a product. Which parts of the frame stay in place?
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/layout/theme.liquid"
+                  >theme.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/layouts"
+                  >Shopify layouts <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/api/shopify-cli/theme/theme-dev"
+                  >CLI preview <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="Navigation for lesson 1">
+              <a class="next" href="#templates">Next lesson <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="templates" aria-labelledby="title-templates">
+            <header class="lesson-head">
+              <p class="kicker">Lesson 02 <span>/ 06</span></p>
+              <h2 id="title-templates" tabindex="-1">Read a JSON template in display order</h2>
+              <p>
+                In <code>templates/index.json</code>, each entry in <code>sections</code> has an instance ID
+                and a <code>type</code> naming its section file. The <code>order</code> array tells Shopify
+                which instance comes first.
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>Change the order on the home page</figcaption>
+              <div class="order-example">
+                <div class="demo-code">
+                  <span>templates/index.json · order</span>
+                  <pre>[<br>  <b data-order-id>"my_home"</b>,<br>  <b data-order-id>"theme_block_examples"</b><br>]</pre>
+                </div>
+                <span class="diagram-arrow" aria-hidden="true">→</span>
+                <div class="order-output">
+                  <small>Storefront preview</small>
+                  <ol class="order-list">
+                    <li>Home section</li>
+                    <li>Theme block examples</li>
+                  </ol>
+                </div>
+              </div>
+              <button type="button" class="swap" hidden>
+                <span aria-hidden="true">⇅</span> Swap sections
+              </button>
+              <span class="sr-only" role="status" data-order-status></span>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">Common pitfall</p>
+                <h3>The section name looks right, but the reference fails</h3>
+                <p>
+                  The instance <code>my_home</code> has type <code>home_page</code>. Use
+                  <code>my_home</code> in <code>order</code> and follow the type to
+                  <code>sections/home_page.liquid</code>.
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>Try it</h3>
+              <p>
+                Predict which section will move to the top when the order is reversed. Check the preview, then
+                find both instance IDs in the home template.
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/templates/index.json"
+                  >templates/index.json <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/templates/json-templates"
+                  >JSON template reference <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="Navigation for lesson 2">
+              <a href="#layout"><span aria-hidden="true">←</span> Previous</a
+              ><a class="next" href="#sections">Next lesson <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="sections" aria-labelledby="title-sections">
+            <header class="lesson-head">
+              <p class="kicker">Lesson 03 <span>/ 06</span></p>
+              <h2 id="title-sections" tabindex="-1">Find a section in the theme editor</h2>
+              <p>
+                A section combines storefront markup and an editor schema. In
+                <code>home_theme_blocks.liquid</code>, the schema offers a preset, allows the home template
+                (<code>index</code>), and limits the section to one instance.
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>How the editor decides what you can add</figcaption>
+              <div class="flow">
+                <div><code>presets</code><span>Offers a starting configuration</span></div>
+                <div><code>enabled_on</code><span>Allows the current template or group</span></div>
+                <div><code>limit</code><span>Caps instances in that template or group</span></div>
+              </div>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">Common pitfall</p>
+                <h3>The file exists, but “Add section” doesn’t offer it</h3>
+                <p>
+                  Check the preset, the template or section group you are editing, and the instance limit.
+                  This sample already places the theme block examples section on the home page.
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>Try it</h3>
+              <p>
+                In the theme editor, open the existing theme block examples section on the home page and
+                change its title. Compare the result with <code>section.settings.title</code> in the section
+                file.
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/sections/home_theme_blocks.liquid"
+                  >home_theme_blocks.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/sections/section-schema"
+                  >Section schema <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="Navigation for lesson 3">
+              <a href="#templates"><span aria-hidden="true">←</span> Previous</a
+              ><a class="next" href="#blocks">Next lesson <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="blocks" aria-labelledby="title-blocks">
+            <header class="lesson-head">
+              <p class="kicker">Lesson 04 <span>/ 06</span></p>
+              <h2 id="title-blocks" tabindex="-1">Choose a block or a snippet</h2>
+              <p>
+                Start with the editing experience. The sample shows a local block inside
+                <code>home_page.liquid</code> and a reusable link card inside
+                <code>home_theme_blocks.liquid</code>. Both sections also call the same title snippet.
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>Choose the component by who controls it</figcaption>
+              <dl class="compare">
+                <div>
+                  <dt>Section block</dt>
+                  <dd>
+                    <code>my_type_3</code><span>The home section defines and renders its own URL block.</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Theme block</dt>
+                  <dd>
+                    <code>blocks/link_card.liquid</code
+                    ><span>A merchant can add the card to sections that accept it.</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Snippet</dt>
+                  <dd>
+                    <code>snippets/section_title.liquid</code
+                    ><span>Theme code calls this partial with the render tag.</span>
+                  </dd>
+                </div>
+              </dl>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">Common pitfall</p>
+                <h3>The card exists in blocks/, but never appears</h3>
+                <p>
+                  For the link card in this sample, the parent accepts <code>@theme</code> and renders
+                  children with <code>content_for 'blocks'</code>. The template also needs a card instance,
+                  which a merchant can add from the card’s preset.
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>Try it</h3>
+              <p>
+                On the home page, edit the label of one link card. The other card keeps its own label. Find
+                both instances of <code>link_card</code> in <code>index.json</code>.
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/blocks/link_card.liquid"
+                  >link_card.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/snippets/section_title.liquid"
+                  >section_title.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/blocks"
+                  >Block types <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="Navigation for lesson 4">
+              <a href="#sections"><span aria-hidden="true">←</span> Previous</a
+              ><a class="next" href="#breadcrumbs">Next lesson <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="breadcrumbs" aria-labelledby="title-breadcrumbs">
+            <header class="lesson-head">
+              <p class="kicker">Lesson 05 <span>/ 06</span></p>
+              <h2 id="title-breadcrumbs" tabindex="-1">Trace a breadcrumb back to its data</h2>
+              <p>
+                A product can belong to several collections. Add the Breadcrumbs section to the header group.
+                On product pages the sample tries each source in order until it finds a usable trail.
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>How this sample finds a product’s ancestors</figcaption>
+              <ol class="trail">
+                <li><b>Taxonomy</b><span>Match category IDs to collection handles.</span></li>
+                <li><b>Metafield</b><span>Read the collection handles in the product metafield.</span></li>
+                <li><b>Navigation menu</b><span>Find the page in the configured menu.</span></li>
+              </ol>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">Common pitfall</p>
+                <h3>A product has a category, but the trail is shallow</h3>
+                <p>
+                  The taxonomy path needs at least one collection handle matching a category ID. With no
+                  match, the snippet tries <code>custom.breadcrumb_collections</code>, then the menu. If
+                  neither supplies ancestors, the trail ends at Home › page title.
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>Try it</h3>
+              <p>
+                Choose a product with a category. Compare the category ID with its collection handle, then
+                check which source supplied the first clickable ancestor. On the home page this section
+                intentionally renders nothing.
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/breadcrumbs.md"
+                  >Breadcrumb setup guide <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/snippets/breadcrumbs.liquid"
+                  >breadcrumbs.liquid <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="Navigation for lesson 5">
+              <a href="#blocks"><span aria-hidden="true">←</span> Previous</a
+              ><a class="next" href="#visibility">Next lesson <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+
+          <article class="lesson" id="visibility" aria-labelledby="title-visibility">
+            <header class="lesson-head">
+              <p class="kicker">Lesson 06 <span>/ 06</span></p>
+              <h2 id="title-visibility" tabindex="-1">Check where a visibility rule applies</h2>
+              <p>
+                The optional filtered collection and search sections compare the customer’s
+                <code>custom.access_code</code> with each product’s <code>custom.access_codes</code> list
+                before rendering a card.
+              </p>
+            </header>
+            <figure class="diagram">
+              <figcaption>One customer code, three listing outcomes</figcaption>
+              <dl class="compare">
+                <div>
+                  <dt>Signed out</dt>
+                  <dd>The section shows a sign-in link.</dd>
+                </div>
+                <div>
+                  <dt>No customer code</dt>
+                  <dd>The section shows a no-access message.</dd>
+                </div>
+                <div>
+                  <dt>Customer code is group-a</dt>
+                  <dd>Show a product card when its list of access codes contains <code>group-a</code>.</dd>
+                </div>
+              </dl>
+            </figure>
+            <div class="pitfall">
+              <span class="signal" aria-hidden="true">!</span>
+              <div>
+                <p class="note-label">Common pitfall</p>
+                <h3>A hidden card is mistaken for a purchase restriction</h3>
+                <p>
+                  The filter runs in those two listing sections. A direct product page has its own rendering
+                  logic. A purchase restriction needs separate enforcement at cart and checkout, outside this
+                  theme sample.
+                </p>
+              </div>
+            </div>
+            <div class="exercise">
+              <h3>Try it</h3>
+              <p>
+                In a development theme, replace the default collection listing with the filtered section.
+                Compare a signed-out visit with a customer whose code matches a product, then check the same
+                product’s own page.
+              </p>
+            </div>
+            <ul class="source-links">
+              <li>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/customer-filtered-storefront.md"
+                  >Customer filtering guide <span aria-hidden="true">↗</span></a
+                >
+              </li>
+              <li>
+                <a href="https://shopify.dev/docs/api/functions/latest/cart-and-checkout-validation"
+                  >Checkout validation <span aria-hidden="true">↗</span></a
+                >
+              </li>
+            </ul>
+            <nav class="pager" aria-label="Navigation for lesson 6">
+              <a href="#breadcrumbs"><span aria-hidden="true">←</span> Previous</a
+              ><a class="next" href="#faq">Continue to FAQ <span aria-hidden="true">→</span></a>
+            </nav>
+          </article>
+        </div>
+      </div>
+      <section class="faq-band" id="faq" aria-labelledby="faq-title">
+        <div class="wrap faq-grid">
+          <header>
+            <p class="kicker">Troubleshooting</p>
+            <h2 id="faq-title">Common <br />questions.</h2>
+          </header>
+          <div class="questions">
+            <details id="faq-preview">
+              <summary>Can I preview the actual storefront on GitHub Pages?</summary>
+              <div>
+                <p>
+                  Pages serves this guide and its diagrams. To render Liquid with store data, run
+                  <code>shopify theme dev</code> from the sample directory and open the CLI preview URL. For
+                  an installed theme you can revisit later, use <code>shopify theme push --unpublished</code>.
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#how-to-run"
+                  >Preview setup <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-template">
+              <summary>Why do several products change when I edit one template?</summary>
+              <div>
+                <p>
+                  Products assigned to the same template share its section configuration. For a different
+                  structure, create an alternate such as <code>product.featured.json</code> and assign it to
+                  the intended product. For a different value in the same structure, connect a compatible
+                  setting to a product metafield using a dynamic source.
+                </p>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources"
+                  >Dynamic sources <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-settings">
+              <summary>I changed a default in the schema. Why is the old title still there?</summary>
+              <div>
+                <p>
+                  An existing section can have a saved value. For example, the home template already sets the
+                  title for <code>theme_block_examples</code>. Inspect that instance in the theme editor and
+                  change its saved title.
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/templates/index.json"
+                  >Home template <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-snippet">
+              <summary>Why is my local variable blank inside a snippet?</summary>
+              <div>
+                <p>
+                  The <code>render</code> tag gives the snippet its own local scope. Pass a variable as a
+                  named argument. The breadcrumb section does this with
+                  <code>menu_handle: section.settings.menu_handle</code>.
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/sections/breadcrumbs.liquid"
+                  >See the render call <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-app-block">
+              <summary>Does allowing @app automatically add an app block?</summary>
+              <div>
+                <p>
+                  The schema makes a section eligible to host app blocks. A compatible installed app must
+                  supply the block, and the merchant adds it in the theme editor. The home theme block section
+                  renders its children at <code>content_for 'blocks'</code>.
+                </p>
+                <a href="https://shopify.dev/docs/storefronts/themes/architecture/blocks/app-blocks"
+                  >App blocks <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-listing">
+              <summary>Why do extra products still appear after adding the filtered section?</summary>
+              <div>
+                <p>
+                  The default collection and search templates already contain standard listing sections. If
+                  both a standard and a filtered section are present, each renders its own results. Inspect
+                  the template in the theme editor and remove or hide the standard listing for this exercise.
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/customer-filtered-storefront.md"
+                  >Filtered storefront setup <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+            <details id="faq-sync">
+              <summary>The editor still shows the old version. Where do I check first?</summary>
+              <div>
+                <p>
+                  Check the store and theme in the CLI output and open the editor URL for that development
+                  theme. Look for sync or schema errors. If the correct preview remains stale after a
+                  successful sync, restart <code>shopify theme dev</code> and use the URL it prints.
+                </p>
+                <a
+                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#trouble-shooting"
+                  >Troubleshooting in the README <span aria-hidden="true">↗</span></a
+                >
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="wrap site-footer">
+      <div>
+        <strong>Theme field guide</strong>
+        <p>
+          Unofficial partner education sample. Use this guide at your own discretion.
+          <a href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#disclaimer"
+            >Disclaimer</a
+          >
+        </p>
+      </div>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </body>
+</html>
