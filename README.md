@@ -48,7 +48,9 @@ Just for running this theme on your store, simply download this as a zip to uplo
 The steps above use a temporary development theme. To install the theme to your store permanently, run [shopify theme push --unpublished](https://shopify.dev/docs/api/shopify-cli/theme/theme-push) to create a new unpublished theme. For later updates, specify the target theme with `--theme <theme-id-or-name>` or choose the target from the CLI prompt. Use `shopify theme publish` only when you intentionally want to publish an uploaded theme as the live theme.
 
 # Sample list
-All samples are available at [Wiki](../../wiki).
+Watch the [demo videos in the guide](https://shopify-apac-ts.github.io/shopify-barebone-theme-sample/#demos) or open the [Wiki](../../wiki) for the source code and Shopify documentation accompanying each recording.
+
+The [TS site](https://shopify-apac-ts.github.io/shopify-barebone-theme-sample/) and the [personal site](https://benzookapi.github.io/shopify-barebone-theme-sample/) both publish the guide from `main`. For each guide update, push the same commit to `origin` and `ts` and verify both published sites.
 
 # Common Implementation Examples
 

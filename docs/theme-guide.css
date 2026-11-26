@@ -178,7 +178,7 @@ code { font-family: var(--mono); background: #eef2ed; color: #264637; padding: .
 .pager a:hover { text-decoration: underline; }
 .pager .next { margin-left: auto; }
 .practices { padding-block: clamp(32px, 4vw, 60px); border-top: 1px solid var(--line); background: white; scroll-margin-top: 14px; }
-.practices h2 {
+.practices h2, .demos h2 {
   margin-bottom: clamp(20px, 3vw, 36px); font-size: clamp(2.1rem, 8.6vw, 4rem);
   line-height: 1.15; letter-spacing: -.045em;
 }
@@ -207,6 +207,15 @@ html[lang="ja"] .faq-grid header h2 { line-height: 1.2; }
 .questions details[open] summary::after { content: "−"; }
 .questions details > div { padding: 0 24px 17px 0; font-size: 15px; }
 .questions details a { display: inline-block; margin-top: 8px; font-size: 13px; font-weight: 650; }
+.questions details a + a { margin-inline-start: 1em; }
+.demos { padding-block: clamp(32px, 4vw, 60px); border-bottom: 1px solid var(--line); scroll-margin-top: 18px; }
+.demo-group { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 4%; padding-block: 22px; border-top: 1px solid var(--line); }
+.demo-group h3 { color: var(--green); font-size: clamp(1.25rem, 2vw, 1.65rem); line-height: 1.35; }
+.demo-group details + details { border-top: 1px solid var(--line); }
+.demo-group summary { padding-block: 12px; cursor: pointer; font-weight: 650; }
+.demo-group summary::marker { color: var(--green); }
+.demo-group video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #101815; border-radius: 6px; }
+.demo-group details a { display: inline-block; margin-block: 10px 16px; font-size: 14px; }
 .site-footer { display: flex; gap: 20px; align-items: center; justify-content: space-between; padding-block: 27px; color: var(--muted); }
 .site-footer strong { font-size: 14px; color: var(--ink); }
 .site-footer p, .site-footer > a { font-size: 12px; }
@@ -228,6 +237,7 @@ html[lang="ja"] .faq-grid header h2 { line-height: 1.2; }
   .model { max-width: 390px; }
   .workspace, .faq-grid { grid-template-columns: 1fr; gap: 22px; padding-block: 30px; }
   .practice-topic { grid-template-columns: 1fr; gap: 12px; }
+  .demo-group { grid-template-columns: 1fr; gap: 8px; }
   .syllabus { position: static; }
   .syllabus ol { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3px 6px; }
   .syllabus a { padding: 6px 7px; gap: 7px; font-size: 13px; }
@@ -237,7 +247,7 @@ html[lang="ja"] .faq-grid header h2 { line-height: 1.2; }
 @media (max-width: 510px) {
   .wrap { width: calc(100% - 32px); }
   .mast-inner { justify-content: space-between; gap: 8px; }
-  .top-nav { width: 100%; order: 3; margin: 0; gap: 19px; }
+  .top-nav { width: 100%; order: 3; margin: 0; flex-wrap: wrap; gap: 6px 15px; }
   .practice-example th, .practice-example td { padding: 6px; }
   .eyebrow { margin-bottom: 14px; }
   .hero h1 { font-size: clamp(44px, 12.6vw, 56px); }

@@ -34,6 +34,28 @@ function showLocation(moveFocus = false) {
   }
 }
 
+for (const demo of document.querySelectorAll('.demo-group details')) {
+  const video = demo.querySelector('video');
+  let resumeAt = 0;
+  demo.addEventListener('toggle', () => {
+    if (demo.open) {
+      video.preload = 'metadata';
+      if (resumeAt) video.currentTime = resumeAt;
+    } else {
+      resumeAt = video.ended ? 0 : video.currentTime;
+      video.preload = 'none';
+      video.load();
+    }
+  });
+}
+
+// Following the current fragment again does not trigger a hashchange.
+for (const link of document.querySelectorAll('a[href^="#demo-"]')) {
+  link.addEventListener('click', () => {
+    if (link.hash === window.location.hash) showLocation(true);
+  });
+}
+
 reader.dataset.enhanced = '';
 showLocation();
 window.addEventListener('hashchange', () => showLocation(true));
