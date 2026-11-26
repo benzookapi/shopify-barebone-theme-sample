@@ -27,7 +27,8 @@
           ><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>テーマ開発ガイド</a
         >
         <nav class="top-nav" aria-label="ガイドのナビゲーション">
-          <a href="#lessons">レッスン</a><a href="#faq">FAQ</a>
+          <a href="#lessons">レッスン</a><a href="#best-practices">ベストプラクティス</a
+          ><a href="#faq">FAQ</a>
           <a href="https://github.com/benzookapi/shopify-barebone-theme-sample"
             >GitHub <span aria-hidden="true">↗</span></a
           >
@@ -488,7 +489,7 @@
             <div class="exercise">
               <h3>試してみよう</h3>
               <p>
-                開発テーマで標準のコレクション一覧を顧客別セクションに置き換えます。未ログイン時とコードが一致する顧客で一覧を比較し、その商品の詳細ページも確認しましょう。
+                開発テーマで顧客別セクションを追加し、エディタで標準のコレクション一覧を非表示にします。未ログイン時とコードが一致する顧客で一覧を比較し、その商品の詳細ページも確認しましょう。
               </p>
             </div>
             <ul class="source-links">
@@ -506,11 +507,186 @@
             </ul>
             <nav class="pager" aria-label="レッスンの移動 6">
               <a href="#breadcrumbs"><span aria-hidden="true">←</span> 前へ</a
-              ><a class="next" href="#faq">FAQ へ <span aria-hidden="true">→</span></a>
+              ><a class="next" href="#best-practices">ベストプラクティス <span aria-hidden="true">→</span></a>
             </nav>
           </article>
         </div>
       </div>
+      <section class="practices" id="best-practices" aria-labelledby="practices-title">
+        <div class="wrap">
+          <header class="practice-head">
+            <p class="kicker">ベストプラクティス</p>
+            <h2 id="practices-title">元のテーマを残し、エディタで差し替える</h2>
+            <p>
+              たとえば、標準の商品説明を「素材とお手入れ」欄に変更したいとします。元のテーマファイルと保存済みの設定を残しておけば、マーチャントはエディタの操作だけで元の表示に戻せます。
+            </p>
+          </header>
+          <div class="practice-workflow">
+            <ol class="practice-steps">
+              <li>
+                <strong>テーマを複製する。</strong>
+                未公開のコピーで商品テンプレートを開きます。構成を変更する前に、どの商品がこのテンプレートを共有しているか確認します。
+              </li>
+              <li>
+                <strong>専用のセクションかブロックを追加する。</strong>
+                レイアウトに商品説明を直書きすると、エディタ上でその説明だけを選択・移動できません。専用のファイルとプリセットを用意し、ブロックは対応する親に、セクションは対象テンプレートに追加します。
+              </li>
+              <li>
+                <strong>エディタで元の部品を非表示にする。</strong>
+                新しい部品を目的の位置に配置し、元の部品の目のアイコンを押して保存します。元に戻すときは、2つの表示設定を逆にします。
+              </li>
+            </ol>
+            <div class="visibility-demo">
+              <fieldset>
+                <legend>エディタの表示切り替えを試す</legend>
+                <label
+                  ><input type="checkbox" name="show-original" aria-controls="original-preview" />
+                  標準の商品説明</label
+                >
+                <label
+                  ><input type="checkbox" name="show-custom" aria-controls="custom-preview" checked />
+                  素材とお手入れブロック</label
+                >
+              </fieldset>
+              <div class="practice-preview" aria-live="polite">
+                <strong>商品ページの表示例</strong>
+                <p id="original-preview">軽い着心地のコットンシャツです。</p>
+                <p id="custom-preview">綿100%。裏返して洗ってください。</p>
+                <p class="empty-preview">どちらの商品説明も非表示です。</p>
+              </div>
+            </div>
+          </div>
+          <div class="pitfall">
+            <span class="signal" aria-hidden="true">!</span>
+            <div>
+              <h3>上書きすると、何が壊れる？</h3>
+              <p>
+                既存の設定 ID
+                を変えると、マーチャントが保存した値を読み出せなくなることがあります。また、元ファイルへの直接編集はテーマストアの更新と競合することがあります。更新後の下書きで、独自の部品と保存した内容が引き継がれたか確認してから公開します。
+              </p>
+              <ul class="source-links">
+                <li>
+                  <a
+                    href="https://help.shopify.com/ja/manual/online-store/themes/managing-themes/updating-themes"
+                    >テーマの更新手順 <span aria-hidden="true">↗</span></a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="practice-grid">
+            <section>
+              <h3>文言・画像・参照先をマーチャントが変更できるようにする</h3>
+              <p>
+                セクションやブロックのスキーマに設定項目を用意し、画面にはその設定値を表示します。共通の値はエディタから変更でき、商品ごとに変えたい値は対応する動的ソースに接続できます。
+              </p>
+              <dl class="practice-list">
+                <div>
+                  <dt>見出し・説明文</dt>
+                  <dd>
+                    見出しは <code>text</code>、お手入れ方法などの本文は
+                    <code>richtext</code
+                    >。商品のリッチテキスト型メタフィールドを接続すると、商品ごとに説明を変えられます。
+                  </dd>
+                </div>
+                <div>
+                  <dt>画像</dt>
+                  <dd>
+                    <code>image_picker</code>
+                    で共通画像を選ぶか、画像を格納した商品メタフィールド（ファイル参照型）を接続します。
+                  </dd>
+                </div>
+                <div>
+                  <dt>関連商品・コレクション</dt>
+                  <dd>
+                    <code>product</code> や
+                    <code>collection</code>
+                    で参照先を選べるようにします。未選択の場合は空のリンクを出さないようにします。
+                  </dd>
+                </div>
+              </dl>
+              <ul class="source-links">
+                <li>
+                  <a href="https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources"
+                    >動的ソースと設定型の対応表 <span aria-hidden="true">↗</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/blocks/product_card.liquid"
+                    >商品選択の実装例 <span aria-hidden="true">↗</span></a
+                  >
+                </li>
+              </ul>
+            </section>
+            <section>
+              <h3>マーチャントへの引き渡し前に確認すること</h3>
+              <dl class="practice-list">
+                <div>
+                  <dt>ブロックを移動して保存する</dt>
+                  <dd>
+                    テーマエディタでブロックを選択・移動し、文言と画像を変更して保存します。エディタを開き直し、ストアのプレビューにも反映されているか確認します。JavaScript
+                    を使うセクションは <code>shopify:section:load</code> で再初期化し、<code
+                      >shopify:section:unload</code
+                    >
+                    でイベントリスナーを解除します。
+                    <ul class="source-links">
+                      <li>
+                        <a
+                          href="https://shopify.dev/docs/storefronts/themes/best-practices/editor/integrate-sections-and-blocks"
+                          >エディタのイベント仕様 <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+                <div>
+                  <dt>独自フォントは assets/ に置く</dt>
+                  <dd>
+                    このサンプルは <code>assets/</code> の <code>my_font.woff</code> を、スタイルシートの
+                    <code>@font-face</code> から <code>asset_url</code> で参照します。読み込みはテーマ設定
+                    <code>use_font</code>
+                    で切り替えます。実装時は、読み込みを待つ間に表示する代替フォントも指定します。
+                    <ul class="source-links">
+                      <li>
+                        <a
+                          href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/assets/my_font.css.liquid"
+                          >フォント CSS の実装例 <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="https://shopify.dev/docs/storefronts/themes/best-practices/performance/self-host-web-fonts"
+                          >Shopify のフォントガイド <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+                <div>
+                  <dt>エディタで保存された変更を取り込む</dt>
+                  <dd>
+                    GitHub
+                    連携テーマでは、エディタで保存すると接続先ブランチにコミットされます。ローカルの変更を
+                    push する前に最新の変更を取り込み、JSON テンプレートと
+                    <code>config/settings_data.json</code> の差分を確認します。
+                    <ul class="source-links">
+                      <li>
+                        <a href="https://shopify.dev/docs/storefronts/themes/tools/github"
+                          >テーマの GitHub 連携 <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+            </section>
+          </div>
+          <nav class="pager" aria-label="ベストプラクティス">
+            <a class="next" href="#faq">テーマ開発の FAQ へ <span aria-hidden="true">→</span></a>
+          </nav>
+        </div>
+      </section>
       <section class="faq-band" id="faq" aria-labelledby="faq-title">
         <div class="wrap faq-grid">
           <header>
@@ -518,21 +694,6 @@
             <h2 id="faq-title">よくある<br />質問</h2>
           </header>
           <div class="questions">
-            <details id="faq-preview">
-              <summary>GitHub Pages で実際のストアをプレビューできますか？</summary>
-              <div>
-                <p>
-                  Pages ではこの教材と図解を閲覧できます。実際のストアデータで Liquid
-                  を描画するには、サンプルのディレクトリで <code>shopify theme dev</code> を実行し、CLI
-                  のプレビュー URL を開きます。後日も使う未公開テーマとして保存する場合は
-                  <code>shopify theme push --unpublished</code> を使います。
-                </p>
-                <a
-                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#how-to-run"
-                  >プレビューの手順 <span aria-hidden="true">↗</span></a
-                >
-              </div>
-            </details>
             <details id="faq-template">
               <summary>1つのテンプレートを編集すると、なぜ複数の商品が変わるのですか？</summary>
               <div>
@@ -590,7 +751,7 @@
               <summary>顧客別セクションを追加しても対象外の商品が表示されるのはなぜですか？</summary>
               <div>
                 <p>
-                  標準のコレクション・検索テンプレートには一覧セクションが配置済みです。標準の一覧と顧客別の一覧を両方置くと、それぞれが結果を表示します。この演習では、テーマエディタで対象テンプレートを確認し、標準の一覧を削除または非表示にします。
+                  標準のコレクション・検索テンプレートには一覧セクションが配置済みです。標準の一覧と顧客別の一覧を両方置くと、それぞれが結果を表示します。この演習では、テーマエディタで対象テンプレートを確認し、標準の一覧を非表示にして設定を残します。
                 </p>
                 <a
                   href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/customer-filtered-storefront.md"

@@ -98,9 +98,12 @@ For example, once you access the language path like `/ja` in your storefront URL
 - Note that if you connect your theme in the store to its GitHub repo., **Shopify bot automatically updates your GitHub code** which sometimes conflicts with your local change.
 
 # Best Practices
-- When you customize an existing theme, such as a Theme Store theme, avoid overwriting the original theme code as much as possible. Copy the original template, section, or block first, add your custom code to the copy, and then select your custom template, section, or block from the Shopify product detail page or the online store editor instead of the original one.
-- Keep UI code in theme blocks where possible so it stays reusable across sections and templates.
-- Before changing theme source code directly, first try lower-risk options such as custom Liquid in the online store editor or AI-generated theme edits with Shopify Sidekick.
+
+- Start with the theme editor. If a merchant needs a new component, add a separately named section or block in a duplicate theme. Place it in the editor and hide the original to preserve its settings. Preview both the component and saved content again after a theme update.
+- Expose editable text, images, and resource references through schema settings. Connect compatible dynamic sources for product-specific values. Check that a merchant can select, reorder, edit, and save the component in the editor.
+- Keep custom font files in `assets/` and load them with `@font-face` and `asset_url`. This sample uses the `use_font` theme setting to toggle its [font stylesheet](assets/my_font.css.liquid).
+
+Try the [visual guide to theme customization](https://benzookapi.github.io/shopify-barebone-theme-sample/#best-practices) for an editor exercise and handoff checks.
 
 # Disclaimer
 - This code is fully _unofficial_ and NOT guaranteed to pass [the public theme review](https://shopify.dev/docs/storefronts/themes/store/review-process/submit-theme) for Shopify theme store. The official requirements are described [here](https://shopify.dev/docs/storefronts/themes/store/requirements).

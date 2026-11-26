@@ -27,7 +27,7 @@
           ><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>Theme field guide</a
         >
         <nav class="top-nav" aria-label="Guide navigation">
-          <a href="#lessons">Lessons</a><a href="#faq">FAQ</a>
+          <a href="#lessons">Lessons</a><a href="#best-practices">Best practices</a><a href="#faq">FAQ</a>
           <a href="https://github.com/benzookapi/shopify-barebone-theme-sample"
             >GitHub <span aria-hidden="true">↗</span></a
           >
@@ -488,9 +488,9 @@
             <div class="exercise">
               <h3>Try it</h3>
               <p>
-                In a development theme, replace the default collection listing with the filtered section.
-                Compare a signed-out visit with a customer whose code matches a product, then check the same
-                product’s own page.
+                In a development theme, add the filtered section and hide the default collection listing in
+                the editor. Compare a signed-out visit with a customer whose code matches a product, then
+                check the same product’s own page.
               </p>
             </div>
             <ul class="source-links">
@@ -508,11 +508,188 @@
             </ul>
             <nav class="pager" aria-label="Navigation for lesson 6">
               <a href="#breadcrumbs"><span aria-hidden="true">←</span> Previous</a
-              ><a class="next" href="#faq">Continue to FAQ <span aria-hidden="true">→</span></a>
+              ><a class="next" href="#best-practices">Best practices <span aria-hidden="true">→</span></a>
             </nav>
           </article>
         </div>
       </div>
+      <section class="practices" id="best-practices" aria-labelledby="practices-title">
+        <div class="wrap">
+          <header class="practice-head">
+            <p class="kicker">Best practices</p>
+            <h2 id="practices-title">Keep the original theme easy to restore</h2>
+            <p>
+              Suppose a merchant wants to replace the product description with a panel for materials and care.
+              Keep the original file and its saved settings so the merchant can switch back in the theme
+              editor.
+            </p>
+          </header>
+          <div class="practice-workflow">
+            <ol class="practice-steps">
+              <li>
+                <strong>Work in a duplicate theme.</strong> Open the product template in the unpublished copy.
+                Check which products share it before changing the layout.
+              </li>
+              <li>
+                <strong>Add a separate section or block.</strong> A description hard-coded in the layout
+                cannot be selected or moved on its own in the editor. Give the component a separate file and
+                editor preset. Use a parent that accepts the block, or add a section to the template.
+              </li>
+              <li>
+                <strong>Hide the original in the editor.</strong> Place the new component in the desired
+                position. Use the eye icon on the original and save. To restore it, reverse the two visibility
+                settings.
+              </li>
+            </ol>
+            <div class="visibility-demo">
+              <fieldset>
+                <legend>Try the editor visibility controls</legend>
+                <label
+                  ><input type="checkbox" name="show-original" aria-controls="original-preview" /> Original
+                  description</label
+                >
+                <label
+                  ><input type="checkbox" name="show-custom" aria-controls="custom-preview" checked />
+                  Materials and care block</label
+                >
+              </fieldset>
+              <div class="practice-preview" aria-live="polite">
+                <strong>Product page preview</strong>
+                <p id="original-preview">A lightweight cotton shirt.</p>
+                <p id="custom-preview">100% cotton. Turn inside out before washing.</p>
+                <p class="empty-preview">Both description blocks are hidden.</p>
+              </div>
+            </div>
+          </div>
+          <div class="pitfall">
+            <span class="signal" aria-hidden="true">!</span>
+            <div>
+              <h3>What can break during an update?</h3>
+              <p>
+                Renaming a setting ID can disconnect a merchant’s saved value. Editing a vendor file in place
+                can also conflict with a Theme Store update. Open the updated draft and check the custom
+                component and its saved content before publishing.
+              </p>
+              <ul class="source-links">
+                <li>
+                  <a
+                    href="https://help.shopify.com/en/manual/online-store/themes/managing-themes/updating-themes"
+                    >Updating themes <span aria-hidden="true">↗</span></a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="practice-grid">
+            <section>
+              <h3>Let the merchant choose the content</h3>
+              <p>
+                Define fields in the section or block schema and render their saved values. A merchant can
+                change a shared value in the editor or connect a compatible dynamic source for each product.
+              </p>
+              <dl class="practice-list">
+                <div>
+                  <dt>Heading or instructions</dt>
+                  <dd>
+                    Use <code>text</code> for a heading or <code>richtext</code> for care instructions. A
+                    rich-text product metafield can supply different instructions for each item.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Image</dt>
+                  <dd>
+                    Use <code>image_picker</code>. The merchant can pick a shared image or connect a product
+                    file-reference metafield that contains an image.
+                  </dd>
+                </div>
+                <div>
+                  <dt>Related item</dt>
+                  <dd>
+                    Use a <code>product</code> or <code>collection</code> picker. Render the selected resource
+                    and handle an empty selection before building its link.
+                  </dd>
+                </div>
+              </dl>
+              <ul class="source-links">
+                <li>
+                  <a href="https://shopify.dev/docs/storefronts/themes/architecture/settings/dynamic-sources"
+                    >Compatible dynamic sources <span aria-hidden="true">↗</span></a
+                  >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/blocks/product_card.liquid"
+                    >Sample product picker <span aria-hidden="true">↗</span></a
+                  >
+                </li>
+              </ul>
+            </section>
+            <section>
+              <h3>What to check before handoff</h3>
+              <dl class="practice-list">
+                <div>
+                  <dt>Reorder and save the block</dt>
+                  <dd>
+                    In the theme editor, select the block, move it, change its text and image, and save.
+                    Reopen the editor and check the storefront preview. For interactive sections, reinitialize
+                    JavaScript on <code>shopify:section:load</code> and remove listeners on
+                    <code>shopify:section:unload</code>.
+                    <ul class="source-links">
+                      <li>
+                        <a
+                          href="https://shopify.dev/docs/storefronts/themes/best-practices/editor/integrate-sections-and-blocks"
+                          >Editor events <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Ship custom fonts in assets/</dt>
+                  <dd>
+                    The sample stores <code>my_font.woff</code> in <code>assets/</code>. Its stylesheet uses
+                    <code>@font-face</code> with <code>asset_url</code>, and the <code>use_font</code> theme
+                    setting controls loading. Provide a system fallback for the time before the font loads.
+                    <ul class="source-links">
+                      <li>
+                        <a
+                          href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/assets/my_font.css.liquid"
+                          >Sample font CSS <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          href="https://shopify.dev/docs/storefronts/themes/best-practices/performance/self-host-web-fonts"
+                          >Shopify font guidance <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Keep recent editor changes</dt>
+                  <dd>
+                    On a GitHub-connected theme, saving in the editor creates a commit on the connected
+                    branch. Pull those changes and compare the JSON templates and
+                    <code>config/settings_data.json</code> before pushing a local copy over the merchant’s
+                    work.
+                    <ul class="source-links">
+                      <li>
+                        <a href="https://shopify.dev/docs/storefronts/themes/tools/github"
+                          >Shopify GitHub integration <span aria-hidden="true">↗</span></a
+                        >
+                      </li>
+                    </ul>
+                  </dd>
+                </div>
+              </dl>
+            </section>
+          </div>
+          <nav class="pager" aria-label="Best practices">
+            <a class="next" href="#faq">Continue to theme FAQ <span aria-hidden="true">→</span></a>
+          </nav>
+        </div>
+      </section>
       <section class="faq-band" id="faq" aria-labelledby="faq-title">
         <div class="wrap faq-grid">
           <header>
@@ -520,20 +697,6 @@
             <h2 id="faq-title">Common <br />questions.</h2>
           </header>
           <div class="questions">
-            <details id="faq-preview">
-              <summary>Can I preview the actual storefront on GitHub Pages?</summary>
-              <div>
-                <p>
-                  Pages serves this guide and its diagrams. To render Liquid with store data, run
-                  <code>shopify theme dev</code> from the sample directory and open the CLI preview URL. For
-                  an installed theme you can revisit later, use <code>shopify theme push --unpublished</code>.
-                </p>
-                <a
-                  href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/README.md#how-to-run"
-                  >Preview setup <span aria-hidden="true">↗</span></a
-                >
-              </div>
-            </details>
             <details id="faq-template">
               <summary>Why do several products change when I edit one template?</summary>
               <div>
@@ -595,7 +758,7 @@
                 <p>
                   The default collection and search templates already contain standard listing sections. If
                   both a standard and a filtered section are present, each renders its own results. Inspect
-                  the template in the theme editor and remove or hide the standard listing for this exercise.
+                  the template in the theme editor and hide the standard listing to preserve its settings.
                 </p>
                 <a
                   href="https://github.com/benzookapi/shopify-barebone-theme-sample/blob/main/docs/customer-filtered-storefront.md"

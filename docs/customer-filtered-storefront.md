@@ -74,7 +74,7 @@ Open the theme editor in Shopify Admin and add the sections to the appropriate t
 | Collection | **Filtered collection** |
 | Search | **Customer filtered search** |
 
-For a filtered-only listing, hide or remove the standard listing section in the same template. Each visible section renders its own results.
+For a filtered-only listing, hide the standard listing section in the same template. This preserves its settings so you can switch back later. Each visible section renders its own results.
 
 ## Notes
 
